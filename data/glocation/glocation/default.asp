@@ -2,6 +2,8 @@
   <%
 
     Server.ScriptTimeout=3600
+    '서버 session time = 1시간
+
 
     if request("search_lat") <> "" then
       search_lat = request("search_lat")
@@ -117,6 +119,7 @@
 
 <SCRIPT LANGUAGE="JavaScript">
 
+
     var xhr;
 
     function checkWord(elem) {
@@ -158,6 +161,8 @@
         var lat2 = elem.getAttribute("lat2");
         var lon2 = elem.getAttribute("lon2");
         var pos_words = elem.getAttribute("pos_words");
+
+
 
         //alert(lat1);
         //alert(lon1);
@@ -270,9 +275,9 @@
 
     	Do While latgrid_high * 1 - latgrid_low >= 0
 
-            strSQL = "p_gmap_wordgrid_read_lon_new  '" & latgrid_low & "','" & search_lon & "'"
+            strSQL = "p_gmap_wordgrid_read_lon_new  '"& latgrid_low & "','" & search_lon & "'"
 
-            'response.write  strSQL
+            response.write  strSQL
             'response.End
 
             Set rs = Server.CreateObject("ADODB.RecordSet")
@@ -317,10 +322,17 @@
         </div>
 
     </div>
+
+
+
+
     <div style="text-align:center;">
+
+
 
     <div id="map"  style="margin-left:20%;text-align:center;"></div>
     <script>
+    var xhr;
       function initMap() {
         var uluru = {lat: <%=lat_value %>, lng: <%=lon_value %>};
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -352,6 +364,64 @@
         };
 
 
+        map.addListener('zoom_changed', function(){
+            //alert(map.getZoom());
+
+            var bounds = map.getBounds();
+
+            x_southwest = map.getBounds().getSouthWest().lat();
+            y_southwest = map.getBounds().getSouthWest().lng();
+            x_northeast = map.getBounds().getNorthEast().lat();
+            y_northeast = map.getBounds().getNorthEast().lng();
+
+
+            console.log("ZOOM-LEVEL = " + map.getZoom());
+            console.log("x Range = " + x_northeast);
+            console.log("x2 Range =  " + x_southwest);
+            console.log("y Range = " + y_northeast);
+            console.log("y2 Range = " + y_southwest);
+
+            var marker = new google.maps.Marker({
+              position: {
+                lat: x_northeast,
+                lng: y_northeast
+              },
+              map: map,
+              title: 'a'
+            });
+
+            var marker = new google.maps.Marker({
+              position: {
+                lat: x_southwest,
+                lng: y_southwest
+              },
+              map: map,
+              title: 'b'
+            });
+
+
+          /*
+           if(map.getZoom()>10){
+            x_southwest = map.getBounds().getSouthWest().lat();
+            y_southwest = map.getBounds().getSouthWest().lng();
+            x_northeast = map.getBounds().getNorthEast().lat();
+            y_northeast = map.getBounds().getNorthEast().lng();
+
+            var strsql = "range_find_ajax.asp?x_southwest=" + x_southwest + "&x_northeast=" + x_northeast + "&y_southwest=" + y_southwest + "&y_northeast=" + y_northeast;
+
+            //console.log(strsql);
+            //return false;
+
+            xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = setMarker;
+            xhr.open("Get", strsql);
+            xhr.send(null);
+
+              }  // end if
+              */
+        });
+
+
         // Define a rectangle and set its editable property to true.
         var rectangle = new google.maps.Rectangle({
           bounds: bounds,
@@ -362,6 +432,24 @@
 
       }
 
+      function setMarker(){
+
+      if (xhr.readyState == 4) {
+                      var data = xhr.responseText;
+
+
+                    ////  alert(data);
+                    ////  console.log(data);
+
+
+                      //alert(data);
+
+                      //alert(data);
+                      //console.log(data.lat_value);
+                     // document.location.reload();
+                      //setClassNew();
+                      }
+                  }
     </script>
 
     <script async defer
