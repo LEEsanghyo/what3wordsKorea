@@ -2,10 +2,12 @@
 <%
     response.charset = "euc-kr"
 
-     strSQL = "p_range_find_2 '" &      request("x_southwest") & "','" & _
-                                      request("x_northeast") & "','" & _
-                                      request("y_southwest") & "','" & _
-                                      request("y_northeast")  & "'"
+
+
+
+
+    strSQL = "p_range_find_2 '41175', '114105'"
+
 
       'response.write strSQL
       'response.End
@@ -14,19 +16,11 @@
       ys.Open strSQL, DbCon, 1, 1
 
 
-      'Do While Not ys.EOF
-
-      lat_value = ys("lat_value")
-
-      'Loop
-
-
-
+      data_value = ys("data_value")
 
       set ys = nothing
 
-      Response.write lat_value
-      'Response.write "success"
+      Response.write data_value
 
 %>
 <!-- #include virtual="/_include/connect_close.inc" -->

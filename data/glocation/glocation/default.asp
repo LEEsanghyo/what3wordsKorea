@@ -333,9 +333,11 @@
     <div id="map"  style="margin-left:20%;text-align:center;"></div>
     <script>
     var xhr;
+    var map;
+
       function initMap() {
         var uluru = {lat: <%=lat_value %>, lng: <%=lon_value %>};
-        var map = new google.maps.Map(document.getElementById('map'), {
+        map = new google.maps.Map(document.getElementById('map'), {
           zoom: <%=zoom_level %>,
           center: uluru
         });
@@ -374,7 +376,7 @@
             x_northeast = map.getBounds().getNorthEast().lat();
             y_northeast = map.getBounds().getNorthEast().lng();
 
-
+            /*
             console.log("ZOOM-LEVEL = " + map.getZoom());
             console.log("x Range = " + x_northeast);
             console.log("x2 Range =  " + x_southwest);
@@ -399,8 +401,8 @@
               title: 'b'
             });
 
+            */
 
-          /*
            if(map.getZoom()>10){
             x_southwest = map.getBounds().getSouthWest().lat();
             y_southwest = map.getBounds().getSouthWest().lng();
@@ -418,7 +420,7 @@
             xhr.send(null);
 
               }  // end if
-              */
+
         });
 
 
@@ -437,17 +439,35 @@
       if (xhr.readyState == 4) {
                       var data = xhr.responseText;
 
-
-                    ////  alert(data);
-                    ////  console.log(data);
-
-
                       //alert(data);
+                      var arr = data.split(',');
+                      var i = 0;
+                      do{
 
-                      //alert(data);
-                      //console.log(data.lat_value);
-                     // document.location.reload();
-                      //setClassNew();
+
+
+                      var marker = new google.maps.Marker({
+                        position: {
+                         lat: parseFloat(arr[i]),
+                         lng: parseFloat(arr[i+1])
+                        },
+                        map:map,
+                        title: arr[i+2]
+                      });
+
+                      var infowindow = new google.maps.InfoWindow();
+
+                      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                        return function() {
+                          infowindow.setContent(arr[i+2]);
+                          infowindow.open(map, marker);
+                          }
+                        })(marker, i));
+
+                      i+=3;
+
+                      }while(arr[i] != '');
+
                       }
                   }
     </script>
