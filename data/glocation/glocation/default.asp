@@ -334,7 +334,9 @@
     <script>
     var xhr;
     var map;
-
+    var center_marker;
+    var test3word;
+    var count = 0;
       function initMap() {
         var uluru = {lat: <%=lat_value %>, lng: <%=lon_value %>};
         map = new google.maps.Map(document.getElementById('map'), {
@@ -366,15 +368,10 @@
         };
 
 
-        map.addListener('zoom_changed', function(){
+        map.addListener('center_changed', function(){  // center 바뀔 때, event 등록
             //alert(map.getZoom());
-
+            test3word=document.getElementById("test3word");
             var bounds = map.getBounds();
-
-            x_southwest = map.getBounds().getSouthWest().lat();
-            y_southwest = map.getBounds().getSouthWest().lng();
-            x_northeast = map.getBounds().getNorthEast().lat();
-            y_northeast = map.getBounds().getNorthEast().lng();
 
             /*
             console.log("ZOOM-LEVEL = " + map.getZoom());
@@ -403,13 +400,40 @@
 
             */
 
-           if(map.getZoom()>10){
             x_southwest = map.getBounds().getSouthWest().lat();
             y_southwest = map.getBounds().getSouthWest().lng();
             x_northeast = map.getBounds().getNorthEast().lat();
             y_northeast = map.getBounds().getNorthEast().lng();
 
-            var strsql = "range_find_ajax.asp?x_southwest=" + x_southwest + "&x_northeast=" + x_northeast + "&y_southwest=" + y_southwest + "&y_northeast=" + y_northeast;
+            var x_center = (x_southwest + x_northeast)/2;
+            var y_center = (y_southwest + y_northeast)/2;
+
+
+
+            if(count!=0) center_marker.setMap(null);
+            center_marker = new google.maps.Marker({
+                  position: {
+                            lat: x_center,
+                            lng: y_center
+                          },
+                          map: map,
+                          title: "asd"
+                        });
+
+            count++;
+
+          // if(map.getZoom()==15){
+
+
+
+           //console.log("zoom level : " + map.getZoom() + "  x_south = " +x_southwest + "x_north = " + x_northeast);
+
+
+           //return false;
+
+
+
+            var strsql = "range_find_ajax.asp?x_center=" + x_center + "&y_center=" + y_center;
 
             //console.log(strsql);
             //return false;
@@ -419,7 +443,7 @@
             xhr.open("Get", strsql);
             xhr.send(null);
 
-              }  // end if
+              //}  // end if
 
         });
 
@@ -440,12 +464,17 @@
                       var data = xhr.responseText;
 
                       //alert(data);
-                      var arr = data.split(',');
-                      var i = 0;
+                      //console.log(data);
+                      //return false;
+                      //var arr = data.split(',');
+                      //var i = 0;
+                      //alert(data);
+
+                      if(data != '')
+                      test3word.value = data;
+
+                      /*
                       do{
-
-
-
                       var marker = new google.maps.Marker({
                         position: {
                          lat: parseFloat(arr[i]),
@@ -467,11 +496,12 @@
                       i+=3;
 
                       }while(arr[i] != '');
+                      */
 
                       }
                   }
     </script>
-
+    <div><input type="text" id="test3word"></div>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap">
     </script>

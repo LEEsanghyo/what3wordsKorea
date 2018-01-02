@@ -3,10 +3,8 @@
     response.charset = "euc-kr"
 
 
-
-
-
-    strSQL = "p_range_find_2 '41175', '114105'"
+    strSQL = "p_range_find '" & request("x_center") &"','" & _
+                                request("y_center") & "'"
 
 
       'response.write strSQL
@@ -16,8 +14,7 @@
       ys.Open strSQL, DbCon, 1, 1
 
 
-      data_value = ys("data_value")
-
+      data_value = ys("word_grid")
       set ys = nothing
 
       Response.write data_value
