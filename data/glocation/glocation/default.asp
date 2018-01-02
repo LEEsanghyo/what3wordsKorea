@@ -193,6 +193,37 @@
         document.location.href = strurl;
     }
 
+    function search(){
+      var word = document.getElementById("test3word").value;
+      var strsql = "search_ajax.asp?word=" + word;
+
+      //alert(typeof(word));
+
+      xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = return_search;
+      xhr.open("Get", strsql);
+      xhr.send(null);
+
+    }
+    function return_search(){
+    if (xhr.readyState == 4) {
+                  var data = xhr.responseText;
+                  var arr = data.split(',');
+                  //var i = 0;
+                  center_marker.setMap(null);
+                  center_marker = new google.maps.Marker({
+                        position: {
+                                  lat: parseFloat(arr[0]),
+                                  lng: parseFloat(arr[1])
+                                },
+                                map: map,
+                                title: arr[2]
+                              });
+
+                  map.moveCamera()
+                  }
+    }
+
 </SCRIPT>
 
     <!-- #include virtual="/_include/top_menu.asp" -->
@@ -350,6 +381,7 @@
           content: contentString
         });
 
+/*
         var marker = new google.maps.Marker({
           position: uluru,
           map: map,
@@ -359,6 +391,7 @@
         marker.addListener('click', function() {
           infowindow.open(map, marker);
         });
+*/
 
         var bounds = {
         north: <%=lon2 %>,
@@ -501,7 +534,7 @@
                       }
                   }
     </script>
-    <div><input type="text" id="test3word"></div>
+    <br><br><div><input type="text" id="test3word"><input type ="button" value="search" onclick="search()"></div>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap">
     </script>
