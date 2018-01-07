@@ -1,0 +1,3 @@
+﻿<%
+  Set giDbCon = nothing
+%>
