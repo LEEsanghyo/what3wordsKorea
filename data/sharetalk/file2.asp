@@ -1,9 +1,7 @@
 <!-- #include virtual="/_include/connect.inc" -->
 <%
-
   Server.ScriptTimeout=3600
   '서버 session time = 1시간
-
 
   if request("search_lat") <> "" then
     search_lat = request("search_lat")
@@ -69,7 +67,6 @@
 
   strSQL = "p_gmap_wordgrid_read_lat_new  '" & search_lat & "','" & search_lon & "'"
 
-
   Set rsGrid = Server.CreateObject("ADODB.RecordSet")
   rsGrid.Open strSQL, DbConn, 1, 1
 
@@ -93,26 +90,17 @@
   NoDataGridList = False
   end if
 
-
-
     MENU = "HOME"
     keyword = request("keyword")
-
 
     talk_member_email = Request.Cookies("talk_member_email")
     talk_member_pwd = Request.Cookies("talk_member_pwd")
 
-
-
     strSQL = "p_login_auto_check '" & talk_member_email & "','" & _
                                       talk_member_pwd & "'"
 
-
-
-
     Set rsData = Server.CreateObject("ADODB.RecordSet")
     rsData.Open strSQL, DbCon, 1, 1
-
 
     'response.write "3"
     'response.end
@@ -211,6 +199,7 @@ header {
     background:#5A6CB4;
     padding: 0px;
     position:fixed;
+    z-index:4
 }
 #brand {
     width: 80%;
@@ -230,6 +219,7 @@ nav a:hover { background: #6DCFF6; color: #FFF; }
 nav li:last-child a { border-bottom: none; }
 /*-----------------------------------------*/
 .menu {
+  z-index:5;
 	width: 240px;
 	height: 100%;
 	position: absolute;
@@ -395,46 +385,60 @@ span td a {
 
       #map {
        height: 600px;
-       width: 60%;
+      }
+
+      #panel{
+      background-color:#e5e5e5;
+      position: absolute;
+      left: 65%;
+      z-index: 3;
+      border: 1px solid #999
+
       }
 </style>
-
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <SCRIPT LANGUAGE=javascript>
-<!--
+
+    var lat, lng;
+    var marker;
+    var marker_flag=0;
     var xhr;
+    var map;
+    var center_marker;
+    var test3word;
+    var my_position;
+    var count = 0;
+    var markersArray_restaurant = [];
+    var markersArray_lodging = [];
+    var detail_url;
+
+
+
 
     function PostEngage(elem) {
         //alert("1");
         var pno = elem.getAttribute("pno");
         var code = elem.getAttribute("code");
-
         var myNodelist = document.getElementsByName("engage" + pno);
         var i;
         for (i = 0; i < myNodelist.length; i++) {
             myNodelist[i].style.color = "#000000";
         }
         //alert("2");
-
         elem.style.color = "#3388cc";
-
         //alert(rprocess);
         var strurl = "ws_engage_set.asp?post_no=" + pno + "&engage_code=" + code;
-
         //alert(strurl);
         //return false;
-
         xhr = new XMLHttpRequest();
         xhr.onreadystatechange = PostEngageSet;
         xhr.open("Get", strurl);
         xhr.send(null);
     }
-
     function PostEngageSet() {
         if (xhr.readyState == 4) {
             var data = xhr.responseText;
             var slipdata = data.split(',');
-
             //alert(data);
             //alert(slipdata[2]);
             document.getElementById("engage_" + slipdata[0]).innerHTML = "공감 " + slipdata[1];
@@ -445,82 +449,57 @@ span td a {
                 document.getElementById("trbox_" + slipdata[0]).style.display = "block";
                 document.getElementById("engagebox_" + slipdata[0]).innerHTML = slipdata[2];
             }
-
             //alert(slipdata[2]);
         }
     }
-
     function VisitRegister() {
-
         var siteurl = "member_register.asp";
         //alert(siteurl);
-
         window.location.href = siteurl;
-
     }
-
     function LoginPopup() {
         var email = document.getElementById("member_email").value;
         var n = email.search(/@/i);
         //alert(n);
-
         if (email == "") {
             //alert("이메일을 입력하세요.");
             document.getElementById("member_email").placeholder = "이메일을 입력하세요.";
             document.getElementById("member_email").focus();
             return false;
         }
-
         toggle_visibility('popupBoxLogin');
         document.getElementById("member_pwd").focus();
     }
-
     function LoginConfirm() {
-
         var email = document.getElementById("member_email").value;
         var pwd = document.getElementById("member_pwd").value;
-
         if (pwd == "") {
             alert("비밀번호를 입력하세요.");
             document.getElementById("member_pwd").focus();
             return false;
         }
-
         var strurl = "login_set.asp?member_email=" + email + "&member_pwd=" + pwd;
-
         //alert(strurl);
         //return false;
-
         xhr = new XMLHttpRequest();
         xhr.onreadystatechange = LoginConfirmSet;
         xhr.open("Get", strurl);
         xhr.send(null);
-
     }
-
     function LoginConfirmSet() {
         if (xhr.readyState == 4) {
             var data = xhr.responseText;
             //var slipdata = data.split(',');
-
             var siteurl = "default.asp";
-
             window.location.href = siteurl;
         }
     }
-
     function PostSearch() {
-
         var keyword = document.getElementById("keyword").value;
-
         var siteurl = "default.asp?keyword=" + keyword;
-
         window.location.href = siteurl;
-
         //alert(keyword);
-
     }
-
     function toggle_visibility(id) {
         var e = document.getElementById(id);
         if (e.style.display == 'block')
@@ -529,229 +508,519 @@ span td a {
             e.style.display = 'block';
     }
 
-    //-->
-</SCRIPT>
+    function original_search(){
 
-</head>
+      var original_address= document.getElementById("original_address").value;
 
-<body>
-<SCRIPT LANGUAGE="JavaScript">
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode({'address':original_address},
 
+    		function(results, status){
 
-    var xhr;
+    			if(results!=""){
 
-    function search(){
-      var word = document.getElementById("test3word").value;
-      var strsql = "search_ajax.asp?word=" + word;
+    				var location=results[0].geometry.location;
 
+    				lat=location.lat();
+    				lng=location.lng();
 
-      //alert(typeof(word));
-
-      xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = return_search;
-      xhr.open("Get", strsql);
-      xhr.send(null);
-
-    }
-    function return_search(){
-    if (xhr.readyState == 4) {
-                  var data = xhr.responseText;
-                  var arr = data.split(',');
-                  //var i = 0;
-                  //alert(data);
-                  center_marker.setMap(null);
-                  center_marker = new google.maps.Marker({
-                        position: {
-                                  lat: parseFloat(arr[0]),
-                                  lng: parseFloat(arr[1])
-                                },
-                                map: map,
-                                title: arr[2]
-                              });
-
-                  //map.moveCamera()
-                  }
-    }
-
-</SCRIPT>
-    <% top_menu = "글공유" %>
-    <!-- #include virtual="/_include/top_menu.asp" -->
-    <!-- #include virtual="/_include/top_menulist.asp" -->
-
-
-
-<div class="content" style="margin-top:70px;">
-
-
-
-
-    <% if Session("member_no") < "1" then %>
-    <div class="login">
-    <table width="280px;" border="0">
-        <tr height="10px;"><td colspan="3"></td></tr>
-        <tr><td width="10%"></td>
-            <td width="150px;"><input type="text" style="width:150px;height:20px;" placeholder="이메일" id="member_email" /></td>
-            <td style="width:10px;"></td>
-            <td><span style="cursor:pointer;" onclick="LoginPopup();">로그인</span></td>
-            <td width="10%"></td>
-        </tr>
-        <tr height="1px;"><td colspan="3"></td></tr>
-    </table>
-    </div>
-    <% end if %>
-
-
-
-
-
-    <!-- 페이징 처리-->
-    <%if NoDataPost = false Then
-	Cus_Tar = "peio_no=" & peio_no
-    %>
-    <!--#include virtual="/_include/asp_page_function.asp"-->
-    <table cellSpacing="0" cellPadding="0" border="0" ID="Table9" width="100%">
-	<tr>
-		<td align="center">
-			<table border="0" width="100%" cellpadding="0" cellspacing="0" ID="Table11" height="20">
-				<tr>
-					<td height="20" align="center" valign="middle">
-    <%
-	Response.Write ShowPageBar("default.asp", Cus_pageSize, totalRecord, cPage, "/images/btn_board_pre.gif","/images/btn_board_next.gif",Cus_Tar)
-    %>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-    </table>
-	<%end if%>
-	<!-- 페이징 처리 끝-->
-
-		</div>
-	</div>
-
-
-    <!-- login action start -->
-		<div id="popupBoxLogin">
-			<div class="popupBoxWrapper">
-				<div class="popupBoxContent">
-                    <table width="100%" border="0">
-                    <tr style="height:40px;">
-                        <td colspan="2" align="center">
-                            <input type="password" style="width:60%;height:25px;" id="member_pwd" placeholder="비밀번호" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="height:1px;background:#CCCCCC;"></td></tr>
-                    <tr style="height:40px;">
-                        <td width="50%;" align="center" style="font-size:14px;font-family:Arial,맑은 고딕,돋움;cursor:pointer;border-right:solid 1px #CCCCCC;">
-                            <a onclick="LoginConfirm();"  />로그인</a>
-                        </td>
-                        <td width="50%;" align="center" style="font-size:14px;font-family:Arial,맑은 고딕,돋움;cursor:pointer;">
-                            <a onclick="toggle_visibility('popupBoxLogin');"  />취소</a>
-                        </td>
-                    </tr>
-                    </table>
-				</div>
-			</div>
-		</div>
-    <!-- login action end -->
-
-    <hr>
-        <div id="map"  style="margin-left:20%;text-align:center;"></div>
-    <script>
-    var xhr;
-    var map;
-    var center_marker;
-    var test3word;
-    var count = 0;
-      function initMap() {
-        var uluru = {lat: <%=lat_value %>, lng: <%=lon_value %>};
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: <%=zoom_level %>,
-          center: uluru
-        });
-
-        var contentString = '<div style="text-align:center;color:#000000;"><%=pos_words %></div>';
-
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-
-
-        var bounds = {
-        north: <%=lon2 %>,
-        south: <%=lon1 %>,
-        east: <%=lat2 %>,
-        west: <%=lat1 %>
-        };
-
-
-        map.addListener('center_changed', function(){  // center 바뀔 때, event 등록
-
-            test3word=document.getElementById("test3word");
-            var bounds = map.getBounds();
-
-
-
-            x_southwest = map.getBounds().getSouthWest().lat();
-            y_southwest = map.getBounds().getSouthWest().lng();
-            x_northeast = map.getBounds().getNorthEast().lat();
-            y_northeast = map.getBounds().getNorthEast().lng();
-
-            var x_center = (x_southwest + x_northeast)/2;
-            var y_center = (y_southwest + y_northeast)/2;
-
-            if(count!=0) center_marker.setMap(null);
-            center_marker = new google.maps.Marker({
-                  position: {
-                            lat: x_center,
-                            lng: y_center
-                          },
-                          map: map,
-                          title: "asd"
-                        });
-
-            count++;
-
-            var strsql = "range_find_ajax.asp?x_center=" + x_center + "&y_center=" + y_center;
+            var strsql = "range_find_ajax.asp?x_center=" + lat + "&y_center=" + lng;
 
             xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = setMarker;
+            xhr.onreadystatechange = return_original_search;
             xhr.open("Get", strsql);
             xhr.send(null);
+    			}
+
+    		}
+    	)
+    }
+
+    function return_original_search(){
+    if (xhr.readyState == 4) {
+                    var data = xhr.responseText;
+                    if(data != ''){
+
+                    if(marker_flag != 0) marker.setMap(null);
+                    marker_flag++;
+                    move_camera(lat, lng);
+
+                    marker = new google.maps.Marker({
+                          position: {
+                                    lat: lat,
+                                    lng: lng
+                                  },
+                                  map: map
+                                });
+
+                    var test3word = document.getElementById("test3word");
+                    test3word.value = data;
+                    }
+                    }
+
+    }
+    function move_camera(lat, lng){
+      map.panTo(new google.maps.LatLng(lat, lng));
+      map.setZoom(15);
+    }
+
+    function initMap() {
+         var uluru = {lat: <%=lat_value %>, lng: <%=lon_value %>};
+         map = new google.maps.Map(document.getElementById('map'), {
+           zoom: <%=zoom_level %>,
+           center: uluru
+         });
+
+         getLocation();
+         google.maps.event.addDomListener(window, "resize", function() {
+           var center = map.getCenter();
+           google.maps.event.trigger(map, "resize");
+           map.setCenter(center);
+         });
+
+         var bounds = {
+      north: <%=lon2 %>,
+      south: <%=lon1 %>,
+      east: <%=lat2 %>,
+      west: <%=lat1 %>
+      };
+
+      map.addListener('center_changed', function(){  // center 바뀔 때, event 등록
+        if(map.getZoom() == 15){
+          test3word=document.getElementById("test3word");
+          var bounds = map.getBounds();
+          x_southwest = map.getBounds().getSouthWest().lat();
+          y_southwest = map.getBounds().getSouthWest().lng();
+          x_northeast = map.getBounds().getNorthEast().lat();
+          y_northeast = map.getBounds().getNorthEast().lng();
+          var x_center = (x_southwest + x_northeast)/2;
+          var y_center = (y_southwest + y_northeast)/2;
+          if(count!=0) center_marker.setMap(null);
+
+          center_marker = new google.maps.Marker({
+                position: {
+                          lat: x_center,
+                          lng: y_center
+                        },
+                        map: map
+
+                      });
+          count++;
+          var strsql = "range_find_ajax.asp?x_center=" + x_center + "&y_center=" + y_center;
+          xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = setMarker;
+          xhr.open("Get", strsql);
+          xhr.send(null);
+          }
+      });
+
+      // Define a rectangle and set its editable property to true.
+      var rectangle = new google.maps.Rectangle({
+        bounds: bounds,
+        editable: false
+      });
+
+      rectangle.setMap(map);
+    }
+    function setMarker(){
+    if (xhr.readyState == 4) {
+                    var data = xhr.responseText;
+                    if(data != '')
+                    test3word.value = data;
+                    }
+                }
+
+    function getLocation() {       // 내 위치
+                  if (navigator.geolocation) { // GPS를 지원하면
+                    navigator.geolocation.getCurrentPosition(function(position) {
+
+                      var strsql = "range_find_ajax.asp?x_center=" + position.coords.latitude + "&y_center=" + position.coords.longitude;
+                      move_camera(position.coords.latitude, position.coords.longitude);
+
+                      marker = new google.maps.Marker({
+                            position: {
+                                      lat: position.coords.latitude,
+                                      lng: position.coords.longitude
+                                    },
+                                    map: map
+                                  });
 
 
-        });
+                      xhr = new XMLHttpRequest();
+                      xhr.onreadystatechange = my_position;
+                      xhr.open("Get", strsql);
+                      xhr.send(null);
+                    }, function(error) {
+                      console.error(error);
+                    }, {
+                      enableHighAccuracy: false,
+                      maximumAge: 0,
+                      timeout: Infinity
+                    });
+                  } else {
+                    alert('GPS를 지원하지 않습니다');
+                  }
+                }
+      function my_position(){
+        if(xhr.readyState ==4){
+          var data=xhr.responseText;
+          if(data!=''){
+            my_position = document.getElementById("my_position");
+            my_position.value =data;
+
+          }
+
+          navigator.geolocation.watchPosition(getLocation, location_error ,{maximumAge:2000})
+        }
+      }
+
+    function location_error(){
+
+    switch(error.code) {
+
+    case error.UNKNOWN_ERROR:
+
+        alert("unknown error");
+        break;
+
+    case error.PERMISSION_DENIED:
+
+        alert("Permission to use Geolocation was denied");
+        break;
+
+    case error.POSITION_UNAVAILABLE:
+
+        alert("unavailable");
+        break;
+
+    case error.TIMEOUT:
+
+        alert("timeout error");
+        break;
+        }
+    }
+
+    function information(target){
+      if(document.getElementById(target).checked){
+
+      var url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + map.getCenter().lat() +"," + map.getCenter().lng() + "&radius=1500&type=";
+      detail_url="https://maps.googleapis.com/maps/api/place/details/json?placeid=";
+
+        switch(target){
+          case "음식점":
+                url += "restaurant&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
+                search_nearby(url,1);
+
+          break;
+
+          case "호텔":
+            url += "lodging&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
+            search_nearby(url,2);
+            break;
+
+          case "관광지":
+          url += "amusement_park&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
+          search_nearby(url,3);
+          break;
+
+          break;
+
+          case "추천": alert("ㅁ");break;
+
+          case "북마크": alert("ㅁ");break;
+
+        }
+
+      }
+      else{
+      switch(target){
+        case "음식점":
+              for(var i=0; i<markersArray_restaurant.length;i++){
+                markersArray_restaurant[i].setMap(null);
+              }
+              break;
+
+        break;
+
+        case "호텔":
+        for(var i=0; i<markersArray_lodging.length;i++){
+          markersArray_lodging[i].setMap(null);
+        }
+        break;
+
+        case "관광지":
 
 
-        // Define a rectangle and set its editable property to true.
-        var rectangle = new google.maps.Rectangle({
-          bounds: bounds,
-          editable: false
-        });
-        //alert("1");
-        rectangle.setMap(map);
+
+        break;
+
+        case "추천": alert("ㅁ");break;
+
+        case "북마크": alert("ㅁ");break;
 
       }
 
-      function setMarker(){
 
-      if (xhr.readyState == 4) {
-                      var data = xhr.responseText;
-                      if(data != '')
-                      test3word.value = data;
+      }
+    }
 
+    function search_nearby(url, no){
 
-                      }
+          $.ajax({
+              type:"GET",
+              url: url,
+              success:function(json){
+              console.log(url);
+              //alert(json["results"][0].name);
+              var length = json["results"].length;
+              //alert(length);
+
+              for(var i=0; i<length; i++){
+                  if(no ==1){
+                    markersArray_restaurant[i] =  new google.maps.Marker({
+                          position: {
+                                    lat: json["results"][i].geometry.location.lat,
+                                    lng: json["results"][i].geometry.location.lng
+                                  },
+                                  map: map,
+                                  title:json["results"][i].name,
+                                  icon:"http://maps.google.com/mapfiles/kml/pal2/icon32.png"
+                                });
+                                var place_id = json["results"][i].place_id;
+
+                                //alert(json["results"][i].name);
+                            /*   markersArray_restaurant[i].addListener('click', function(){
+                                  (function(place_id, place_name){
+                                    alert(place_name);
+                                   detail_url += place_id + "&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
+                                   show_detail(detail_url, place_name);
+
+                                  })(place_id, json["results"][i].name);
+
+                                }) */
+
+                              //  markersArray_restaurant[i].addListener('click', function(result, place_id,place_name){
+                              //  alert(place_name);
+                              //  detail_url += place_id + "&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
+                              //      show_detail(detail_url);
+                             //    });
+
                   }
-    </script>
+
+                  else if(no==2){
+                  markersArray_lodging[i] =  new google.maps.Marker({
+                        position: {
+                                  lat: json["results"][i].geometry.location.lat,
+                                  lng: json["results"][i].geometry.location.lng
+                                },
+                                map: map,
+                                title:json["results"][i].name,
+                                icon:"http://maps.google.com/mapfiles/kml/pal2/icon10.png"
+                              });
+
+                 }
+                 else if(no==3){
+
+                 }
+
+                 else if(no==4){
+
+                 }
+
+                 else if(no==5){
+
+                 }
+              //console.log(json["results"][i].name);
+
+
+
+              } // for
+
+                add_marker_event(json);
+              } //success
+            }) //ajax
+
+
+    }
+
+  function add_marker_event(json){
+
+  }
+  function show_detail(detail_url, place_name){
+
+      $.ajax({
+          type:"GET",
+          url: detail_url,
+          success:function(json){
+
+          document.getElementById("name").innerHTML = place_name;
+
+          console.log("formatted_phone_number" in json["result"]);
+
+          a= "formatted_phone_number" in json["result"];
+          alert(a);
+          if(a)
+          document.getElementById("tel_no").innerHTML = json["result"].formatted_phone_number;
+
+          a = "formatted_address" in json["result"]
+          if( a == true)
+          document.getElementById("address").innerHTML = json["result"].formatted_address;
+
+          if("opening_hours" in json["result"] == true){
+
+          if("weekday_text" in json["result"].opening_hours == true){
+          for(var i=0 ;i< json["result"].opening_hours.weekday_text.length;i++)
+            document.getElementById("current_open").innerHTML += json["result"].opening_hours.weekday_text[i];
+            }
+          }
+
+          if("rating" in json["result"] == true)
+          document.getElementById("rating").innerHTML = json["result"].rating;
+
+          if("reviews" in json["result"] == true){
+          for(var i=0; i< json["result"].reviews.length;i++){
+          document.getElementById("reviews").innerHTML += "작성자: " + json["result"].reviews[i].author_name + "\n" +
+                                                      "평점: " + json["result"].reviews[i].rating + "\n" +
+                                                      "작성 날짜: " + json["result"].reviews[i].relative_time_description + "\n" +
+                                                      "내용: " + json["result"].reviews[i].text + "\n\n" ;
+
+                                                      }
+          }
+
+          if("website" in json["result"] == true)
+          document.getElementById("website").innerHTML = json["result"].website;
+
+
+          } // success
+        }) //ajax
+  }
+
+
+</SCRIPT>
+
+
+</head>
+<body>
+<% top_menu = "글공유" %>
+ <!-- #include virtual="/_include/top_menu.asp" -->
+ <!-- #include virtual="/_include/top_menulist.asp" -->
+
+<div style="margin-top:100px" class="container-fluid">
+    <div class="row">
+      <div class="col-xs-1 col-sm-3"></div>
+      <div class="col-xs-7 col-sm-6">
+        <input type="text" id="original_address" class="form-control" placeholder="검색할 주소를 입력하세요">
+      </div>
+      <div class="col-xs-3 col-sm-3">
+        <button type="button" class="btn btn-primary" onclick="original_search()">검색</button>
+      </div>
     </div>
-    <br><br><div><input type="text" id="test3word"><input type ="button" value="search" onclick="search()"></div>
+    <br><hr>
+
+    <div class="row">
+
+      <div class ="col-xs-1 col-md-2"></div>
+      <div class="col-xs-10 col-md-8" id="map">
+      <script>
+          initMap();
+      </script>
+
+      </div>
+
+      <div class ="col-xs-4 col-md-2" id="panel">
+      <div class="has-error checkbox">
+      <label>
+        <input type="checkbox" id="음식점" onchange="information(this.value)" value="음식점">
+        음식점
+      </label>
+      <hr>
+      <label>
+        <input type="checkbox" id="호텔"  onchange="information(this.value)" value="호텔">
+        호텔
+      </label>
+      <hr>
+      <label>
+        <input type="checkbox" id="관광지"  onchange="information(this.value)" value="관광지">
+        관광지
+      </label>
+      <hr>
+      <label>
+        <input type="checkbox" id="추천"  onchange="information(this.value)" value="추천">
+        추천
+      </label>
+      <hr>
+      <label>
+        <input type="checkbox" id="북마크" onchange="information(this.value)" value="북마크">
+        북마크
+      </label>
+      <hr>
+
+      </div>
+      </div>
+    </div>
+
+    <br><br><hr>
+    <div>
+      <div class="row">
+        <div class="col-xs-0 col-sm-1">  </div>
+        <div class="col-xs-4 col-sm-5" style="text-align:center" >내 위치</div>
+        <div class="col-xs-8 col-sm-5">
+        <input type="text" id="my_position" class="form-control" disabled>
+        </div>
+        <div class="col-xs-0 col-sm-1">  </div>
+      </div>
+      <br>
+      <div class="row">
+          <div class="col-xs-0 col-sm-1">  </div>
+          <div class="col-xs-4 col-sm-5" style="text-align:center">갈 곳 </div>
+          <div class="col-xs-8 col-sm-5">
+          <input type="text" class="form-control" id="test3word" disabled>
+          </div>
+          <div class="col-xs-0 col-sm-1">  </div>
+
+  </div>
+
+</div>
+
+<hr>
+<div class="row">
+  <div class ="col-xs-12 col-sm-12">
+    <textarea class="form-control" style="overflow-y: hidden;overflow-x:hidden" disabled></textarea>
+  </div>
+</div>
+<hr>
+<div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12" id="photo"><div>
+
+    <div class="col-xs-12 col-sm-6" id="name"></div> <div class="col-xs-12 col-sm-6" id="tel_no"></div>
+    <div class="col-xs-12 col-sm-12" id="address"></div>
+    <div class="col-xs-12 col-sm-6" id="open_time"></div> <div class="col-xs-12 col-sm-6" id="current_open"></div>
+    <div class="col-xs-12 col-sm-12" id="weekday_text"></div>
+    <div class="col-xs-12 col-sm-12" id="rating"></div>
+    <div class="col-xs-12 col-sm-12" id="reviews"></div>
+    <div class="col-xs-12 col-sm-12" id="website"></div>
+
+  </div>
+  <br>
+  <div class="row">
+      <div class="col-xs-1 col-sm-1" style="background-Color:brown">q  </div>
+      <div class="col-xs-5 col-sm-5" style="background-Color:black">w  </div>
+      <div class="col-xs-5 col-sm-5" style="background-Color:red">e  </div>
+      <div class="col-xs-1 col-sm-1" style="background-Color:brown">r  </div>
+  </div>
+</div>
+
+</div>
+
 
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap">
     </script>
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
     <!-- #include virtual="/_include/connect_close.inc" -->
     </body>
   </html>
