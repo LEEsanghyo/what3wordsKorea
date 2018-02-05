@@ -711,18 +711,19 @@ span td a {
                 url += "restaurant&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
                 search_nearby(url,1);
 
-          break;
+                //search_nearby_sql(1);
+                break;
 
           case "호텔":
-            url += "lodging&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
-            search_nearby(url,2);
+            //url += "lodging&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
+            //search_nearby(url,2);
+            search_nearby_sql(2);
             break;
 
           case "관광지":
-          url += "amusement_park&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
-          search_nearby(url,3);
-          break;
-
+          //url += "amusement_park&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
+          //search_nearby(url,3);
+          search_nearby_sql(3);
           break;
 
           case "추천": alert("ㅁ");break;
@@ -762,6 +763,86 @@ span td a {
 
 
       }
+    }
+    function search_nearby_sql(no){
+
+      var bounds = map.getBounds();
+      var min_lat = map.getBounds().getSouthWest().lat();
+      var min_lng = map.getBounds().getSouthWest().lng();
+      var max_lat = map.getBounds().getNorthEast().lat();
+      var max_lng = map.getBounds().getNorthEast().lng();
+
+      var strsql = "search_nearby_sql_ajax.asp?min_lat="+ min_lat+"&max_lat="+max_lat +"&min_lng="+min_lng  +"&max_lng="+max_lng;
+
+      console.log(strsql);
+      xhr=new XMLHttpRequest();
+      xhr.onreadystatechange=return_search_nearby_sql;
+      xhr.open("Get",strsql);
+      xhr.send(null);
+
+    }
+
+    function return_search_nearby_sql(){
+      if(xhr.readyState==4){
+          var data = xhr.responseText;
+
+
+          if(data != '') {
+
+            var data_arr = data.split("/");
+
+            for(var i = 0; i<data_arr.length/7;i++){
+
+              switch(parseInt(data_arr[5+(7*i)])){
+                case 1:
+
+                markersArray_restaurant[i] =  new google.maps.Marker({
+                                position: {
+                                          lat: parseFloat(data_arr[4+(7*i)]),
+                                          lng: parseFloat(data_arr[3+(7*i)])
+                                        },
+                                        map: map,
+                                        title:data_arr[6+(7*i)],
+                                        icon:"http://maps.google.com/mapfiles/kml/pal2/icon32.png"
+                                      });
+
+
+                                      break;
+
+
+                case 2: break;   // lodging
+
+
+
+
+              } //switch
+
+            } //for
+
+
+            into_marker(data_arr);
+
+
+          }  // if
+
+      }
+
+
+    }
+
+    function into_marker(data_arr){
+
+    for(var i=0; i<data_arr.length/7; i++){
+        a(i, data_arr);
+     }
+    }
+
+    function a(i, data_arr){
+      markersArray_restaurant[i].addListener('click',function(){
+            document.getElementById("name").innerHTML = data_arr[6+(7*i)];
+            document.getElementById("weekday_text").innerHTML = data_arr[2+(7*i)];
+            document.getElementById("tel_no").innerHTML = data_arr[1+(7*i)];
+        });
     }
 
     function search_nearby(url, no){
@@ -805,6 +886,11 @@ span td a {
                               //      show_detail(detail_url);
                              //    });
 
+                             strsql = "test_ajax.asp?p_poi_name=" + json["results"][i].name + "&p_gcat_name_en=restaurant&p_lat_value="+json["results"][i].geometry.location.lat + "&p_lon_value="+json["results"][i].geometry.location.lng;
+                            console.log(strsql);
+
+                            test_ajax(strsql);
+
                   }
 
                   else if(no==2){
@@ -842,6 +928,27 @@ span td a {
 
 
     }
+
+    function test_ajax(strsql){
+
+      var xhr2 = new XMLHttpRequest();
+      xhr2.onreadystatechange=function(){
+      if(xhr2.readyState==4){
+          var data = xhr2.responseText;
+
+          }
+      }
+      xhr2.open("POST",strsql);
+      xhr2.send(null);
+    }
+
+
+  function return_test(){
+  if(xhr2.readyState==4){
+      var data = xhr3.responseText;
+
+      }
+  }
 
   function add_marker_event(json){
 

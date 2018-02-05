@@ -3,12 +3,12 @@
     response.Charset = "utf-8"
 
 
+  
     strSQL = "p_range_find '" & request("x_center") &"','" & _
                                 request("y_center") & "'"
 
 
-      'response.write strSQL
-      'response.End
+
 
       Set ys = Server.CreateObject("ADODB.RecordSet")
       ys.Open strSQL, DbConn, 1, 1
