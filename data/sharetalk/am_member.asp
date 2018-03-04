@@ -1,5 +1,5 @@
-﻿<!-- #include virtual="/_include/login_check.inc" -->
-<!-- #include virtual="/_include/connect.inc" -->
+﻿<!-- #include virtual="/_include/connect.inc" -->
+<!-- #include virtual="/_include/login_check.inc" -->
 <%
     MENU = "FRIEND"
     keyword = request("keyword")
@@ -11,7 +11,7 @@
     
     set rsFriend = Server.CreateObject("ADODB.Recordset")
     rsFriend.CursorLocation = 3  
-    rsFriend.Open strSQL, DbCon
+    rsFriend.Open strSQL, DbConn
 
     if rsFriend.EOF or rsFriend.BOF then
 	   NoDataFriend = True

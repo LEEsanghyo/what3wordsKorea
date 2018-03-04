@@ -11,36 +11,22 @@
                           <a href="/"><img src="images/topicon_list_white.gif" border="0" style="height:25px;opacity:0.5;" /></a>
                           <% end if %>
                     </td>
-                    <td width="20%">
-                        <% if Session("member_no") > "0" then %>
-                          <% if MENU = "MY" then %>
-                          <a href="ws_mytopic.asp"><img src="images/topicon_my_white.png" border="0" style="height:25px;" /></a>
+					<% if Session("admin_flag") = 1 then %>
+					<td width="15%">
+                          <% if MENU = "GI" then %>
+                          <a href="am_poi_manage.asp"><img src="images/topicon_gi_white.png" border="0" style="height:25px;" /></a>
                           <% else %>
-                          <a href="ws_mytopic.asp"><img src="images/topicon_my_white.png" border="0" style="height:25px;opacity:0.5;" /></a>
+                          <a href="am_poi_manage.asp"><img src="images/topicon_gi_white.png" border="0" style="height:25px;opacity:0.5;" /></a>
                           <% end if %>
-                        <% else %>
-                        <img src="images/topicon_my_white.png" border="0" style="height:25px;opacity:0.2;" />
-                        <% end if %>                        
                     </td>
-                    <td width="20%">
-                        <% if Session("member_no") > "0" then %>
-                          <% if MENU = "FRIEND" then %>
-                          <a href="fg_friendlist.asp"><img src="images/topicon_friend_white.png" border="0" style="height:25px;" /></a>
-                          <% else %>
-                          <a href="fg_friendlist.asp"><img src="images/topicon_friend_white.png" border="0" style="height:25px;opacity:0.5;" /></a>
-                          <% end if %>
-                        <% else %>
-                        <img src="images/topicon_friend_white.png" border="0" style="height:25px;opacity:0.2;" />
-                        <% end if %>
-                        </td>
-                    <td width="20%">
+					<td width="15%">
                           <% if MENU = "GI" then %>
                           <a href="gi_topiclist.asp"><img src="images/topicon_gi_white.png" border="0" style="height:25px;" /></a>
                           <% else %>
                           <a href="gi_topiclist.asp"><img src="images/topicon_gi_white.png" border="0" style="height:25px;opacity:0.5;" /></a>
                           <% end if %>
                     </td>
-                    <td width="15%"></td>
+					<% end if %>
                 </tr>
             </table>
         </div>

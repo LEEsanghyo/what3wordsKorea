@@ -2,23 +2,16 @@
 <%
     MENU = "HOME"
     keyword = request("keyword")
-
-
+	
+	'로그인 쿠키 불러오기
     talk_member_email = Request.Cookies("talk_member_email")
     talk_member_pwd = Request.Cookies("talk_member_pwd")
-
-
-
     strSQL = "p_login_auto_check '" & talk_member_email & "','" & _
                                       talk_member_pwd & "'"
-
-
-
-
+	'현재 세션 쿠키가 DB에 있는지 확인
     Set rsData = Server.CreateObject("ADODB.RecordSet")
-    rsData.Open strSQL, DbCon, 1, 1
-
-
+    rsData.Open strSQL, DbConn
+	
     'response.write "3"
     'response.end
 
@@ -30,8 +23,8 @@
       Session("authority_level") = rsData("authority_level")
     end if
 
+	'포스팅된 글들 불러오기
     set rsData = nothing
-
     strSQL = "p_tsh_post_read '" & keyword & "','" & request("cat_no") & "'"
 
     'response.Write strSQL
@@ -39,7 +32,7 @@
 
     set rsPost = Server.CreateObject("ADODB.Recordset")
     rsPost.CursorLocation = 3
-    rsPost.Open strSQL, DbCon
+    rsPost.Open strSQL, DbConn
 
     if rsPost.EOF or rsPost.BOF then
 	  NoDataPost = True
@@ -77,10 +70,11 @@
     end if
     '페이징처리관련 끝
 
+	'카테고리 리스트 불러오기
     strSQL = "p_tsm_category_list_read "
 
     Set rsCategory = Server.CreateObject("ADODB.RecordSet")
-    rsCategory.Open strSQL, DbCon, 1, 1
+    rsCategory.Open strSQL, DbConn, 1, 1
 
     if rsCategory.EOF or rsCategory.BOF then
 	   NoDataCategory = True
@@ -298,9 +292,7 @@ span td a {
 			/* navigation end */
 </style>
 
-
 <SCRIPT LANGUAGE=javascript>
-<!--
     var xhr;
 
     function PostEngage(elem) {
@@ -349,37 +341,25 @@ span td a {
         }
     }
 
+	// 회원가입
     function VisitRegister() {
-
         var siteurl = "member_register.asp";
         //alert(siteurl);
 
         window.location.href = siteurl;
-
     }
 
-    function LoginPopup() {
-        var email = document.getElementById("member_email").value;
-        var n = email.search(/@/i);
-        //alert(n);
-
-        if (email == "") {
-            //alert("이메일을 입력하세요.");
-            document.getElementById("member_email").placeholder = "이메일을 입력하세요.";
-            document.getElementById("member_email").focus();
-            return false;
-        }
-
-        toggle_visibility('popupBoxLogin');
-        document.getElementById("member_pwd").focus();
-    }
-
+	// 로그인
     function LoginConfirm() {
 
         var email = document.getElementById("member_email").value;
         var pwd = document.getElementById("member_pwd").value;
-
-        if (pwd == "") {
+		if (email == ""){
+			alert("이메일을 입력하세요.");
+			document.getElementById("member_email").focus();
+			return false;
+		}
+        else if (pwd == "") {
             alert("비밀번호를 입력하세요.");
             document.getElementById("member_pwd").focus();
             return false;
@@ -401,13 +381,14 @@ span td a {
         if (xhr.readyState == 4) {
             var data = xhr.responseText;
             //var slipdata = data.split(',');
-
-            var siteurl = "default.asp";
+			alert(data);
+			var siteurl = "default.asp";
 
             window.location.href = siteurl;
         }
     }
 
+	// 검색하기
     function PostSearch() {
 
         var keyword = document.getElementById("keyword").value;
@@ -420,6 +401,7 @@ span td a {
 
     }
 
+	// 토글키 표시 여부
     function toggle_visibility(id) {
         var e = document.getElementById(id);
         if (e.style.display == 'block')
@@ -427,25 +409,18 @@ span td a {
         else
             e.style.display = 'block';
     }
-
-    //-->
 </SCRIPT>
-
 </head>
 
 <body>
     <% top_menu = "글공유" %>
     <!-- #include virtual="/_include/top_menu.asp" -->
     <!-- #include virtual="/_include/top_menulist.asp" -->
-
-
-
 <div class="content" style="margin-top:70px;">
-
+<!-- 네비게이션 바 -->
 <div style="margin-top:90px;width:100%;height:40px;">
 	<nav2>
 		<ul class="category">
-            <li class="category"><a href="default.asp">(전체)</a></li>
 			<% if NoDataCategory = False then ' 데이터가 있으면 데이터 출력
 			Do While Not rsCategory.EOF %>
 			<li class="category"><a href="default.asp?cat_no=<%=rsCategory("cat_no") %>"><%=rsCategory("cat_name") %></a></li>
@@ -459,110 +434,14 @@ span td a {
 	</nav2>
 </div>
 
-
+	<!-- 로그인 안되어있을 시 로그인 창 띄우기 -->
     <% if Session("member_no") < "1" then %>
     <div class="login">
-    <table width="280px;" border="0">
-        <tr height="10px;"><td colspan="3"></td></tr>
-        <tr><td width="10%"></td>
-            <td width="150px;"><input type="text" style="width:150px;height:20px;" placeholder="이메일" id="member_email" /></td>
-            <td style="width:10px;"></td>
-            <td><span style="cursor:pointer;" onclick="LoginPopup();">로그인</span></td>
-            <td width="10%"></td>
-        </tr>
-        <tr height="1px;"><td colspan="3"></td></tr>
-    </table>
+		<p width="150px;"><input type="text" style="width:150px;height:20px;" placeholder="이메일" id="member_email"></p>
+		<p width="100px;"><input type="password" style="width:100px;height:20px;" placeholder="비밀번호" id="member_pwd" onkeypress="if(event.keyCode==13){LoginConfirm();}"></p>
+		<td style="cursor:pointer" onclick="LoginConfirm();">로그인</td>
     </div>
     <% end if %>
-
-
-	<div style="width:100%;">
-		<div style="width:100%;height:7px;background:#F2F2F4"></div>
-		<div style="width:100%;display:flex;justify-content:center;">
-
-		<table style="width:95%;" border="0">
-
-		<% if NoDataPost = False then ' 데이터가 있으면 데이터 출력 %>
-		<% if FirstPage <> 1 then
-	               RowCount = rsPost.PageSize
-	               end If ' 데이터가 있으면 데이터 출력
-                   Do While Not rsPost.EOF and RowCount > 0  %>
-
-				<tr style="height:30px;"><td><a href="ws_bbc_detail.asp?post_no=<%=rsPost("post_no") %>"><%=rsPost("post_title") %></a></td></tr>
-				<tr style="height:1px;background:#F2F2F4;"><td></td></tr>
-
-
-		<%
-        	RowCount = RowCount - 1
-        	rsPost.MoveNext
-	        Loop
-        %>
-		<% else %>
-				<tr style="height:30px;"><td>글이 없습니다.</td></tr>
-				<tr style="height:1px;background:#F2F2F4;"><td></td></tr>
-        <% end if
-       	set rsPost = nothing
-        %>
-	    </table>
-
-
-    <!-- 페이징 처리-->
-    <%if NoDataPost = false Then
-	Cus_Tar = "peio_no=" & peio_no
-    %>
-    <!--#include virtual="/_include/asp_page_function.asp"-->
-    <table cellSpacing="0" cellPadding="0" border="0" ID="Table9" width="100%">
-	<tr>
-		<td align="center">
-			<table border="0" width="100%" cellpadding="0" cellspacing="0" ID="Table11" height="20">
-				<tr>
-					<td height="20" align="center" valign="middle">
-    <%
-	Response.Write ShowPageBar("default.asp", Cus_pageSize, totalRecord, cPage, "/images/btn_board_pre.gif","/images/btn_board_next.gif",Cus_Tar)
-    %>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-    </table>
-	<%end if%>
-	<!-- 페이징 처리 끝-->
-
-		</div>
-	</div>
-
-
-
-
 </body>
 </html>
-
-    <!-- login action start -->
-		<div id="popupBoxLogin">
-			<div class="popupBoxWrapper">
-				<div class="popupBoxContent">
-                    <table width="100%" border="0">
-                    <tr style="height:40px;">
-                        <td colspan="2" align="center">
-                            <input type="password" style="width:60%;height:25px;" id="member_pwd" placeholder="비밀번호" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="height:1px;background:#CCCCCC;"></td></tr>
-                    <tr style="height:40px;">
-                        <td width="50%;" align="center" style="font-size:14px;font-family:Arial,맑은 고딕,돋움;cursor:pointer;border-right:solid 1px #CCCCCC;">
-                            <a onclick="LoginConfirm();"  />로그인</a>
-                        </td>
-                        <td width="50%;" align="center" style="font-size:14px;font-family:Arial,맑은 고딕,돋움;cursor:pointer;">
-                            <a onclick="toggle_visibility('popupBoxLogin');"  />취소</a>
-                        </td>
-                    </tr>
-                    </table>
-				</div>
-			</div>
-		</div>
-    <!-- login action end -->
-
-
 <!-- #include virtual="/_include/connect_close.inc" -->
