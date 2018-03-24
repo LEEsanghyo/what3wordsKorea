@@ -1,0 +1,3 @@
+﻿<%
+  Set DbCon = nothing
+%>
