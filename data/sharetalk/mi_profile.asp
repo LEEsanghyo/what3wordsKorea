@@ -1,11 +1,11 @@
-﻿<!-- #include virtual="/_include/login_check.inc" -->
-<!-- #include virtual="/_include/connect.inc" -->
+﻿<!-- #include virtual="/_include/connect.inc" -->
+<!-- #include virtual="/_include/login_check.inc" -->
 <%
 
     strSQL = "p_gim_member_read_detail  '" & Session("member_no") & "'"
 
     Set rs = Server.CreateObject("ADODB.RecordSet")
-    rs.Open strSQL, DbCon, 1, 1  
+    rs.Open strSQL, DbConn
    
     if NOT rs.EOF and NOT rs.BOF then
 

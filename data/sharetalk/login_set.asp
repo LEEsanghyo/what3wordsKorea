@@ -7,7 +7,6 @@
 
     Set rsGi = Server.CreateObject("ADODB.RecordSet")
     rsGi.Open strSQL, DbConn
-	response.write rsGi("p_count")
 	if (rsGi("p_count")=1) Then
 		Session("member_no") = rsGi("member_no")
 		member_name = rsGi("member_name")

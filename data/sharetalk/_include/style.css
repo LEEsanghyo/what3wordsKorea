@@ -1,0 +1,193 @@
+* { padding: 0; margin: 0; }
+html, body {
+	max-width: 100%;
+	overflow-x: hidden;
+	font-family: Arial, 맑은 고딕, 돋움; background:#FFFFFF;
+	padding:0px;margin:0px;
+}
+a { text-decoration: none; color: #000000; }
+li { list-style-type: none; }
+header {
+	width: 100%;
+	height: 70px;
+	margin: 0px;
+	background:#5A6CB4;
+	padding: 0px;
+	position:fixed;
+	z-index:4
+}
+#brand {
+	width: 80%;
+	float: left;
+	height: 40px;
+	padding:0px;
+	color: #FFFFFF;
+}
+nav { width: 100%; text-align: center; top:70px;}
+nav a {
+	display: block;
+	padding: 15px 0;
+	border-bottom: 1px solid #0076A3;
+	color: #00A5CC;
+}
+nav a:hover { background: #6DCFF6; color: #FFF; }
+nav li:last-child a { border-bottom: none; }
+/*-----------------------------------------*/
+.menu {
+	z-index:5;
+	width: 240px;
+	height: 100%;
+	position: absolute;
+	background: #EEEEEE;
+	left: -240px;
+	transition: all .3s ease-in-out;
+	-webkit-transition: all .3s ease-in-out;
+	-moz-transition: all .3s ease-in-out;
+	-ms-transition: all .3s ease-in-out;
+	-o-transition: all .3s ease-in-out;
+}
+.menu-icon {
+	padding: 10px 10px;
+	margin:0px 5px 0px 0px;
+	background: #EEEEEE;
+	float:right;
+	color: #0cc738;
+	cursor: pointer;
+	margin-top: 4px;
+	border-radius: 5px;
+	position:absolute;
+	top:5px;
+	right:5px;
+}
+#menuToggle { display: none; }
+#menuToggle:checked ~ header { position: absolute; left: 0; }
+#menuToggle:checked ~ .menu { position: absolute; left: 0; }
+#menuToggle:checked ~ .login { position: absolute; left: 60px; top:50px; }
+#menuToggle:checked ~ .title { position: absolute; left: 260px; top:50px; }
+#menuToggle:checked ~ .content { position: absolute; left: 260px; top:10px; }
+#menuToggle:checked ~ .bottom { position:absolute; left: 260px; }
+.title {
+	text-align:center;
+	font-size:25px;
+	font-family:Arial, 맑은 고딕, 돋움;
+	font-weight:bold;
+	height:30px;
+	margin:2px;
+	padding:5px;
+	color:#0cc738;
+	//	  background: #0cc738;
+	border-radius: 2px;
+}
+.login {
+	margin:0px;
+	padding:0px;
+	display:flex;
+	justify-content:center;
+	height:60px;
+}
+.content {
+	width: 100%;
+	margin: 0px;
+	font-size:16px;
+	font-family:Arial, 맑은 고딕, 돋움;
+	/* font-weight:bold; */
+	background:#FFFFFF;
+	padding:0px;
+	transition: all .3s ease-in-out;
+	-webkit-transition: all .3s ease-in-out;
+	-moz-transition: all .3s ease-in-out;
+	-ms-transition: all .3s ease-in-out;
+	-o-transition: all .3s ease-in-out;
+}
+.bottom {
+	font-size:14px;
+	font-family:Arial, 맑은 고딕, 돋움;
+	font-weight:bold;
+	padding:20px;
+	margin:2px;
+}
+/* 게시판 디자인 */
+.main_table {
+	width:100%;
+	border:0px;
+	font-family:Arial, 맑은 고딕, 돋움;
+}
+.bbcTitle {
+	font-family:Arial, 맑은 고딕, 돋움;
+	font-size : 1.2em;
+	font-weight:bold;
+	color:#000000;
+	margin: 5px 5px 5px 5px;
+	padding:5px 5px 5px 5px;
+}
+.bbcContent {
+	font-family:Arial, 맑은 고딕, 돋움;
+	font-size : 0.98em;
+	color:#000000;
+	margin:5px 5px 5px 20px;
+	padding:5px 5px 5px 5px;
+}
+.bbcDate {
+	height:20px;
+	font-family:Arial, 맑은 고딕, 돋움;
+	font-size : 0.8em;
+	color:#000000;
+	margin:5px 5px 5px 20px;
+	padding:5px 5px 5px 5px;
+}
+span td a {
+	font-family:Arial, 맑은 고딕, 돋움;
+}
+/* 게시판 디자인 */
+/* 팝업 메뉴 start */
+#popupBoxLogin{
+	top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+	background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
+}
+.popupBoxWrapper{
+	width: 300px; margin: 0px; text-align: left;position:absolute;top:100px;left:20px;right:50;border-radius:0px;
+}
+.popupBoxContent{
+	background-color: #FFF; padding: 0px;border-radius:2px;
+}
+/* 팝업 메뉴 end */
+/* navigation start */
+ul.category {
+	list-style-type:none;
+	margin:0;
+	padding:0;
+/* position:absolute; */
+}
+li.category {
+	display: inline-block;
+	float:left;
+	margin-right: 1px;
+}
+li.category a {
+	display:block;
+	min-width:60px;
+	height: 40px;
+	text-align:center;
+	line-height:40px;
+	font-size:14px;
+	font-family:Arial,맑은 고딕,돋움;
+	font-weight:bold;
+	color:#000000;
+	background: #FFFFFF;
+	text-decoration: none;
+}
+/*Hover state for top level links */
+li.category:hover a {
+	color: #19C589;
+}
+/* navigation end */
+#map {
+	height: 600px;
+}
+#panel{
+	background-color:#e5e5e5;
+	position: absolute;
+	left: 10%;
+	z-index: 2;
+	border: 2px solid #999
+}

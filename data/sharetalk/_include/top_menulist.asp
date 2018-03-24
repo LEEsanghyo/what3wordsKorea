@@ -1,7 +1,7 @@
 ﻿<nav class="menu">
 	<ul>
-    	<li><a href="/">HOME</a></li>
-        <li><a href="ws_mytopic.asp">My글</a></li>
+    	<li><a href="/">지도</a></li>
+        <li><a href="#">길찾기</a></li>
         <li><a href="mi_profile.asp">프로필관리</a></li>
 		<% if Session("member_no") < "1" then %>
         <li><a href="member_register.asp">회원가입</a></li>

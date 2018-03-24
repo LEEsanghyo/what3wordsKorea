@@ -19,13 +19,6 @@
                           <a href="am_poi_manage.asp"><img src="images/topicon_gi_white.png" border="0" style="height:25px;opacity:0.5;" /></a>
                           <% end if %>
                     </td>
-					<td width="15%">
-                          <% if MENU = "GI" then %>
-                          <a href="gi_topiclist.asp"><img src="images/topicon_gi_white.png" border="0" style="height:25px;" /></a>
-                          <% else %>
-                          <a href="gi_topiclist.asp"><img src="images/topicon_gi_white.png" border="0" style="height:25px;opacity:0.5;" /></a>
-                          <% end if %>
-                    </td>
 					<% end if %>
                 </tr>
             </table>

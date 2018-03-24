@@ -6,7 +6,7 @@
                                 request("y_center") & "'"
 
       Set ys = Server.CreateObject("ADODB.RecordSet")
-      ys.Open strSQL, DbConn, 1, 1
+      ys.Open strSQL, DbConn
 
       data_value = ys("word_grid")
       set ys = nothing
