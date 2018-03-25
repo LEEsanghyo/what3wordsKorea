@@ -19,7 +19,7 @@
 		<title>What3Words Home</title>
 		<link rel="stylesheet" href="/_include/style.css" type="text/css">		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script src="/_script/account.js"></script>
+		<script src="/_script/login.js"></script>
 		<script type="text/javascript" src="/_script/map.js"></script>
 		<script>
 			var map;
@@ -37,7 +37,7 @@
 	</head>
 
 	<body>
-		<% top_menu = "글공유" %>
+		<% top_menu = "HOME" %>
 		
 		<!-- #include virtual="/_include/top_menu.asp" -->
 		<!-- #include virtual="/_include/top_menulist.asp" -->
@@ -76,16 +76,27 @@
 			var naverLogin = new naver.LoginWithNaverId(
 				{
 					clientId: "ePD3yuxPRSuXMeIBH5DA",
-					callbackUrl: "http://tour.abcyo.kr",
-					isPopup: false,
+					callbackUrl: "http://tour.abcyo.kr/callback.html",
+					isPopup: true,
 					callbackHandle: true,
-					loginButton: {color: "green", type: 3, height: 40} /* 로그인 버튼의 타입을 지정 */
+					loginButton: {color: "green", type: 1, height: 30} /* 로그인 버튼의 타입을 지정 */
 					/* callback 페이지가 분리되었을 경우에 callback 페이지에서는 callback처리를 해줄수 있도록 설정합니다. */
 				}
 			);
 		
 			/* (3) 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
 			naverLogin.init();
+			
+			naverLogin.getLoginStatus(function (status) {
+				if (status){
+					var email = naverLogin.user.getEmail();
+					var name = naverLogin.user.getNickName();
+					var uniqId = navrLogin.user.getId();
+					var age = naverLogin.user.getAge();
+				} else {
+					console.log("AccessToken이 올바르지 않습니다.");
+				}
+			});
 		</script>
 	</body>
 </html>

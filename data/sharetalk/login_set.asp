@@ -20,10 +20,7 @@
 		Session("authority_level") = rsgi("authority_level")
 
 		Response.Cookies("talk_member_email") = member_email
-		Response.Cookies("talk_member_pwd") = member_pwd
-
-		response.write "로그인 되었습니다."
-		
+		Response.Cookies("talk_member_pwd") = member_pwd		
 	else
 		response.write "로그인 오류입니다."
 	END IF
