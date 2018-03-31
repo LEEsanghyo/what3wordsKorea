@@ -1,16 +1,14 @@
-﻿<!-- #include virtual="/_include/connect.inc" -->
+<!-- #include virtual="/_include/connect.inc" -->
 <%   
-    member_no = 0
-    subscribe_flag = "0"
-    org_name = "What3Words"
+    subscribe_flag = 0
 
-    strSQL = "p_gim_member_set '" & member_no & "','" & request("member_name") & "','" & request("member_alias") & "','" & request("member_email") & "','" & request("member_pwd") & "','" & subscribe_flag & "','" & request("member_phone") & "','" & org_name & "'"
+    strSQL = "p_gim_member_set '" & request("member_name") & "','" & request("member_email") & "','" & request("member_age") & "','" & request("member_interest") & "','" & request("member_phone") & "','" & request("member_pwd") & "','" & subscribe_flag & "','" &  request("org_flag") & "','" & request("member_uniqid") & "'"
 
     Set rsData = Server.CreateObject("ADODB.RecordSet")
     rsData.Open strSQL, Dbconn
 
     message = rsData("message")
-	
+
     response.Write message
     'response.Write "1," & strSQL
 

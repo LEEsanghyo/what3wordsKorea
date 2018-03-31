@@ -31,13 +31,12 @@
 			};
 			var uluru = {lat: <%= lat_value %>, lng: <%= lon_value %> };
 			var zoom_level = <%= zoom_level %>;
-		</script>
-		
+		</script>		
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
 	</head>
 
 	<body>
-		<% top_menu = "HOME" %>
+		<% top_menu = "글공유" %>
 		
 		<!-- #include virtual="/_include/top_menu.asp" -->
 		<!-- #include virtual="/_include/top_menulist.asp" -->
@@ -64,39 +63,26 @@
 		<div class="login">
 			<p width="150px;"><input type="text" style="width:150px;height:20px;" placeholder="이메일" id="member_email"></p>&nbsp&nbsp
 			<p width="100px;"><input type="password" style="width:50px;height:20px;" placeholder="비밀번호" id="member_pwd" onkeypress="if(event.keyCode==13){LoginConfirm();}"></p>&nbsp&nbsp
-			<p style="cursor:pointer;" onclick="LoginConfirm();">로그인</p>
+			<p style="cursor:pointer;" onclick="LoginConfirm(null);">로그인</p>
 		</div>
-		<% end if %>
-		<div id="naverIdLogin"></div>
-		<div id="map"></div>
-		
-		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
-		
+		<div align="center" id="naverIdLogin"></div>
+
+		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
 		<script type="text/javascript">
 			var naverLogin = new naver.LoginWithNaverId(
 				{
 					clientId: "ePD3yuxPRSuXMeIBH5DA",
-					callbackUrl: "http://tour.abcyo.kr/callback.html",
-					isPopup: true,
+					callbackUrl: "http://127.0.0.1:8090/callback.html",
+					isPopup: false,
 					callbackHandle: true,
-					loginButton: {color: "green", type: 1, height: 30} /* 로그인 버튼의 타입을 지정 */
 					/* callback 페이지가 분리되었을 경우에 callback 페이지에서는 callback처리를 해줄수 있도록 설정합니다. */
+					loginButton: {color: "green", type: 2, height: 40}
 				}
 			);
-		
-			/* (3) 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
+
 			naverLogin.init();
-			
-			naverLogin.getLoginStatus(function (status) {
-				if (status){
-					var email = naverLogin.user.getEmail();
-					var name = naverLogin.user.getNickName();
-					var uniqId = navrLogin.user.getId();
-					var age = naverLogin.user.getAge();
-				} else {
-					console.log("AccessToken이 올바르지 않습니다.");
-				}
-			});
 		</script>
+		<% end if %>
+		<div id="map"></div>
 	</body>
 </html>
