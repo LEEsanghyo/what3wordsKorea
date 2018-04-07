@@ -645,6 +645,9 @@ span td a {
                                     map: map
                                   });
 
+             
+
+
 
                       xhr = new XMLHttpRequest();
                       xhr.onreadystatechange = my_position;
