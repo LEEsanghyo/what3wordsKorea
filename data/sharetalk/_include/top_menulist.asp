@@ -1,5 +1,6 @@
 ﻿<nav class="menu">
 	<ul>
+        
     	<li><a href="/">지도</a></li>
         <li><a href="#">길찾기</a></li>
         <li><a href="mi_profile.asp">프로필관리</a></li>
