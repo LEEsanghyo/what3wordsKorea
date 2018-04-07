@@ -1,5 +1,5 @@
-﻿<!-- #include virtual="/_include/login_check.inc" -->
-<!-- #include virtual="/_include/connect.inc" -->
+﻿<!-- #include virtual="/_include/connect.inc" -->
+<!-- #include virtual="/_include/login_check.inc" -->
 <%
     MENU = "CATEGORY"
     keyword = request("keyword")
@@ -10,7 +10,7 @@
        strSQL = "p_tsm_category_detail_read  '" & cat_no & "'"
     
        Set rs = Server.CreateObject("ADODB.RecordSet")
-       rs.Open strSQL, DbCon, 1, 1  
+       rs.Open strSQL, DbConn, 1, 1  
    
        if NOT rs.EOF and NOT rs.BOF then
 
@@ -29,7 +29,7 @@
     
     set rsCategory = Server.CreateObject("ADODB.Recordset")
     rsCategory.CursorLocation = 3  
-    rsCategory.Open strSQL, DbCon
+    rsCategory.Open strSQL, DbConn
 
     if rsCategory.EOF or rsCategory.BOF then
 	   NoDataCategory = True

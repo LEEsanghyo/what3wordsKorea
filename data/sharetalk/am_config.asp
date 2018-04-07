@@ -1,5 +1,5 @@
-﻿<!-- #include virtual="/_include/login_check.inc" -->
-<!-- #include virtual="/_include/connect.inc" -->
+﻿<!-- #include virtual="/_include/connect.inc" -->
+<!-- #include virtual="/_include/login_check.inc" -->
 <%
     MENU = "FRIEND"
     keyword = request("keyword")
@@ -11,7 +11,7 @@
     
     set rsConfig = Server.CreateObject("ADODB.Recordset")
     rsConfig.CursorLocation = 3  
-    rsConfig.Open strSQL, DbCon
+    rsConfig.Open strSQL, DbConn
 
     if rsConfig.EOF or rsConfig.BOF then
 	   NoDataConfig = True

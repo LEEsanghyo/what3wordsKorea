@@ -393,7 +393,6 @@ span td a {
       left: 65%;
       z-index: 3;
       border: 1px solid #999
-
       }
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -411,10 +410,7 @@ span td a {
     var markersArray_restaurant = [];
     var markersArray_lodging = [];
     var detail_url;
-
-
-
-
+	
     function PostEngage(elem) {
         //alert("1");
         var pno = elem.getAttribute("pno");
@@ -535,29 +531,29 @@ span td a {
     		}
     	)
     }
+	
+	function location_setting(){
+		
+	}
 
     function return_original_search(){
     if (xhr.readyState == 4) {
-                    var data = xhr.responseText;
-                    if(data != ''){
-
-                    if(marker_flag != 0) marker.setMap(null);
-                    marker_flag++;
-                    move_camera(lat, lng);
-
-                    marker = new google.maps.Marker({
-                          position: {
-                                    lat: lat,
-                                    lng: lng
-                                  },
-                                  map: map
-                                });
-
-                    var test3word = document.getElementById("test3word");
-                    test3word.value = data;
-                    }
-                    }
-
+		var data = xhr.responseText;
+		if(data != ''){
+			if(marker_flag != 0) marker.setMap(null);
+			marker_flag++;
+			move_camera(lat, lng);
+			marker = new google.maps.Marker({
+				  position: {
+							lat: lat,
+							lng: lng
+						  },
+						  map: map
+						});
+			var test3word = document.getElementById("test3word");
+			test3word.value = data;
+			}
+		}
     }
     function move_camera(lat, lng){
       map.panTo(new google.maps.LatLng(lat, lng));
@@ -624,13 +620,14 @@ span td a {
     }
     function setMarker(){
     if (xhr.readyState == 4) {
-                    var data = xhr.responseText;
-                    if(data != '')
-                    test3word.value = data;
-                    }
-                }
+        var data = xhr.responseText;
+        if(data != '')
+        test3word.value = data;
+        }
+    }
 
     function getLocation() {       // 내 위치
+<<<<<<< HEAD:data/sharetalk/file2.asp
                   if (navigator.geolocation) { // GPS를 지원하면
                     navigator.geolocation.getCurrentPosition(function(position) {
 
@@ -670,12 +667,50 @@ span td a {
           if(data!=''){
             my_position = document.getElementById("my_position");
             my_position.value =data;
+=======
+      if (navigator.geolocation) { // GPS를 지원하면
+        navigator.geolocation.getCurrentPosition(function(position) {
+>>>>>>> a047482b41dfa2d2b3ef29989d49ed6aa9bc9d0e:data/sharetalk/~file2.asp
 
-          }
+          var strsql = "range_find_ajax.asp?x_center=" + position.coords.latitude + "&y_center=" + position.coords.longitude;
+          move_camera(position.coords.latitude, position.coords.longitude);
 
-          navigator.geolocation.watchPosition(getLocation, location_error ,{maximumAge:2000})
-        }
+          marker = new google.maps.Marker({
+                position: {
+                          lat: position.coords.latitude,
+                          lng: position.coords.longitude
+                        },
+                        map: map
+                      });
+
+
+          xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = my_position;
+          xhr.open("Get", strsql);
+          xhr.send(null);
+        }, function(error) {
+          console.error(error);
+        }, {
+          enableHighAccuracy: false,
+          maximumAge: 0,
+          timeout: Infinity
+        });
+      } else {
+        alert('GPS를 지원하지 않습니다');
       }
+    }
+    function my_position(){
+      if(xhr.readyState ==4){
+        var data=xhr.responseText;
+        if(data!=''){
+          my_position = document.getElementById("my_position");
+          my_position.value =data;
+
+        }
+
+        navigator.geolocation.watchPosition(getLocation, location_error ,{maximumAge:2000})
+      }
+    }
 
     function location_error(){
 
@@ -862,38 +897,36 @@ span td a {
               for(var i=0; i<length; i++){
                   if(no ==1){
                     markersArray_restaurant[i] =  new google.maps.Marker({
-                          position: {
-                                    lat: json["results"][i].geometry.location.lat,
-                                    lng: json["results"][i].geometry.location.lng
-                                  },
-                                  map: map,
-                                  title:json["results"][i].name,
-                                  icon:"http://maps.google.com/mapfiles/kml/pal2/icon32.png"
-                                });
-                                var place_id = json["results"][i].place_id;
+						position: {
+							lat: json["results"][i].geometry.location.lat,
+							lng: json["results"][i].geometry.location.lng
+						},
+						map: map,
+						title:json["results"][i].name,
+						icon:"http://maps.google.com/mapfiles/kml/pal2/icon32.png"
+					});
+					var place_id = json["results"][i].place_id;
 
-                                //alert(json["results"][i].name);
-                            /*   markersArray_restaurant[i].addListener('click', function(){
-                                  (function(place_id, place_name){
-                                    alert(place_name);
-                                   detail_url += place_id + "&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
-                                   show_detail(detail_url, place_name);
+					//alert(json["results"][i].name);
+				/*   markersArray_restaurant[i].addListener('click', function(){
+					  (function(place_id, place_name){
+						alert(place_name);
+					   detail_url += place_id + "&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
+					   show_detail(detail_url, place_name);
 
-                                  })(place_id, json["results"][i].name);
+					  })(place_id, json["results"][i].name);
 
-                                }) */
+					}) */
 
-                              //  markersArray_restaurant[i].addListener('click', function(result, place_id,place_name){
-                              //  alert(place_name);
-                              //  detail_url += place_id + "&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
-                              //      show_detail(detail_url);
-                             //    });
+				  //  markersArray_restaurant[i].addListener('click', function(result, place_id,place_name){
+				  //  alert(place_name);
+				  //  detail_url += place_id + "&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
+				  //      show_detail(detail_url);
+				 //    });
 
-                             strsql = "test_ajax.asp?p_poi_name=" + json["results"][i].name + "&p_gcat_name_en=restaurant&p_lat_value="+json["results"][i].geometry.location.lat + "&p_lon_value="+json["results"][i].geometry.location.lng;
-                            console.log(strsql);
-
-                            test_ajax(strsql);
-
+					strsql = "test_ajax.asp?p_poi_name=" + json["results"][i].name + "&p_gcat_name_en=restaurant&p_lat_value="+json["results"][i].geometry.location.lat + "&p_lon_value="+json["results"][i].geometry.location.lng;
+					console.log(strsql);
+					test_ajax(strsql);
                   }
 
                   else if(no==2){
@@ -1085,7 +1118,7 @@ span td a {
           <div class="col-xs-4 col-sm-5" style="text-align:center">갈 곳 </div>
           <div class="col-xs-8 col-sm-5">
           <input type="text" class="form-control" id="test3word" disabled>
-          </div>
+          </div>	
           <div class="col-xs-0 col-sm-1">  </div>
 
   </div>

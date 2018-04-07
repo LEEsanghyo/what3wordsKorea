@@ -1,11 +1,11 @@
-﻿<!-- #include virtual="/_include/login_check.inc" -->
-<!-- #include virtual="/_include/connect.inc" -->
+﻿<!-- #include virtual="/_include/connect.inc" -->
+<!-- #include virtual="/_include/login_check.inc" -->
 <%
 
     strSQL = "p_gim_member_read_detail  '" & Session("member_no") & "'"
 
     Set rs = Server.CreateObject("ADODB.RecordSet")
-    rs.Open strSQL, DbCon, 1, 1  
+    rs.Open strSQL, DbConn
    
     if NOT rs.EOF and NOT rs.BOF then
 
@@ -394,27 +394,25 @@ span td a {
 </html>
 
     <!-- login action start -->
-		<div id="popupBoxLogin">
-			<div class="popupBoxWrapper">
-				<div class="popupBoxContent">
-                    <table width="100%" border="0">
-                    <tr style="height:40px;">
-                        <td width="10%;" align="center">
-                        </td>
-                        <td width="40%;" align="center">
-                            <input type="text" style="width:100%;" id="member_pwd" placeholder="비밀번호" />
-                        </td>
-                        <td style="width:1px;background:#CCCCCC;"></td>
-                        <td width="50%;" align="center">
-                            <input type="button" value="로그인" onclick="LoginConfirm();"  />
-                            <input type="button" value="취소" onclick="toggle_visibility('popupBoxLogin');"  />
-                        </td>
-                    </tr>
-                    </table>
-				</div>
+	<div id="popupBoxLogin">
+		<div class="popupBoxWrapper">
+			<div class="popupBoxContent">
+				<table width="100%" border="0">
+				<tr style="height:40px;">
+					<td width="10%;" align="center">
+					</td>
+					<td width="40%;" align="center">
+						<input type="text" style="width:100%;" id="member_pwd" placeholder="비밀번호" />
+					</td>
+					<td style="width:1px;background:#CCCCCC;"></td>
+					<td width="50%;" align="center">
+						<input type="button" value="로그인" onclick="LoginConfirm();"  />
+						<input type="button" value="취소" onclick="toggle_visibility('popupBoxLogin');"  />
+					</td>
+				</tr>
+				</table>
 			</div>
 		</div>
+	</div>
     <!-- login action end -->
-
-
 <!-- #include virtual="/_include/connect_close.inc" -->
