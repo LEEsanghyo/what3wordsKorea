@@ -62,12 +62,17 @@
 		<% if Session("member_no") < "1" then %>
 		<div class="login">
 			<p width="150px;"><input type="text" style="width:150px;height:20px;" placeholder="이메일" id="member_email"></p>&nbsp&nbsp
-			<p width="100px;"><input type="password" style="width:50px;height:20px;" placeholder="비밀번호" id="member_pwd" onkeypress="if(event.keyCode==13){LoginConfirm();}"></p>&nbsp&nbsp
+			<p width="100px;"><input type="password" style="width:50px;height:20px;" placeholder="비밀번호" id="member_pwd" onkeypress="if(event.keyCode==13){LoginConfirm();}"></p>&nbsp;&nbsp;
 			<p style="cursor:pointer;" onclick="LoginConfirm(null);">로그인</p>
 		</div>
-		<div align="center" id="naverIdLogin"></div>
 
+		<!-- 네이버 / 구글 로그인 -->
+		<div align="center" id="naverIdLogin"></div>
+		<div align="center" id="firebaseui-auth-contanier"></div>
+		<div id="loader">Loading..</div>
 		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
 		<script type="text/javascript">
 			var naverLogin = new naver.LoginWithNaverId(
 				{
@@ -81,6 +86,28 @@
 			);
 
 			naverLogin.init();
+
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyCgbsTJV7viSLJ4bxnW5verdCsbthGLnbU",
+				authDomain: "friendship-22539.firebaseapp.com",
+				databaseURL: "https://friendship-22539.firebaseio.com",
+				projectId: "friendship-22539",
+				storageBucket: "friendship-22539.appspot.com",
+				messagingSenderId: "239661248738"
+			};
+			firebase.initializeApp(config);
+
+			var provider = new firebase.auth.GoogleAuthProvider();
+			firebase.auth().signInWithPopup(provider).then(function(result){
+				var token = result.credential.accessToken; // 액세스 토큰 발급
+				var user = result.user;	// 로그인 할 유저 정보
+			}).catch(function(error){
+				var errorCode = error.code;	// 에러 코드를 받아 처리한다.
+				var errorMessage = error.message;
+				var email = error.email
+				var credentail = error.credential;
+			})
 		</script>
 		<% end if %>
 		<div id="map"></div>
