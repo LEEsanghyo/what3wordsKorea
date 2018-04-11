@@ -2,7 +2,13 @@
 <%   
     subscribe_flag = 0
 
-    strSQL = "p_gim_member_set '" & request("member_name") & "','" & request("member_email") & "','" & request("member_age") & "','" & request("member_interest") & "','" & request("member_phone") & "','" & request("member_pwd") & "','" & subscribe_flag & "','" &  request("org_flag") & "','" & request("member_uniqid") & "'"
+    member_uniqid = request("member_uniqid")
+
+    if member_uniqid = "undefined" then
+    	member_uniqid = null
+    end if 
+
+    strSQL = "p_gim_member_set '" & request("member_name") & "','" & request("member_email") & "','" & request("member_age") & "','" & request("member_interest") & "','" & request("member_phone") & "','" & request("member_pwd") & "','" & subscribe_flag & "','" &  request("org_flag") & "','" & member_uniqid & "'"
 
     Set rsData = Server.CreateObject("ADODB.RecordSet")
     rsData.Open strSQL, Dbconn
