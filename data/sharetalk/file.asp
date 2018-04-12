@@ -97,10 +97,10 @@
     talk_member_pwd = Request.Cookies("talk_member_pwd")
 
     strSQL = "p_login_auto_check '" & talk_member_email & "','" & _
-                                      talk_member_pwd & "'"
+                                      talk_member_pwd & "','" & member_uid & "'" 
 
     Set rsData = Server.CreateObject("ADODB.RecordSet")
-    rsData.Open strSQL, DbConn, 1, 1
+    rsData.Open strSQL, DbConn
 
     'response.write "3"
     'response.end
