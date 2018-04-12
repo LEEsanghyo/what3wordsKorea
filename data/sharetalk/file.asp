@@ -90,80 +90,10 @@
   NoDataGridList = False
   end if
 
-    MENU = "HOME"
-    keyword = request("keyword")
-
-    talk_member_email = Request.Cookies("talk_member_email")
-    talk_member_pwd = Request.Cookies("talk_member_pwd")
-
-    strSQL = "p_login_auto_check '" & talk_member_email & "','" & _
-                                      talk_member_pwd & "'"
-
-    Set rsData = Server.CreateObject("ADODB.RecordSet")
-    rsData.Open strSQL, DbCon, 1, 1
-
-    'response.write "3"
-    'response.end
-
-    if rsData("p_count") > "0" then
-      Session("member_no") = rsData("member_no")
-      Session("member_name") = rsData("member_name")
-      Session("member_email") = rsData("member_email")
-      Session("admin_flag") = rsData("admin_flag")
-      Session("authority_level") = rsData("authority_level")
-    end if
-
-    set rsData = nothing
-
-    strSQL = "p_tsh_post_read '" & keyword & "','" & request("cat_no") & "'"
-
-    'response.Write strSQL
-    'response.end
-
-    set rsPost = Server.CreateObject("ADODB.Recordset")
-    rsPost.CursorLocation = 3
-    rsPost.Open strSQL, DbCon
-
-    if rsPost.EOF or rsPost.BOF then
-	  NoDataPost = True
-    Else
-	   NoDataPost = False
-    end if
-
-    '페이징처리관련
-    page =request("page")
-
-    If NoDataPost = False then
-  	  Cus_pageSize = 20
-	  rsPost.PageSize = Cus_pageSize
-
-	  pagecount=rsPost.pagecount
-  	  totalRecord = rsPost.RecordCount
-
-	  cPage = page
-	  if page <> "" Then
-		if cPage < 1 Then
-			cPage = 1
-		end if
-      else
-		page = 1
-		cPage = 1
-	  end If
-	  rsPost.AbsolutePage = cPage
-
-	  lastpg = int(((totalRecord -1) / rsPost.PageSize) + 1)
-
-      if page > lastpg then
-	  	page = lastpg
-      end If
-
-    end if
-    '페이징처리관련 끝
-
     strSQL = "p_tsm_category_list_read "
 
     Set rsCategory = Server.CreateObject("ADODB.RecordSet")
-    rsCategory.Open strSQL, DbCon, 1, 1
+    rsCategory.Open strSQL, DbConn, 1, 1
 
     if rsCategory.EOF or rsCategory.BOF then
 	   NoDataCategory = True
