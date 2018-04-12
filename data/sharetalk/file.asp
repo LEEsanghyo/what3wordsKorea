@@ -90,8 +90,6 @@
   NoDataGridList = False
   end if
 
-<<<<<<< HEAD
-=======
     MENU = "HOME"
     keyword = request("keyword")
 
@@ -111,7 +109,6 @@
       Session("member_no") = rsData("member_no")
       Session("member_name") = rsData("member_name")
       Session("member_email") = rsData("member_email")
-      Session("admin_flag") = rsData("admin_flag")
       Session("authority_level") = rsData("authority_level")
     end if
 
@@ -164,18 +161,6 @@
 
     'end if
     '페이징처리관련 끝
-
->>>>>>> d5c00888bb297c493c49d392b1eebfe7b1cef1c6
-    strSQL = "p_tsm_category_list_read "
-
-    Set rsCategory = Server.CreateObject("ADODB.RecordSet")
-    rsCategory.Open strSQL, DbConn, 1, 1
-
-    if rsCategory.EOF or rsCategory.BOF then
-	   NoDataCategory = True
-    Else
-	   NoDataCategory = False
-    end if
 %>
 
 <!doctype html>
