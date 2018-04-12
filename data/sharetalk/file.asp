@@ -96,24 +96,28 @@
     talk_member_email = Request.Cookies("talk_member_email")
     talk_member_pwd = Request.Cookies("talk_member_pwd")
 
-    strSQL = "p_login_auto_check '" & talk_member_email & "','" & _
-                                      talk_member_pwd & "'"
+    'strSQL = "p_login_auto_check '" & talk_member_email & "','" & _
+     '                                 talk_member_pwd & "'"
 
-    Set rsData = Server.CreateObject("ADODB.RecordSet")
-    rsData.Open strSQL, DbConn, 1, 1
 
-    'response.write "3"
-    'response.end
 
-    if rsData("p_count") > "0" then
-      Session("member_no") = rsData("member_no")
-      Session("member_name") = rsData("member_name")
-      Session("member_email") = rsData("member_email")
-      Session("admin_flag") = rsData("admin_flag")
-      Session("authority_level") = rsData("authority_level")
-    end if
+    'Set rsData = Server.CreateObject("ADODB.RecordSet")
+    'rsData.Open strSQL, DbConn, 1, 1
 
-    set rsData = nothing
+
+
+
+    'if rsData("p_count") > "0" then
+     ' Session("member_no") = rsData("member_no")
+     ' Session("member_name") = rsData("member_name")
+     ' Session("member_email") = rsData("member_email")
+     ' Session("admin_flag") = rsData("admin_flag")
+     ' Session("authority_level") = rsData("authority_level")
+    'end if
+
+    'set rsData = nothing
+    ''''여기까지
+
 
     'strSQL = "p_tsh_post_read '" & keyword & "','" & request("cat_no") & "'"
 
@@ -162,6 +166,8 @@
 
     'end if
     '페이징처리관련 끝
+
+  
 
     strSQL = "p_tsm_category_list_read "
 
@@ -444,6 +450,8 @@
             margin-right: 1px;
         }
 
+
+
             li.category a {
                 display: block;
                 min-width: 60px;
@@ -556,8 +564,55 @@
                 font-size: 11px;
                 margin-top: 0;
             }
-   
-           </style>
+
+
+
+
+        .centerinfo {
+            position: relative;
+            width: 100%;
+            border: 1px solid;
+            'padding-bottom: 10px; background: #fff;
+        }
+
+            .centerinfo a, .centerinfo a:hover, .centerinfo a:active {
+                color: #fff;
+                text-decoration: none;
+            }
+
+            .centerinfo a, .centerinfo span {
+                display: block;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+            .centerinfo span {
+                margin: 5px 5px 0 5px;
+                cursor: default;
+                font-size: 13px;
+            }
+
+            .centerinfo .title {
+                font-weight: bold;
+                font-size: 14px;
+                border-radius: 6px 6px 0 0;
+                margin: -1px -1px 0 -1px;
+                padding: 10px;
+                color: #fff;
+                background: #8e03fe;
+            }
+
+            .centerinfo .tel {
+                color: #0f7833;
+            }
+
+            .centerinfo .jibun {
+                color: #999;
+                font-size: 11px;
+                margin-top: 0;
+            }
+    </style>
 
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?&appkey=9a9b328e41d45bb4d7c639a649707e2d&libraries=services,clusterer,drawing"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc"></script>
@@ -566,10 +621,15 @@
         var myPosition;
         var myCenterMarker;
         var centerMarker;
+        var movingCenterMarker;
         var autoGpsFlag = 0;
         var geocoder = new google.maps.Geocoder(); // 주소 검색 google 이용 
         var centerLatlng;
         var currentBound;
+        var myinfowindow;
+        var infowindow;
+
+        
 
         var placeOverlay = new daum.maps.CustomOverlay({ zIndex: 1 }),
             contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다 
@@ -577,6 +637,123 @@
             currCategory = ''; // 현재 선택된 카테고리를 가지고 있을 변수입니다
         var ps = new daum.maps.services.Places(map);
 
+
+        var node = function (name,x,y) {
+            this.name = name;
+            this.x = x;
+            this.y = y;
+            this.next = null;
+        }
+
+        var linkedList = function () {
+            this.length = 0;
+            this.headNode = new node(null);
+        }
+
+        
+        var routeItem = new linkedList();
+
+        linkedList.prototype.add = function (name,x,y, position) {
+            //position이 null일 경우 마지막위치로
+            var position = position == undefined ? this.length + 1 : position;
+
+            //입력값으로 node 생성
+
+            var newNode = new node(name,x,y);
+
+            var preNode = this.headNode;
+            for (i = 1; i < position; i++) {
+                preNode = preNode.next;
+            }
+            newNode.next = preNode == null ? null : preNode.next;
+            preNode.next = newNode;
+
+            this.length++;
+
+            // console.log("-------------------------------------------");
+            // console.log("add",element);
+            // console.log("position",position);
+            // console.log("-------------------------------------------");
+            // this.print();
+        }
+
+        linkedList.prototype.remove = function (position) {
+
+            var ret = null;
+            var position = position == undefined ? 0 : position;
+            if (this.isEmpty()) {
+                console.log("list is Empty");
+            }
+            else if (position < this.length) {
+                var preNode = this.headNode;
+
+                for (i = 0; i < position; i++) {
+                    preNode = preNode.next;
+                }
+                ret = preNode.next.data;
+                preNode.next = preNode.next.next;
+
+                this.length--;
+            }
+            else {
+                console.log("index error");
+            }
+
+            // console.log("-------------------------------------------");
+            // console.log("position",position);
+            // console.log("remove",ret);
+            // console.log("-------------------------------------------");
+            // this.print();
+            return ret;
+        }
+
+
+        linkedList.prototype.peek = function (position) {
+
+            var ret = null;
+            var position = position == undefined ? 0 : position;
+            if (this.isEmpty()) {
+                console.log("list is Empty");
+            }
+            else if (position < this.length) {
+                var preNode = this.headNode;
+
+                for (i = 0; i < position; i++) {
+                    preNode = preNode.next;
+                   
+                }
+                ret = preNode.next.data;
+
+            }
+            else {
+                console.log("index error");
+            }
+
+            return ret;
+        }
+
+        linkedList.prototype.print = function () {
+            var str = "";
+            var node = this.headNode.next;
+            while (node != null) {
+                str += node.name;
+                if(node.next != null)
+                    str += " -> ";
+                node = node.next;
+            };
+            document.getElementById('route').innerHTML = str;
+            //alert(str);
+        }
+
+
+        linkedList.prototype.isEmpty = function () {
+            var ret = false;
+            if (!this.length) {
+                ret = true;
+            }
+
+            return ret;
+        }
 
 
         function initMap() {
@@ -596,12 +773,24 @@
             daum.maps.event.addListener(map, 'idle', function () {
                 centerLatlng = map.getCenter();
                 currentBound = map.getBounds();
+                drawmovingCenterMarker();
+
             });
 
 
             // 지도가 확대 또는 축소되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
             daum.maps.event.addListener(map, 'zoom_changed', function () {
                 tileSet();
+
+
+                var bounds = map.getBounds();
+                var swLatLng = bounds.getSouthWest();
+
+                // 영역의 북동쪽 좌표를 얻어옵니다 
+                var neLatLng = bounds.getNorthEast(); 
+
+              //  alert(neLatLng.getLat() - swLatLng.getLat());
+                //alert(Math.round(clickLine.getLength() + moveLine.getLength()));
             });
 
             daum.maps.event.addListener(map, 'idle', searchPlaces);
@@ -621,6 +810,45 @@
 
         }
 
+        function drawmovingCenterMarker() { // 화면 움직일 때 centerMarker 
+            if (movingCenterMarker != null) clearCenterMarker(movingCenterMarker);
+            if (infowindow != null) infowindow.close();
+            var moving3words;
+
+
+            $.ajax({
+                url: 'range_find_ajax.asp',
+                type: 'get',
+                data: 'x_center=' + centerLatlng.getLat() + '&y_center=' + centerLatlng.getLng(),
+                success: function (data) {
+                    moving3words = data;
+
+                    /*
+                                        var content = '<div class="centerinfo">' +
+                                            '<a class="title">' + moving3words + '</a></div>';
+                      */
+                    var content = '<div style="padding:5px;">' + moving3words + '</div>';
+
+
+
+                    movingCenterMarker = new daum.maps.Marker({
+                        map: map,
+                        position: centerLatlng
+                    });
+
+                    infowindow = new daum.maps.InfoWindow({
+                        content: content,
+                        position: centerLatlng
+                    });
+
+
+                    infowindow.open(map, movingCenterMarker);
+
+
+                }
+            });
+
+        }
 
         function tileSet() {  // Tile 그리기 함수
             // 지도의 현재 레벨을 얻어옵니다
@@ -631,7 +859,7 @@
 
                 daum.maps.Tileset.add('TILE_NUMBER',
                     new daum.maps.Tileset({
-                        width: 110,
+                        width: 125,
                         height: 100,
                         getTile: function (x, y, z) {
                             var div = document.createElement('div');
@@ -653,11 +881,22 @@
 
             var coords = new daum.maps.LatLng(position.coords.latitude, position.coords.longitude); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 
+            if (myinfowindow != null) myinfowindow.close();
+
+            var contents = '<div style="padding:5px;">내 위치</div>';
+
+            myinfowindow = new daum.maps.InfoWindow({
+                content: content,
+                position: coords
+            });
+
+
             if (myCenterMarker != null) clearCenterMarker(myCenterMarker);
             myCenterMarker = new daum.maps.Marker({
                 map: map,
                 position: coords
             });
+
 
             $.ajax({
                 url: 'range_find_ajax.asp',
@@ -672,6 +911,9 @@
             if (autoGpsFlag == 0) {
                 moveCamera(position.coords.latitude, position.coords.longitude);
             }
+
+            myinfowindow.open(map, myCenterMarker);
+
         }
 
         function getMyLocation() {
@@ -851,8 +1093,37 @@
             markers = [];
         }
 
+        function addRoute(name, x, y) {
+            if (routeItem.isEmpty() == true) {
+                
+                routeItem.add(name, x, y);
+                /*
+                var newNode = new node(name, x, y);
+                
+                routeItem.headNode = newNode;
+                */
+            }
+            else routeItem.add(name, x, y);
+      
+            routeItem.print();
+
+            /*
+            alert(routeItem.headNode.name);
+            var preNode = routeItem.headNode;
+            var content = preNode.name;
+            while (preNode != null) {      
+               
+                content += preNode.name;
+                if (preNode.next != null) content += " -> ";
+                preNode = preNode.next;
+            }
+            alert(content);
+            */
+        }
+
         // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
         function displayPlaceInfo(place) {
+            var name = place.place_name;
             var content = '<div class="placeinfo">' +
                 '   <a class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' + place.place_name + '</a>';
 
@@ -863,7 +1134,7 @@
                 content += '    <span title="' + place.address_name + '">' + place.address_name + '</span>';
             }
 
-            content += '    <span class="tel">' + place.phone + '</span>' +
+            content += '    <span class="tel" >' + place.phone + '<input type="button" id="'+name+'"value="+" onclick="addRoute(this.id'+','+place.x+','+place.y+')" /></span>' + 
                 '</div>' +
                 '<div class="after"></div>';
 
@@ -871,6 +1142,8 @@
             placeOverlay.setPosition(new daum.maps.LatLng(place.y, place.x));
             placeOverlay.setMap(map);
         }
+
+
 
 
         // 각 카테고리에 클릭 이벤트를 등록합니다
@@ -916,6 +1189,40 @@
             if (el) {
                 el.className = 'on';
             }
+        }
+
+        function searchRoute() {
+
+            var xhr = new XMLHttpRequest();
+            var url = "https://api.odsay.com/v1/api/searchBusLane?busNo=10&CID=1000&apiKey={fEXAm932wg1Su4aeqqEQWWIAfkEelAeHOFhQZjr4j3A}";
+            xhr.open("GET", url, true);
+            xhr.send();
+            xhr.onreadystatechange = function () {
+
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.responseText); // <- xhr.responseText 로 결과를 가져올 수 있음
+                }
+            }
+            /*
+
+            var node = routeItem.headNode.next;
+            var nextnode = node.next;
+
+            var apikey = "fEXAm932wg1Su4aeqqEQWWIAfkEelAeHOFhQZjr4j3A";
+            var xhr = new XMLHttpRequest();
+            //ODsay apiKey 입력
+            var url = "https://api.odsay.com/v1/api/searchPubTransPath?SX=" + node.y + "&SY=" + node.x + "&EX=" + nextnode.y + "&EY=" + nextnode.x + "&apiKey={" + encodeURI(apikey) + "}";
+            xhr.open("GET", url, true);
+            xhr.send();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(JSON.parse(xhr.responseText)); // <- xhr.responseText 로 결과를 가져올 수 있음
+                    //노선그래픽 데이터 호출
+                    //callMapObjApiAJAX((JSON.parse(xhr.responseText))["result"]["path"][0].info.mapObj);
+                }
+            }
+
+*/
         }
 
 
@@ -1020,6 +1327,7 @@
         <hr>
         <div class="row">
             <div class="col-xs-12 col-sm-12">
+                
                 <textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
             </div>
         </div>
@@ -1028,7 +1336,9 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12" id="photo">
                 <div>
-
+                    <div class ="col-xs-12 col-sm-12" id="route"></div>
+    
+                    <!--
                     <div class="col-xs-12 col-sm-6" id="name"></div>
                     <div class="col-xs-12 col-sm-6" id="tel_no"></div>
                     <div class="col-xs-12 col-sm-12" id="address"></div>
@@ -1037,15 +1347,27 @@
                     <div class="col-xs-12 col-sm-12" id="weekday_text"></div>
                     <div class="col-xs-12 col-sm-12" id="rating"></div>
                     <div class="col-xs-12 col-sm-12" id="reviews"></div>
-                    <div class="col-xs-12 col-sm-12" id="website"></div>
+                    <div class="col-xs-12 col-sm-12" id="website"></div> -->
 
                 </div>
                 <br>
+                <div class ="row">
+                    <div class ="col-xs-12 col-sm-12"> 
+                        <input type="button" style="float:right" value="경로 저장" />
+                    </div>
+                </div>
+
+                <hr />
                 <div class="row">
+                    <!--
                     <div class="col-xs-1 col-sm-1" style="background-color: brown">q  </div>
                     <div class="col-xs-5 col-sm-5" style="background-color: black">w  </div>
                     <div class="col-xs-5 col-sm-5" style="background-color: red">e  </div>
                     <div class="col-xs-1 col-sm-1" style="background-color: brown">r  </div>
+                    -->
+                    <div class ="col-xs-12 col-sm-12"> 
+                        <input type="button" style="float:right" onclick ="searchRoute()" value="경로 탐색" />
+                    </div>
                 </div>
             </div>
 
