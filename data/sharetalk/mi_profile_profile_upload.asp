@@ -50,7 +50,7 @@
 
       fileUrl = "http://media.gncsolution.co.kr/talkimages/" & newname & fileext
 
-      strSQL = "p_gim_member_logo_upload '" &  Session("member_no") & "','" & _
+      strSQL = "p_gim_member_profile_upload '" &  Session("member_no") & "','" & _
                                                fileUrl & "'"
 
       Set rs = Server.CreateObject("ADODB.RecordSet")

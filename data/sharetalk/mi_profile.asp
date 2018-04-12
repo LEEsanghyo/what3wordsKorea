@@ -1,16 +1,29 @@
 ﻿<!-- #include virtual="/_include/login_check.asp" -->
 <%
-    strSQL = "p_gim_member_read_detail  '" & Session("member_no") & "'"
+  strSQL = "p_gim_member_read_detail  '" & Session("member_no") & "'"
 
-    Set rs = Server.CreateObject("ADODB.RecordSet")
-    rs.Open strSQL, DbConn
-   
-    if NOT rs.EOF and NOT rs.BOF then
-      member_name = rs("member_name")
-      profile_desc = rs("profile_desc")
+  Set rs = Server.CreateObject("ADODB.RecordSet")
+  rs.Open strSQL, DbConn
+
+  if NOT rs.EOF and NOT rs.BOF then
+    member_name = rs("member_name")
+    profile_desc = rs("profile_desc")
+
+    if rs("profile_url") <> "" then
+      profile_url = rs("profile_url")
+    else
+      profile_url = ""
     end if
-    response.write "R"
-    set rs = nothing   
+
+    if rs("back_url") <> "" then
+      back_url = rs("back_url")
+    else
+      back_url = ""
+    end if
+
+  end if
+  response.write profile_url
+  set rs = nothing   
 %>
 <!doctype html>
 <html>
@@ -22,70 +35,6 @@
 <meta name="keywords" content="글공유">
 <title>What3Words</title>
 <link rel="stylesheet" href="/_include/style.css" type="text/css">
-
-
-<SCRIPT LANGUAGE=javascript>
-    var xhr;
-
-    function ChangeProfile() {
-        //alert("1");
-        var pdesc = document.getElementById("profile_desc").value;
-        var mname = document.getElementById("member_name").value;
-
-        //alert(rprocess);
-        var strurl = "my_profile_desc_set.asp?profile_desc=" + pdesc + "&member_name=" + mname;
-
-        //alert(strurl);
-        //return false;
-
-        xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = ChangeProfileSet;
-        xhr.open("Get", strurl);
-        xhr.send(null);
-    }
-
-    function ChangeProfileSet() {
-        if (xhr.readyState == 4) {
-            var data = xhr.responseText;
-            //var slipdata = data.split(',');
-            alert(data);
-
-            var pdesc = document.getElementById("profile_desc").value;
-            document.getElementById("profile_desc_box").innerHTML = pdesc;
-
-            var mname = document.getElementById("member_name").value;
-            var malias = document.getElementById("member_alias").value;
-            document.getElementById("member_box").innerHTML = mname;
-
-            //alert(data);
-        }
-    }
-
-    function UploadBack() {
-        formObject = document.getElementById("FormBack");
-
-        formObject.submit()
-
-    }
-    
-    function UploadLogo() {
-        formObject = document.getElementById("FormLogo");
-
-        formObject.submit()
-
-    }
-
-    function toggle_visibility(id) {
-        var e = document.getElementById(id);
-        if (e.style.display == 'block')
-            e.style.display = 'none';
-        else
-            e.style.display = 'block';
-    }
-
-    //-->
-</SCRIPT>
-
 </head>
 
 <body>
@@ -99,8 +48,30 @@
         <table width="100%;" border="0">
           <tr>
               <td width="40%"></td>
-              <td width="20%" align="center"><span id="member_box"><%=member_name %></span><br /><img src="<%=logo_url %>" style="width:40px;border-radius:20px;" /></td>
+              <td width="20%" align="center"><span id="member_box"><%=member_name %></span><br /><img src="<%=profile_url %>" style="width:40px;border-radius:20px;" /></td>
               <td width="40%"></td>
+          </tr>
+        </table>
+        </div>
+
+         <div style="margin:20px 0;text-align:center;">
+        <table width="100%;" border="0">
+          <tr><td>
+              <% if back_url <> "" then %>
+              <img src="<%=back_url %>" style="width:50%;" />
+              <% else %>
+              (배경 이미지 없음)
+              <% end if %>
+          </td></tr>
+        </table>
+        <table width="100%;" border="0">
+          <tr>
+              <td  align="center">
+              <FORM NAME="FormBack" id="FormBack" METHOD="post" ACTION="mi_profile_back_upload.asp" ENCTYPE="multipart/form-data"> 
+              <INPUT TYPE="file" NAME="file1" >
+              <input type="button" onclick="UploadBack();" value="저장" />
+              </FORM>
+              </td>
           </tr>
         </table>
         </div>
@@ -119,7 +90,7 @@
         <table width="100%;" border="0">
           <tr>
               <td>
-              <span id="profile_desc_box">
+              <span style="text-align:center" id="profile_desc_box">
               <%  if profile_desc <> "" then %>
                   <%=profile_desc%>
               <% else %>
@@ -138,7 +109,6 @@
           <tr>
               <td width="100%" align="center"><input type="text" id="profile_desc" value="<%=profile_desc %>" style="width:80%;"/> </td>
           </tr>
-          <% END if%>
         </table>
         </div>
 
@@ -154,7 +124,7 @@
 <div class="bottom">
 
 </div>
-
+<script type="text/javascript" src="/_script/account.js?ver=1"></script>
 </body>
 </html>
 

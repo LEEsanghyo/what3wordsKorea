@@ -63,7 +63,7 @@
 		<% if Session("member_no") < "1" then %>
 		<div class="login">
 			<p width="150px;"><input type="text" style="width:150px;height:20px;" placeholder="이메일" id="member_email"></p>&nbsp&nbsp
-			<p width="100px;"><input type="password" style="width:50px;height:20px;" placeholder="비밀번호" id="member_pwd" onkeypress="if(event.keyCode==13){LoginConfirm();}"></p>&nbsp;&nbsp;
+			<p width="100px;"><input type="password" style="width:50px;height:20px;" placeholder="비밀번호" id="member_pwd" onkeypress="if(event.keyCode==13){LoginConfirm(null);}"></p>&nbsp;&nbsp;
 			<p style="cursor:pointer;" onclick="LoginConfirm(null);">로그인</p>
 		</div>
 

@@ -30,6 +30,7 @@ function LoginConfirm(vals) {
 	var strurl;
 
 	if (vals == null){
+		alert("")
 		email = document.getElementById("member_email").value;
 		pwd = document.getElementById("member_pwd").value;
 
@@ -55,6 +56,7 @@ function LoginConfirm(vals) {
 			if (this.responseText == "0")
 				callbackfunc(vals);
 			else{
+				alert(this.responseText);
 				var siteurl = "default.asp";
 				window.location.href = siteurl;
 			}

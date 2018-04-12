@@ -1,6 +1,9 @@
 ﻿<!-- #include virtual="/_include/connect.inc" -->
 <%  
 	member_uid = request("member_uniqid")
+	if member_uid = "undefined" then
+		member_uid = ""
+	end if
 	member_email = request("member_email")
     member_pwd = request("member_pwd")
 
@@ -19,7 +22,8 @@
 
 		Response.Cookies("talk_member_email") = member_email
 		Response.Cookies("talk_member_pwd") = member_pwd		
-	elseif member_uid <> "undefined" then
+		Response.Cookies("member_uid") = member_uid
+	elseif rsgi("l_message") <> "" then
 		response.write "0"
 	else
 		response.write "로그인 오류입니다."
