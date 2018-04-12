@@ -81,7 +81,6 @@
 				{
 					clientId: "ePD3yuxPRSuXMeIBH5DA",
 					callbackUrl: "http://tour.abcyo.kr/callback.html",
-					callbackUrl: "http://tour.abcyo.kr:8090/callback.html",
 					isPopup: false,
 					callbackHandle: true,
 					/* callback 페이지가 분리되었을 경우에 callback 페이지에서는 callback처리를 해줄수 있도록 설정합니다. */
