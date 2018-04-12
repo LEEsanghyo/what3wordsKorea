@@ -18,6 +18,7 @@
 		<meta name="keywords" content="글공유">
 		<title>글공유 상세</title>
 		<link rel="stylesheet" href="/_include/style.css" type="text/css">
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 		<script type="text/javascript" src="/_script/login.js"></script>
 	</head>
 
@@ -118,11 +119,11 @@
 													<option value="KT">KT</option>
 													<option value="LG">LG U+</option>
 												</select>
-												<input type="text" name="phone1" size="3" style="width:30px" class="input" ID="phone1">
+												<input type="text" name="phone1" maxlength="3" style="width:30px" class="input" ID="phone1">
 												-
-												<input type="text" name="phone2" size="3" style="width:40px" class="input" ID="phone2">
+												<input type="text" name="phone2" maxlength="4" style="width:40px" class="input" ID="phone2">
 												-
-												<input type="text" name="phone3" size="3" style="width:40px" class="input" ID="phone3">
+												<input type="text" name="phone3" maxlength="4" style="width:40px" class="input" ID="phone3">
 										</tr>
 									</table>
 								</div>
@@ -133,16 +134,16 @@
 								<div style="padding:2px;">
 									<table style="width:100%;">
 										<tr>
-											<% if age = "" then %>
+											<% if age = "" or age = "undefined" then %>
 											<td style="width:20%;font-size:12px;font-weight:bold;font-family:Arial,맑은 고딕,돋움;color:#000000;text-align:center;">연&nbsp;&nbsp;령&nbsp;&nbsp;대</td>
 											<td width="10px;"></td>
 											<td style="width:25%">
 												<select name="member_age" ID="member_age">
-												<option value="10">10대</option>
-												<option value="20">20대</option>
-												<option value="30">30대</option>
-												<option value="40">40대</option>
-												<option value="50">50대 이상</option>
+												<option value=10>10대</option>
+												<option value=20>20대</option>
+												<option value=30>30대</option>
+												<option value=40>40대</option>
+												<option value=50>50대 이상</option>
 											</select>
 											<% else %>
 											<input type="hidden" name = "member_age" id = "member_age" value="
