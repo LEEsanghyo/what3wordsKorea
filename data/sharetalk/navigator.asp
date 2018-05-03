@@ -768,13 +768,13 @@
                  
                     if (result["result"]["path"][0].subPath[i].trafficType == 1 || result["result"]["path"][0].subPath[i].trafficType == 2) { // 지하철
 
-                        drawTransitMarker(0, startRouteMarker, endRouteMarker, result["result"]["path"][0].subPath[i],null,null);
+                        drawTransitMarker(0, startRouteMarker, endRouteMarker, result["result"]["path"][0].subPath[i]);
                             //result["result"]["path"][0].subPath[i].startX, result["result"]["path"][0].subPath[i].startY, result["result"]["path"][0].subPath[i].endX, result["result"]["path"][0].subPath[i].endY, result["result"]["path"][0].subPath[i].startName, result["result"]["path"][0].subPath[i].endName);
                         // type, 탑승/하차 표시 마커, 탑승 x, 탑승 y, 하차 x, 하차 y, 탑승하는 곳 이름, 하차하는 곳 이름
                     }
                     else if (result["result"]["path"][0].subPath[i].trafficType == 3) { // 도보
                         //alert("도보로 이동");
-                        drawTransitMarker(1, startRouteMarker, endRouteMarker,result["result"]["path"][0].subPath[i],startnode,endnode);
+                        drawTransitMarker(1, startRouteMarker, endRouteMarker,result["result"]["path"][0].subPath[i]);
                                  
                     }
 
