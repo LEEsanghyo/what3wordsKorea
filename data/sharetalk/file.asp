@@ -193,425 +193,7 @@
     <title>What3WordsKorea</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <style type="text/css">
-        * {
-            padding: 0;
-            margin: 0;
-        }
-
-        html, body {
-            max-width: 100%;
-            overflow-x: hidden;
-            font-family: Arial, 맑은 고딕, 돋움;
-            background: #FFFFFF;
-            padding: 0px;
-            margin: 0px;
-        }
-
-        a {
-            text-decoration: none;
-            color: #000000;
-        }
-
-        li {
-            list-style-type: none;
-        }
-
-        header {
-            width: 100%;
-            height: 70px;
-            margin: 0px;
-            background: #5A6CB4;
-            padding: 0px;
-            position: fixed;
-            z-index: 4
-        }
-
-        #brand {
-            width: 80%;
-            float: left;
-            height: 40px;
-            padding: 0px;
-            color: #FFFFFF;
-        }
-
-        nav {
-            width: 100%;
-            text-align: center;
-            top: 70px;
-        }
-
-            nav a {
-                display: block;
-                padding: 15px 0;
-                border-bottom: 1px solid #0076A3;
-                color: #00A5CC;
-            }
-
-                nav a:hover {
-                    background: #6DCFF6;
-                    color: #FFF;
-                }
-
-            nav li:last-child a {
-                border-bottom: none;
-            }
-        /*-----------------------------------------*/
-        .menu {
-            z-index: 5;
-            width: 240px;
-            height: 100%;
-            position: absolute;
-            background: #EEEEEE;
-            left: -240px;
-            transition: all .3s ease-in-out;
-            -webkit-transition: all .3s ease-in-out;
-            -moz-transition: all .3s ease-in-out;
-            -ms-transition: all .3s ease-in-out;
-            -o-transition: all .3s ease-in-out;
-        }
-
-        .menu-icon {
-            padding: 10px 10px;
-            margin: 0px 5px 0px 0px;
-            background: #EEEEEE;
-            float: right;
-            color: #0cc738;
-            cursor: pointer;
-            margin-top: 4px;
-            border-radius: 5px;
-            position: absolute;
-            top: 5px;
-            right: 5px;
-        }
-
-        #menuToggle {
-            display: none;
-        }
-
-            #menuToggle:checked ~ header {
-                position: absolute;
-                left: 0;
-            }
-
-            #menuToggle:checked ~ .menu {
-                position: absolute;
-                left: 0;
-            }
-
-            #menuToggle:checked ~ .login {
-                position: absolute;
-                left: 60px;
-                top: 50px;
-            }
-
-            #menuToggle:checked ~ .title {
-                position: absolute;
-                left: 260px;
-                top: 50px;
-            }
-
-            #menuToggle:checked ~ .content {
-                position: absolute;
-                left: 260px;
-                top: 10px;
-            }
-
-            #menuToggle:checked ~ .bottom {
-                position: absolute;
-                left: 260px;
-            }
-
-
-        .title {
-            text-align: center;
-            font-size: 25px;
-            font-family: Arial, 맑은 고딕, 돋움;
-            font-weight: bold;
-            height: 30px;
-            margin: 2px;
-            padding: 5px;
-            color: #0cc738;
-            // background: #0cc738;
-            border-radius: 2px;
-        }
-
-        .login {
-            margin: 0px;
-            padding: 0px;
-            display: flex;
-            justify-content: center;
-            height: 60px;
-        }
-
-        .content {
-            width: 100%;
-            margin: 0px;
-            font-size: 16px;
-            font-family: Arial, 맑은 고딕, 돋움;
-            /* font-weight:bold; */
-            background: #FFFFFF;
-            padding: 0px;
-            transition: all .3s ease-in-out;
-            -webkit-transition: all .3s ease-in-out;
-            -moz-transition: all .3s ease-in-out;
-            -ms-transition: all .3s ease-in-out;
-            -o-transition: all .3s ease-in-out;
-        }
-
-        .bottom {
-            font-size: 14px;
-            font-family: Arial, 맑은 고딕, 돋움;
-            font-weight: bold;
-            padding: 20px;
-            margin: 2px;
-        }
-
-        /* 게시판 디자인 */
-        .main_table {
-            width: 100%;
-            border: 0px;
-            font-family: Arial, 맑은 고딕, 돋움;
-        }
-
-        .bbcTitle {
-            font-family: Arial, 맑은 고딕, 돋움;
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #000000;
-            margin: 5px 5px 5px 5px;
-            padding: 5px 5px 5px 5px;
-        }
-
-        .bbcContent {
-            font-family: Arial, 맑은 고딕, 돋움;
-            font-size: 0.98em;
-            color: #000000;
-            margin: 5px 5px 5px 20px;
-            padding: 5px 5px 5px 5px;
-        }
-
-        .bbcDate {
-            height: 20px;
-            font-family: Arial, 맑은 고딕, 돋움;
-            font-size: 0.8em;
-            color: #000000;
-            margin: 5px 5px 5px 20px;
-            padding: 5px 5px 5px 5px;
-        }
-
-        span td a {
-            font-family: Arial, 맑은 고딕, 돋움;
-        }
-
-        /* 게시판 디자인 */
-
-        /* 팝업 메뉴 start */
-        #popupBoxLogin {
-            top: 0;
-            left: 0;
-            position: fixed;
-            width: 100%;
-            height: 120%;
-            background-color: rgba(0,0,0,0.7);
-            display: none;
-            border-radius: 0px;
-        }
-
-        .popupBoxWrapper {
-            width: 300px;
-            margin: 0px;
-            text-align: left;
-            position: absolute;
-            top: 100px;
-            left: 20px;
-            right: 50;
-            border-radius: 0px;
-        }
-
-        .popupBoxContent {
-            background-color: #FFF;
-            padding: 0px;
-            border-radius: 2px;
-        }
-
-        /* 팝업 메뉴 end */
-
-        /* navigation start */
-        ul.category {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            /* position:absolute; */
-        }
-
-        li.category {
-            display: inline-block;
-            float: left;
-            margin-right: 1px;
-        }
-
-
-
-            li.category a {
-                display: block;
-                min-width: 60px;
-                height: 40px;
-                text-align: center;
-                line-height: 40px;
-                font-size: 14px;
-                font-family: Arial,맑은 고딕,돋움;
-                font-weight: bold;
-                color: #000000;
-                background: #FFFFFF;
-                text-decoration: none;
-            }
-            /*Hover state for top level links */
-
-            li.category:hover a {
-                color: #19C589;
-            }
-        /* navigation end */
-
-        #map {
-            height: 600px;
-        }
-
-        #panel {
-            background-color: #e5e5e5;
-            position: absolute;
-            left: 65%;
-            z-index: 3;
-            border: 1px solid #999
-        }
-
-        @media(max-width:767px) {
-            #selectType {
-                text-align: left;
-            }
-        }
-
-        @media(min-width:768px) {
-            #selectType {
-                text-align: right;
-            }
-        }
-
-        #category {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            border-radius: 5px;
-            border: 1px solid #909090;
-            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
-            background: #fff;
-            overflow: hidden;
-            z-index: 2;
-        }
-
-            #category li {
-                float: left;
-                list-style: none;
-                width: 60px;
-                border-right: 1px solid #acacac;
-                padding: 6px 0;
-                text-align: center;
-                cursor: pointer;
-            }
-
-        .placeinfo {
-            position: relative;
-            width: 100%;
-            border: 1px solid;
-            padding-bottom: 10px;
-            background: #fff;
-        }
-
-            .placeinfo a, .placeinfo a:hover, .placeinfo a:active {
-                color: #fff;
-                text-decoration: none;
-            }
-
-            .placeinfo a, .placeinfo span {
-                display: block;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
-            }
-
-            .placeinfo span {
-                margin: 5px 5px 0 5px;
-                cursor: default;
-                font-size: 13px;
-            }
-
-            .placeinfo .title {
-                font-weight: bold;
-                font-size: 14px;
-                border-radius: 6px 6px 0 0;
-                margin: -1px -1px 0 -1px;
-                padding: 10px;
-                color: #fff;
-                background: #d95050;
-                background: #d95050 url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
-            }
-
-            .placeinfo .tel {
-                color: #0f7833;
-            }
-
-            .placeinfo .jibun {
-                color: #999;
-                font-size: 11px;
-                margin-top: 0;
-            }
-
-
-
-
-        .centerinfo {
-            position: relative;
-            width: 100%;
-            border: 1px solid;
-            'padding-bottom: 10px; background: #fff;
-        }
-
-            .centerinfo a, .centerinfo a:hover, .centerinfo a:active {
-                color: #fff;
-                text-decoration: none;
-            }
-
-            .centerinfo a, .centerinfo span {
-                display: block;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
-            }
-
-            .centerinfo span {
-                margin: 5px 5px 0 5px;
-                cursor: default;
-                font-size: 13px;
-            }
-
-            .centerinfo .title {
-                font-weight: bold;
-                font-size: 14px;
-                border-radius: 6px 6px 0 0;
-                margin: -1px -1px 0 -1px;
-                padding: 10px;
-                color: #fff;
-                background: #8e03fe;
-            }
-
-            .centerinfo .tel {
-                color: #0f7833;
-            }
-
-            .centerinfo .jibun {
-                color: #999;
-                font-size: 11px;
-                margin-top: 0;
-            }
+     
     </style>
 
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?&appkey=9a9b328e41d45bb4d7c639a649707e2d&libraries=services,clusterer,drawing"></script>
@@ -628,9 +210,18 @@
         var currentBound;
         var myinfowindow;
         var infowindow;
+        var routeinfowindow = []; 
+        var count = 0;
 
-			var apikey = encodeURIComponent("nxb4coDQx0Z6d7mjF6RT+g"); 
-        
+        var apikey = encodeURIComponent("nxb4coDQx0Z6d7mjF6RT+g");
+
+        var busMarker = [];
+        var trainMarker = [];
+        var busCount = 0;
+        var trainCount = 0;
+
+        var categoryMarker = [];
+
 
         var placeOverlay = new daum.maps.CustomOverlay({ zIndex: 1 }),
             contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다 
@@ -639,7 +230,7 @@
         var ps = new daum.maps.services.Places(map);
 
 
-        var node = function (name,x,y) {
+        var node = function (name, x, y) {
             this.name = name;
             this.x = x;
             this.y = y;
@@ -651,16 +242,16 @@
             this.headNode = new node(null);
         }
 
-        
+
         var routeItem = new linkedList();
 
-        linkedList.prototype.add = function (name,x,y, position) {
+        linkedList.prototype.add = function (name, x, y, position) {
             //position이 null일 경우 마지막위치로
             var position = position == undefined ? this.length + 1 : position;
 
             //입력값으로 node 생성
 
-            var newNode = new node(name,x,y);
+            var newNode = new node(name, x, y);
 
             var preNode = this.headNode;
             for (i = 1; i < position; i++) {
@@ -671,11 +262,7 @@
 
             this.length++;
 
-            // console.log("-------------------------------------------");
-            // console.log("add",element);
-            // console.log("position",position);
-            // console.log("-------------------------------------------");
-            // this.print();
+ 
         }
 
         linkedList.prototype.remove = function (position) {
@@ -700,11 +287,6 @@
                 console.log("index error");
             }
 
-            // console.log("-------------------------------------------");
-            // console.log("position",position);
-            // console.log("remove",ret);
-            // console.log("-------------------------------------------");
-            // this.print();
             return ret;
         }
 
@@ -721,7 +303,7 @@
 
                 for (i = 0; i < position; i++) {
                     preNode = preNode.next;
-                   
+
                 }
                 ret = preNode.next.data;
 
@@ -738,7 +320,7 @@
             var node = this.headNode.next;
             while (node != null) {
                 str += node.name;
-                if(node.next != null)
+                if (node.next != null)
                     str += " -> ";
                 node = node.next;
             };
@@ -756,6 +338,7 @@
             return ret;
         }
 
+       
 
         function initMap() {
             var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
@@ -788,9 +371,9 @@
                 var swLatLng = bounds.getSouthWest();
 
                 // 영역의 북동쪽 좌표를 얻어옵니다 
-                var neLatLng = bounds.getNorthEast(); 
+                var neLatLng = bounds.getNorthEast();
 
-              //  alert(neLatLng.getLat() - swLatLng.getLat());
+                //  alert(neLatLng.getLat() - swLatLng.getLat());
                 //alert(Math.round(clickLine.getLength() + moveLine.getLength()));
             });
 
@@ -971,7 +554,7 @@
                     }
                 });
         }
-        function threeWordsSearch() {
+        function threeWordsSearch() { // 2. 3words로 검색
             var threeWords = document.getElementById('originalAddress').value;
 
             $.ajax({
@@ -995,8 +578,8 @@
         }
 
 
-        function error(error) {
-           console.log("erroro" + error);
+        function error(error) { // error 출력 
+            console.log("error= " + error);
         }
 
 
@@ -1085,41 +668,26 @@
             return marker;
         }
 
-        // 지도 위에 표시되고 있는 마커를 모두 제거합니다
+        // 지도 위에 표시되고 있는 카테고리 관련 마커를 모두 제거
         function removeMarker() {
 
             for (var i = 0; i < markers.length; i++) {
                 markers[i].setMap(null);
+            
             }
             markers = [];
+
+          
         }
 
-        function addRoute(name, x, y) {
+        function addRoute(name, x, y) { // linked list에 항목 이름, x,y node로 만들어 추가 
             if (routeItem.isEmpty() == true) {
-                
                 routeItem.add(name, x, y);
-                /*
-                var newNode = new node(name, x, y);
-                
-                routeItem.headNode = newNode;
-                */
             }
             else routeItem.add(name, x, y);
-      
-            routeItem.print();
 
-            /*
-            alert(routeItem.headNode.name);
-            var preNode = routeItem.headNode;
-            var content = preNode.name;
-            while (preNode != null) {      
-               
-                content += preNode.name;
-                if (preNode.next != null) content += " -> ";
-                preNode = preNode.next;
-            }
-            alert(content);
-            */
+            routeItem.print(); // 아래 div안에 linked list data들 전부 출력 
+
         }
 
         // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
@@ -1135,7 +703,7 @@
                 content += '    <span title="' + place.address_name + '">' + place.address_name + '</span>';
             }
 
-            content += '    <span class="tel" >' + place.phone + '<input type="button" id="'+name+'"value="+" onclick="addRoute(this.id'+','+place.x+','+place.y+')" /></span>' + 
+            content += '    <span class="tel" >' + place.phone + '<input type="button" id="' + name + '"value="+" onclick="addRoute(this.id' + ',' + place.x + ',' + place.y + ')" /></span>' +
                 '</div>' +
                 '<div class="after"></div>';
 
@@ -1145,15 +713,10 @@
         }
 
 
-
-
         // 각 카테고리에 클릭 이벤트를 등록합니다
         function addCategoryClickEvent() {
             // var category = document.getElementById("category");
             var children = document.getElementById("category").children;
-
-            //children = $("ul").children();
-
             for (var i = 0; i < children.length; i++) {
                 children[i].onclick = onClickCategory;
             }
@@ -1192,106 +755,219 @@
             }
         }
 
-        function searchRoute() {
-            var node = routeItem.headNode.next;
-            var nextnode = node.next;
 
- 
-			
-			while(node.next != null){
-				var xhr = new XMLHttpRequest();
-				//ODsay apiKey 입력
-			
-            var url = "https://api.odsay.com/v1/api/searchPubTransPath?SX="+node.x+"&SY="+node.y+"&EX="+nextnode.x+"&EY="+nextnode.y+"&apiKey="+apikey;
-          
-		   xhr.open("GET", url, true);
-            xhr.send();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    console.log(JSON.parse(xhr.responseText)); // <- xhr.responseText 로 결과를 가져올 수 있음
-                    //노선그래픽 데이터 호출
-                    callMapObjApiAJAX((JSON.parse(xhr.responseText))["result"]["path"][0].info.mapObj, node, nextnode);
-			
-                }
-            }
-			alert("a");
-			node = nextnode.next;
-			nextnode = node.next;
-		
-		}
+        // 경로 탐색시 가장 먼저 실행되는 함수 
+        function sendParameterToSearchRoute() {
+            var node = routeItem.headNode.next;
+
+            /* 화면 clear */ 
+            currCategory = "";
+            removeMarker();
+            printSelectedCategoryMarker() 
+            placeOverlay.setMap(null);
+            searchRoute(node);
 
         }
-		
-		function callMapObjApiAJAX(mabObj,node,nextnode){
-		var xhr = new XMLHttpRequest();
-		//ODsay apiKey 입력
-		var url = "https://api.odsay.com/v1/api/loadLane?mapObject=0:0@"+mabObj+"&apiKey="+apikey;
-		xhr.open("GET", url, true);
-		xhr.send();
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState == 4 && xhr.status == 200) {
-				var resultJsonData = JSON.parse(xhr.responseText);
-				drawNaverMarker(node.x,node.y);					// 출발지 마커 표시
-				drawNaverMarker(nextnode.x,nextnode.y);					// 도착지 마커 표시
-				drawNaverPolyLine(resultJsonData);		// 노선그래픽데이터 지도위 표시
-				// boundary 데이터가 있을경우, 해당 boundary로 지도이동
-				if(resultJsonData.result.boundary){
-						var boundary = new daum.maps.LatLngBounds(
-				                new daum.maps.LatLng(resultJsonData.result.boundary.top, resultJsonData.result.boundary.left),
-				                new daum.maps.LatLng(resultJsonData.result.boundary.bottom, resultJsonData.result.boundary.right)
-				                );
-						map.panToBounds(boundary);
-				}
-			}
-		}
-	}
-	
-	
-	function drawNaverMarker(x,y){
-		var marker = new daum.maps.Marker({
-		    position: new daum.maps.LatLng(y, x),
-		    map: map
-		});
-	}
-	
-	// 노선그래픽 데이터를 이용하여 지도위 폴리라인 그려주는 함수
-	function drawNaverPolyLine(data){
-		var lineArray;
-		
-		for(var i = 0 ; i < data.result.lane.length; i++){
-			for(var j=0 ; j <data.result.lane[i].section.length; j++){
-				lineArray = null;
-				lineArray = new Array();
-				for(var k=0 ; k < data.result.lane[i].section[j].graphPos.length; k++){
-					lineArray.push(new daum.maps.LatLng(data.result.lane[i].section[j].graphPos[k].y, data.result.lane[i].section[j].graphPos[k].x));
-				}
-				
-			//지하철결과의 경우 노선에 따른 라인색상 지정하는 부분 (1,2호선의 경우만 예로 들음)
-				if(data.result.lane[i].type == 1){
-					var polyline = new daum.maps.Polyline({
-					    map: map,
-					    path: lineArray,
-					    strokeWeight: 3,
-					    strokeColor: '#003499'
-					});
-				}else if(data.result.lane[i].type == 2){
-					var polyline = new daum.maps.Polyline({
-					    map: map,
-					    path: lineArray,
-					    strokeWeight: 3,
-					    strokeColor: '#37b42d'
-					});
-				}else{
-					var polyline = new daum.maps.Polyline({
-					    map: map,
-					    path: lineArray,
-					    strokeWeight: 3
-					});
-				}
-			}
-		}
-	}
 
+        function printSelectedCategoryMarker() {
+            var node = routeItem.headNode.next;
+            var i = 0;
+
+            categoryMarker[i] = new daum.maps.Marker({  // 출발지 마커 image 추가
+                map: map,
+                position: new daum.maps.LatLng(node.y, node.x),
+                image: new daum.maps.MarkerImage(
+                    'http://t1.daumcdn.net/localimg/localimages/07/2013/img/red_b.png',
+                    new daum.maps.Size(31, 35), new daum.maps.Point(13, 34))
+            });
+            categoryMarker[i++].setTitle(node.name);
+            node = node.next;
+
+
+            while (node.next != null) {
+                //console.log(node.name);
+
+                categoryMarker[i] = new daum.maps.Marker({
+                    map: map,
+                    position: new daum.maps.LatLng(node.y, node.x),
+                    image: new daum.maps.MarkerImage(
+                        'http://t1.daumcdn.net/localimg/localimages/07/2013/img/green_b_' + i + '.png',
+                        new daum.maps.Size(31,35), new daum.maps.Point(13,34))
+                });
+                //categoryMarker[i].setImage(markerImage);
+                categoryMarker[i++].setTitle(node.name);
+
+                node = node.next;
+            }
+
+            categoryMarker[i] = new daum.maps.Marker({
+                map: map,
+                position: new daum.maps.LatLng(node.y, node.x),
+                image: new daum.maps.MarkerImage(
+                    'http://t1.daumcdn.net/localimg/localimages/07/2013/img/blue_b.png',
+                    new daum.maps.Size(31,35), new daum.maps.Point(13,34))
+            });
+        }
+
+        // 재귀적으로 호출하여 사용 
+        function searchRoute(node) {
+            if (node.next == null) return; 
+            else {
+                var nextnode = node.next;
+            }
+            var xhr = new XMLHttpRequest();
+            // ajax로 출발-도착지 간 대중 교통 정보 요청 - opt=0 최단거리 
+            var url = "https://api.odsay.com/v1/api/searchPubTransPath?OPT=0&SX=" + node.x + "&SY=" + node.y + "&EX=" + nextnode.x + "&EY=" + nextnode.y + "&apiKey=" + apikey;
+
+            xhr.open("GET", url, true);
+            xhr.send();
+            xhr.onreadystatechange = function () {
+                
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    //console.log(JSON.parse(xhr.responseText)); // <- xhr.responseText 로 결과를 가져올 수 있음
+                    //노선그래픽 데이터 호출
+
+                    detailRouteSearch(JSON.parse(xhr.responseText), node, nextnode);
+                    //detailRouteSearch((JSON.parse(xhr.responseText))["result"]["path"][0].info.mapObj, node, nextnode, (JSON.parse(xhr.responseText))["result"]["path"][0].info);
+
+                }
+            }
+
+        }
+
+
+        function detailRouteSearch(result, node, nextnode) {
+            var xhr = new XMLHttpRequest();
+
+            drawdetail(result["result"]["path"][0].info.mapObj, node, nextnode);
+            console.log(result["result"]["path"]);
+            if (result["result"]["searchType"] == 0) { // 도시내
+
+                for (var i = 0; i < result["result"]["path"][0].subPath.length; i++) {
+                    if (result["result"]["path"][0].subPath[i].trafficType == 1) { // 지하철
+                        drawTransitMarker(0,trainMarker, trainCount, result["result"]["path"][0].subPath[i].startX, result["result"]["path"][0].subPath[i].startY, result["result"]["path"][0].subPath[i].endX, result["result"]["path"][0].subPath[i].endY, result["result"]["path"][0].subPath[i].startName,result["result"]["path"][0].subPath[i].endName);
+                        trainCount += 2;
+                    }
+                    else if (result["result"]["path"][0].subPath[i].trafficType == 2) { // 버스
+                        drawTransitMarker(1,busMarker, busCount, result["result"]["path"][0].subPath[i].startX, result["result"]["path"][0].subPath[i].startY, result["result"]["path"][0].subPath[i].endX, result["result"]["path"][0].subPath[i].endY, result["result"]["path"][0].subPath[i].startName,result["result"]["path"][0].subPath[i].endName);
+                        busCount += 2;
+                        
+                    }
+                    else if (result["result"]["path"][0].subPath[i].trafficType == 3) { // 도보
+                        //alert("도보로 이동");
+                       
+               
+                    }
+
+                }
+            }
+
+            else if (result["result"]["searchType"] == 1) { // 도시간 직통
+
+            }
+
+            else if (result["result"]["searchType"] == 2) { // 도시간 환승
+
+            }
+
+        }
+        function drawTransitMarker(type,marker,counting, startx, starty, endx,endy,startname,endname) {
+            var img_url;
+            if (type == 0) { // 지하철
+                var img_url = 'http://m.clearfit.co.kr/images/CFM_icon_company3.png';
+            }
+            else if (type == 1) { // 버스
+                var img_url = 'https://data.silhouette-ac.com/data/thumbnails/cc/cc27cb83260d2b7e6acfb36a7f97d6ea_w.jpeg';
+            }
+
+
+            marker[counting] = new daum.maps.Marker({
+                position: new daum.maps.LatLng(starty, startx),
+                map: map,
+                image: new daum.maps.MarkerImage(
+                    img_url,
+                    new daum.maps.Size(10, 20), new daum.maps.Point(13, 34))
+            });
+
+
+            marker[counting+1] = new daum.maps.Marker({
+                position: new daum.maps.LatLng(endy, endx),
+                map:map
+            });
+            var content = startname + '에서 승차 후 ' + endname + '에서 하차';
+            
+                //'<div>' + startname + '에서 승차 후 ' + endname + '에서 하차' + '</div>';
+            
+            routeinfowindow[count] = new daum.maps.InfoWindow({
+                content: content,
+                position: new daum.maps.LatLng(starty, startx)
+            });
+            //console.log(content);
+
+            /*
+            daum.maps.event.addListener(marker[counting], 'click', function () {
+                console.log(count);
+                routeinfowindow[count++].open(map, marker[counting]);
+                 
+            });
+            */
+            routeinfowindow[count++].open(map, marker[counting]);
+            
+
+
+            marker[counting].setTitle(startname + "에서 출발하여 "+endname+"에서 하차");
+            marker[counting + 1].setTitle(endname);
+
+            
+        }
+
+
+        function drawdetail(mapObj, node, nextnode) {  // 선그리기
+            
+            var xhr = new XMLHttpRequest();
+            var url = "https://api.odsay.com/v1/api/loadLane?mapObject=0:0@" + mapObj + "&apiKey=" + apikey;
+            xhr.open("GET", url, true);
+            xhr.send();
+            xhr.onreadystatechange = function () {
+;                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var resultJsonData = JSON.parse(xhr.responseText);
+                    //drawNaverMarker(object,node.x, node.y);					// 출발지 마커 표시
+                    //drawNaverMarker(object,nextnode.x, nextnode.y);					// 도착지 마커 표시
+                     //console.log(resultJsonData);
+                     drawPolyLine(resultJsonData);		// 노선그래픽데이터 지도위 표시
+       
+                    searchRoute(node.next);
+                }
+            }
+        }
+
+
+
+
+        // 노선그래픽 데이터를 이용하여 지도위 폴리라인 그려주는 함수
+        function drawPolyLine(data) {
+            var lineArray;
+
+
+            for (var i = 0; i < data.result.lane.length; i++) {
+
+                for (var j = 0; j < data.result.lane[i].section.length; j++) {
+                    lineArray = null;
+                    lineArray = new Array();
+                    for (var k = 0; k < data.result.lane[i].section[j].graphPos.length; k++) {
+                        lineArray.push(new daum.maps.LatLng(data.result.lane[i].section[j].graphPos[k].y, data.result.lane[i].section[j].graphPos[k].x));
+                    }
+
+                    var polyline = new daum.maps.Polyline({
+                        map: map,
+                        path: lineArray,
+                        strokeWeight: 5,
+                        strokeColor: '#CC0033'
+                    });
+
+                }
+            }
+        }
 
     </script>
 
@@ -1394,7 +1070,7 @@
         <hr>
         <div class="row">
             <div class="col-xs-12 col-sm-12">
-                
+
                 <textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
             </div>
         </div>
@@ -1403,8 +1079,8 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12" id="photo">
                 <div>
-                    <div class ="col-xs-12 col-sm-12" id="route"></div>
-    
+                    <div class="col-xs-12 col-sm-12" id="route"></div>
+
                     <!--
                     <div class="col-xs-12 col-sm-6" id="name"></div>
                     <div class="col-xs-12 col-sm-6" id="tel_no"></div>
@@ -1418,9 +1094,9 @@
 
                 </div>
                 <br>
-                <div class ="row">
-                    <div class ="col-xs-12 col-sm-12"> 
-                        <input type="button" style="float:right" value="경로 저장" />
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                        <input type="button" style="float: right" value="경로 저장" />
                     </div>
                 </div>
 
@@ -1432,8 +1108,8 @@
                     <div class="col-xs-5 col-sm-5" style="background-color: red">e  </div>
                     <div class="col-xs-1 col-sm-1" style="background-color: brown">r  </div>
                     -->
-                    <div class ="col-xs-12 col-sm-12"> 
-                        <input type="button" style="float:right" onclick ="searchRoute()" value="경로 탐색" />
+                    <div class="col-xs-12 col-sm-12">
+                        <input type="button" style="float: right" onclick="sendParameterToSearchRoute()" value="경로 탐색" />
                     </div>
                 </div>
             </div>
@@ -1444,7 +1120,8 @@
 
 
 
-    <script>   addCategoryClickEvent();</script>
+    <script>   addCategoryClickEvent();
+    </script>
     <!-- #include virtual="/_include/connect_close.inc" -->
 </body>
 
