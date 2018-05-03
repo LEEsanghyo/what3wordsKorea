@@ -182,13 +182,17 @@
 
 
 
-        var routeMarker = [];
-        var routeCount =0;
+        var startRouteMarker = [];
+        var startRouteCount =0;
+        var endRouteMarker = [];
+        var endRouteCount = 0;
+
         var routeinfowindow = []; 
         var checkOpenRouteinfowindow = [];
 
         var startMarker, endMarker;
-        var polyline;
+        var polyline = [];
+        var polylineCount =0;
        // var cnt = 0;
 
         var placeOverlay = new daum.maps.CustomOverlay({ zIndex: 1 }),
@@ -353,7 +357,8 @@
 
             // zoom 변할 때 마다, 화면 분할 함수 호출
             daum.maps.event.addListener(map, 'zoom_changed', function () {
-                setTile();                            
+                setTile();
+                if (centerMarker != null) centerMarker.setMap(null);
             });
 
             daum.maps.event.addListener(map, 'idle', searchPlaces);
@@ -364,6 +369,7 @@
 
         function drawCenterMarker() { // center마커 그리는 함수  
             if (centerMarker != null) centerMarker.setMap(null);
+
             if (centerInfowindow != null) centerInfowindow.close();
             var center3words;
 
@@ -683,20 +689,31 @@
             //var node = routeItem.headNode.next;
 
             /* 화면 clear */
-            routeCount = 0;
-            for (var i = 0; i < routeMarker.length; i++)routeMarker[i].setMap(null);
+            startRouteCount = 0;
+            endRouteCount = 0;
+
+            for (var i = 0; i < startRouteMarker.length; i++)startRouteMarker[i].setMap(null);
+            for (var i = 0; i < endRouteMarker.length; i++) endRouteMarker[i].setMap(null);
+            for (var i = 0; i < routeinfowindow.length; i++) routeinfowindow[i].close();
 
             currCategory = "";
             removeMarker();
             if (startMarker != null) startMarker.setMap(null);
             if (endMarker != null) endMarker.setMap(null);
-            if (polyline != null) {
-                //alert("a");
-                polyline.setMap(null);
+
+            for (var i = 0; i < polyline.length; i++) {
+                polyline[i].setMap(null);
             }
-            printSelectedCategoryMarker(startnode, endnode); 
+            polylineCount = 0;
+  
             placeOverlay.setMap(null);
+
+            printSelectedCategoryMarker(startnode, endnode);
             searchRoute(startnode, endnode);
+
+           // printSelectedCategoryMarker(startnode, endnode); 
+          
+            //searchRoute(startnode, endnode);
         }
 
         function printSelectedCategoryMarker(startnode,endnode) {  // startnode, endmarker 
@@ -740,22 +757,24 @@
         function detailRouteSearch(result, startnode, endnode) {
             var xhr = new XMLHttpRequest();
 
-            drawdetail(result["result"]["path"][0].info.mapObj, startnode, endnode);
-            console.log(result["result"]["path"]);
+            
+            //console.log("search type=\n" + result["result"]["searchType"]);
+            //console.log(result["result"]["path"]);
             //alert("traffic type = " + result["result"]["searchType"]);
             if (result["result"]["searchType"] == 0) { // 도시내
-                console.log("subpath.length = " + result["result"]["path"][0].subPath.length); 
-                for (var i = 0; i < result["result"]["path"][0].subPath.length; i++) {
+                drawdetail(result["result"]["path"][0].info.mapObj, startnode, endnode); 
+               // console.log("subpath.length = " + result["result"]["path"][0].subPath.length); 
+                for (var i = 0; i < result["result"]["path"][0].subPath.length; i++) {  
                  
                     if (result["result"]["path"][0].subPath[i].trafficType == 1 || result["result"]["path"][0].subPath[i].trafficType == 2) { // 지하철
-                        
-                        drawTransitMarker(0, routeMarker, result["result"]["path"][0].subPath[i]);
+
+                        drawTransitMarker(0, startRouteMarker, endRouteMarker, result["result"]["path"][0].subPath[i],null,null);
                             //result["result"]["path"][0].subPath[i].startX, result["result"]["path"][0].subPath[i].startY, result["result"]["path"][0].subPath[i].endX, result["result"]["path"][0].subPath[i].endY, result["result"]["path"][0].subPath[i].startName, result["result"]["path"][0].subPath[i].endName);
                         // type, 탑승/하차 표시 마커, 탑승 x, 탑승 y, 하차 x, 하차 y, 탑승하는 곳 이름, 하차하는 곳 이름
                     }
                     else if (result["result"]["path"][0].subPath[i].trafficType == 3) { // 도보
                         //alert("도보로 이동");
-
+                        drawTransitMarker(1, startRouteMarker, endRouteMarker,result["result"]["path"][0].subPath[i],startnode,endnode);
                                  
                     }
 
@@ -763,74 +782,110 @@
             }
 
             else if (result["result"]["searchType"] == 1) { // 도시간 직통
+               console.log(result["result"]);
 
             }
 
             else if (result["result"]["searchType"] == 2) { // 도시간 환승
+               // console.log(result["result"]["path"]);
 
             }
 
         }
-        //function drawTransitMarker(type,routeMarker, startx, starty, endx,endy,startname,endname) {
-
-        function drawTransitMarker(type, routeMarker, object) {
-            var startx = object.startX;
-            var starty = object.startY;
-            var endx = object.endX;
-            var endy = object.endY;
-            var startname = object.startName;
-            var endname = object.endName;
-            //console.log("a" + object);
-            
-            
-            routeMarker[routeCount] = new daum.maps.Marker({  // 탑승 지점 마커
-                position: new daum.maps.LatLng(starty, startx),
-                map: map,
-            });
+        
+        function drawTransitMarker(type, startRouteMarker, endRouteMarker, object,startnode,endnode) {
+            if (type == 0) {
+                var startx = object.startX;
+                var starty = object.startY;
+                var endx = object.endX;
+                var endy = object.endY;
+                var startname = object.startName;
+                var endname = object.endName;
+                //console.log("a" + object);
 
 
-            routeMarker[routeCount+1] = new daum.maps.Marker({  // 하차 지점 마커
-                position: new daum.maps.LatLng(endy, endx),
-                map:map
-            });
-            //console.log("rc= " + routeCount);
+                startRouteMarker[startRouteCount] = new daum.maps.Marker({  // 탑승 지점 마커
+                    position: new daum.maps.LatLng(starty, startx),
+                    map: map,
+                });
 
-            
-            var content = startname + '에서 승차 후 ' + endname + '에서 하차';
-            routeinfowindow[routeCount] = new daum.maps.InfoWindow({
-                content: content,
-                position: new daum.maps.LatLng(starty, startx)
-            });
-     
-           
-      
-          
+                endRouteMarker[endRouteCount] = new daum.maps.Marker({  // 하차 지점 마커
+                    position: new daum.maps.LatLng(endy, endx),
+                    map: map
+                });
 
-            (function (routeMarker, routeinfowindow,checkOpenRouteinfowindow, routeCount) {
-                console.log("routeCount =" + routeCount);
-                console.log("content= " + content);
-         
-                //alert(checkOpenRouteinfowindow);
-                daum.maps.event.addListener(routeMarker, "click", function () {
-                    //alert("check" + checkOpenRouteinfowindow);
-                    //alert(routeCount);
-                    /* flag이용해 infowindow on/off 클릭이벤트 조절 */
-                    if (checkOpenRouteinfowindow == 0 || checkOpenRouteinfowindow == undefined) {
-                        routeinfowindow.open(map, routeMarker);
-                        checkOpenRouteinfowindow = 1;
-                    }
-                    else {
-                        routeinfowindow.setMap(null);
-                        checkOpenRouteinfowindow = 0;
-                    }
+
+                //console.log("rc= " + routeCount);
+                if (object.trafficType == 1) { // subway
+                    var content = startname + '역 에서 ' + object.passStopList.stations[1].stationName + '역 방향 ' + object.lane[0].name + ' 열차 승차 후 ' + endname + '역 에서 하차\n';
+                    content += '소요 시간= ' + object.sectionTime + ' 분';
+                }
+
+                else if (object.trafficType == 2) { // bus
+                    var content = startname + '에서 ' + object.lane[0].busNo + '번 승차 후 ' + endname + '에서 하차\n';
+                    content += '소요 시간 = ' + object.sectionTime + '분';
+
+                }
+
+
+                routeinfowindow[startRouteCount] = new daum.maps.InfoWindow({
+                    content: content,
+                    position: new daum.maps.LatLng(starty, startx)
+                });
+
+
+                (function (routeMarker, routeinfowindow, checkOpenRouteinfowindow, routeCount) {
+                 //   console.log("routeCount =" + routeCount);
+                  //  console.log("content= " + content);
+
+                    //alert(checkOpenRouteinfowindow);
+                    daum.maps.event.addListener(routeMarker, "click", function () {
+                        //alert("check" + checkOpenRouteinfowindow);
+                        //alert(routeCount);
+                        /* flag이용해 infowindow on/off 클릭이벤트 조절 */
+                        if (checkOpenRouteinfowindow == 0 || checkOpenRouteinfowindow == undefined) {
+                            routeinfowindow.open(map, routeMarker);
+                            checkOpenRouteinfowindow = 1;
+                        }
+                        else {
+                            routeinfowindow.setMap(null);
+                            checkOpenRouteinfowindow = 0;
+                        }
 
                     });
-            })(routeMarker[routeCount], routeinfowindow[routeCount],checkOpenRouteinfowindow[routeCount],routeCount);
+                })(startRouteMarker[startRouteCount], routeinfowindow[startRouteCount], checkOpenRouteinfowindow[startRouteCount], startRouteCount);
 
-            routeMarker[routeCount].setTitle(startname); //+ "에서 출발하여 " + endname + "에서 하차");
-            routeMarker[routeCount + 1].setTitle(endname);
+                startRouteMarker[startRouteCount].setTitle(startname); //+ "에서 출발하여 " + endname + "에서 하차");
+                endRouteMarker[endRouteCount].setTitle(endname);
 
-            routeCount++;
+                startRouteCount++;
+                endRouteCount++;
+            }
+            else if (type == 2) { // 도보
+
+               /* var lineArray = new Array();
+                lineArray.push(new daum.maps.LatLng());
+               //  lineArray.push(new daum.maps.LatLng(data.result.lane[i].section[j].graphPos[k].y, data.result.lane[i].section[j].graphPos[k].x));
+
+                if (startRouteCount == 0) { // 출발지 - 처음 승차 장소 
+                    lineArray.push(new daum.maps.Latlng(startnode.y, startnode.x));
+                    lineArray.push(new daum.maps.Latlng(object.startY, object.startX));
+                }
+                else if () {
+
+                }
+                else {
+                    lineArray.push(new daum.maps.LatLng(endRouteMarker[endRouteCount - 1]).getPosition());
+                    lineArray.push(new daum.maps.LatLng(startRouteMarker))
+                }
+
+                polyline[polylineCount++] = new daum.maps.Polyline({
+                    map: map,
+                    path: lineArray,
+                    strokeWeight: 5,
+                    strokeColor: '#FFFFFF'
+                });*/
+            }
         }
 
 
@@ -859,7 +914,7 @@
                     for (var k = 0; k < data.result.lane[i].section[j].graphPos.length; k++) {
                         lineArray.push(new daum.maps.LatLng(data.result.lane[i].section[j].graphPos[k].y, data.result.lane[i].section[j].graphPos[k].x));
                     }
-                    polyline = new daum.maps.Polyline({
+                    polyline[polylineCount++] = new daum.maps.Polyline({
                         map: map,
                         path: lineArray,
                         strokeWeight: 5,
