@@ -87,7 +87,7 @@
                 flex-flow: row nowrap;
                 justify-content: space-between;
                 margin-top:10px;
-                padding:3%;
+                padding:5%;
             }
             #map_box{
                 font-size:20px;
@@ -579,9 +579,6 @@
 
             function addMarker_daily(elem, code) {
 
-                alert("elem = " +elem);
-                alert("code = " + code);
-
                 if (code == 1) {
                     myIcon = new google.maps.MarkerImage(busking_image, null, null, null, new google.maps.Size(45, 45));
 
@@ -699,10 +696,6 @@
                 var long_new_tail = long_new_head[1].substring(0, 6);
                 var long_new_real = long_new_head[0] + "." + long_new_tail;
 
-                alert(sno_daily);
-                alert(sno_code);
-                alert(lat_new);
-                alert(long_new);
                 var marker_selected = { lat: parseFloat(lat_new), lng: parseFloat(long_new) };
 
                 map = new google.maps.Map(document.getElementById('map'), {
@@ -807,10 +800,6 @@
 
             function SetContent_busking(num) {
                 open_window_busking = document.getElementById("popupAlertPosition_2_" + num);
-
-                alert(d_image_location_busking[num-1]);
-                alert(d_write_date_busking[num-1]);
-                alert(d_title_busking[num-1]);
 
                 document.getElementById("popup_image_box_2_" + num).src = d_image_location_busking[num - 1];
                 document.getElementById("popup_date_box_2_" + num).innerHTML = d_write_date_busking[num - 1].toString();
@@ -1092,32 +1081,34 @@
         <%
             Do While NOT rsSns_busking.EOF
         %>
-        <div id="popupAlertPosition_2_<%=rsSns_busking("article_number") %>" style="position:absolute; top: 10%; left: 30%;position: fixed;width: 50%;height: 50%; text-align:center; border-radius: 10px; background-color: rgba(0,0,0,0.9); display: none; padding:2%; align-content:center;">
-            <div id="popupInfoBox2" style="display:block;font-size:25pt; color:black; border:white 3px solid; text-align:center; background:#ffffff;">
+        <div id="popupAlertPosition_2_<%=rsSns_busking("article_number") %>" style="position:absolute; display:inline; top: 12%; left: 22%;position: fixed;width: 55%;height: 50%; border-radius: 10px; background-color: rgba(0,0,0,0.9); display: none; padding:2%; align-content:center;">
+            <div id="popupInfoBox2" style="display:block; font-size:25pt; width:90%;margin-left:4.5%; color:black; border:white 3px solid; text-align:center; background:#ffffff;">
                 BUSKING INFORMATION
             </div>
-            <div id="popupImageBox2" style="display:inline; float:left; width:50%; height:90%; border:3px solid red; background:#ffffff;">
-                <img id="popup_image_box_2_<%=rsSns_busking("article_number") %>" src="" alt="" style="width:100%; height:100%; object-fit:contain;" />
-            </div>
-            <div id="popupTextBox2" style="display:inline; float:left; width:50%; height:90%; border:3px solid red; background:#ffffff">
-                <div id="popupScoreBox2" style="width:100%; height:5%;">
-                    <table style="width:100%; height:100%; color:white; font-size:15pt;">
-                      <tr style="width:100%; height:100%; color:white; font-size:15pt;">
-                        <td id="popup_date_box_2_<%=rsSns_busking("article_number") %>" style="color: #000000; border:3px red solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                        <td id="popup_profile_box_2_<%=rsSns_busking("article_number") %>" style=" color: #000000; border:3px blue solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                      </tr>
-                    </table>
+            <div id="underInfoBox2">
+                <div id="popupImageBox2" style="display:inline; float:left; width:45%; margin-left:4.5%; height:90%; border:3px solid red; background:#ffffff;">
+                    <img id="popup_image_box_2_<%=rsSns_busking("article_number") %>" src="" alt="" style="width:100%; height:100%; object-fit:contain;" />
                 </div>
-                <div id="popupTitleBox2" style="width:100%; height:5%; border:2px green solid; background:#ffffff;">
-                    <span id="popup_title_box_2_<%=rsSns_busking("article_number") %>" style="color:black; font-size:20pt; width:100%; height:100%;"></span>
-                </div>
-                <div id="popupContentBox2" style="width:100%; height:35%; border:3px red solid; background:#ffffff">
-                    <span id="popup_content_box_2_<%=rsSns_busking("article_number") %>" style="color:blue; font-size:20pt; width:100%; height:100%;"></span>
-                </div>
-                <div id="popupButtonBox2" style="width:100%; height:10%; margin-top:1%;">
-                        <button type="button" id="send_message2" onclick="send_message_busking(this);" style="width:50%; height:50%;">채팅 신청</button>
-                        <button type="button" id="exit_content2" onclick="exit_content_busking(this);" sno_exit_num_2="<%=rsSns_busking("article_number") %>" style="width:50%; height:50%;">창 닫기</button>
-                </div>
+                <div id="popupTextBox2" style="display:inline; float:left; width:45%; height:90%; border:3px solid red; background:#ffffff">
+                    <div id="popupScoreBox2" style="width:100%; height:10%;">
+                        <table style="width:100%; height:100%; color:white; font-size:15pt;">
+                          <tr style="width:100%; height:100%; color:white; font-size:15pt;">
+                            <td id="popup_date_box_2_<%=rsSns_busking("article_number") %>" style="color: #000000; border:3px red solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
+                            <td id="popup_profile_box_2_<%=rsSns_busking("article_number") %>" style=" color: #000000; border:3px blue solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
+                          </tr>
+                        </table>
+                    </div>
+                    <div id="popupTitleBox2" style="width:100%; height:10%; border:2px green solid; background:#ffffff;">
+                        <span id="popup_title_box_2_<%=rsSns_busking("article_number") %>" style="color:black; font-size:20pt; width:95%; height:100%;"></span>
+                    </div>
+                    <div id="popupContentBox2" style="width:100%; height:70%; border:3px red solid; background:#ffffff">
+                        <span id="popup_content_box_2_<%=rsSns_busking("article_number") %>" style="color:blue; font-size:20pt; width:95%; height:100%;"></span>
+                    </div>
+                    <div id="popupButtonBox2" style="width:100%; height:5%; margin-top:1%; text-align:center;">
+                            <button type="button" id="send_message2" onclick="send_message_busking(this);" style="width:45%; height:100%; object-fit:contain;">채팅 신청</button>
+                            <button type="button" id="exit_content2" onclick="exit_content_busking(this);" sno_exit_num_2="<%=rsSns_busking("article_number") %>" style="width:45%; height:100%; object-fit:contain;">창 닫기</button>
+                    </div>
+                 </div>
              </div>
         </div>
         <%
@@ -1130,32 +1121,34 @@
         <%
             Do While NOT rsSns_foodtruck.EOF
         %>
-        <div id="popupAlertPosition_3_<%=rsSns_foodtruck("article_number") %>" style="position:absolute; top: 10%; left: 30%;position: fixed;width: 50%;height: 50%; text-align:center; border-radius: 10px; background-color: rgba(0,0,0,0.9); display: none; padding:2%; align-content:center;">
-            <div id="popupInfoBox3" style="font-size:25pt; color:black; border:white 3px solid; text-align:center; background:#ffffff;">
+        <div id="popupAlertPosition_3_<%=rsSns_foodtruck("article_number") %>" style="position:absolute; display:inline; top: 12%; left: 22%;position: fixed;width: 55%;height: 50%; border-radius: 10px; background-color: rgba(0,0,0,0.9); display: none; padding:2%; align-content:center;">
+            <div id="popupInfoBox3" style="display:block; font-size:25pt; width:90%;margin-left:4.5%; color:black; border:white 3px solid; text-align:center; background:#ffffff;">
                 FOODTRUCK INFORMATION
             </div>
-            <div id="popupImageBox3" style=" float:left; width:50%; height:50%; border:3px solid red; background:#ffffff;">
-                <img id="popup_image_box_3_<%=rsSns_foodtruck("article_number") %>" src="" alt="" style="width:100%; height:100%; object-fit:contain;" />
-            </div>
-            <div id="popupTextBox3" style="float:left; width:50%; height:100%; border:3px solid red; background:#ffffff">
-                <div id="popupScoreBox3" style="width:100%; height:5%;">
-                    <table style="width:100%; height:100%; color:white; font-size:15pt;">
-                      <tr style="width:100%; height:100%; color:white; font-size:15pt;">
-                        <td id="popup_date_box_3_<%=rsSns_foodtruck("article_number") %>" style="color: #000000; border:3px red solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                        <td id="popup_profile_box_3_<%=rsSns_foodtruck("article_number") %>" style=" color: #000000; border:3px blue solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                      </tr>
-                    </table>
+            <div id="underInfoBox3">
+                <div id="popupImageBox3" style="display:inline; float:left; width:45%; margin-left:4.5%; height:90%; border:3px solid red; background:#ffffff;">
+                    <img id="popup_image_box_3_<%=rsSns_foodtruck("article_number") %>" src="" alt="" style="width:100%; height:100%; object-fit:contain;" />
                 </div>
-                <div id="popupTitleBox3" style="width:100%; height:5%; border:2px green solid; background:#ffffff;">
-                    <span id="popup_title_box_3_<%=rsSns_foodtruck("article_number") %>" style="color:black; font-size:20pt; width:100%; height:100%;"></span>
-                </div>
-                <div id="popupContentBox3" style="width:100%; height:35%; border:3px red solid; background:#ffffff">
-                    <span id="popup_content_box_3_<%=rsSns_foodtruck("article_number") %>" style="color:blue; font-size:20pt; width:100%; height:100%;"></span>
-                </div>
-                <div id="popupButtonBox3" style="width:100%; height:10%; margin-top:1%;">
-                        <button type="button" id="send_message3" onclick="send_message_foodtruck(this);" style="width:50%; height:50%;">채팅 신청</button>
-                        <button type="button" id="exit_content3" onclick="exit_content_foodtruck(this);" sno_exit_num_3="<%=rsSns_foodtruck("article_number") %>" style="width:50%; height:50%;">창 닫기</button>
-                </div>
+                <div id="popupTextBox3" style="display:inline; float:left; width:45%; height:90%; border:3px solid red; background:#ffffff">
+                    <div id="popupScoreBox3" style="width:100%; height:10%;">
+                        <table style="width:100%; height:100%; color:white; font-size:15pt;">
+                          <tr style="width:100%; height:100%; color:white; font-size:15pt;">
+                            <td id="popup_date_box_3_<%=rsSns_foodtruck("article_number") %>" style="color: #000000; border:3px red solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
+                            <td id="popup_profile_box_3_<%=rsSns_foodtruck("article_number") %>" style=" color: #000000; border:3px blue solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
+                          </tr>
+                        </table>
+                    </div>
+                    <div id="popupTitleBox3" style="width:100%; height:10%; border:2px green solid; background:#ffffff;">
+                        <span id="popup_title_box_3_<%=rsSns_foodtruck("article_number") %>" style="color:black; font-size:20pt; width:95%; height:100%;"></span>
+                    </div>
+                    <div id="popupContentBox3" style="width:100%; height:70%; border:3px red solid; background:#ffffff">
+                        <span id="popup_content_box_3_<%=rsSns_foodtruck("article_number") %>" style="color:blue; font-size:20pt; width:95%; height:100%;"></span>
+                    </div>
+                    <div id="popupButtonBox3" style="width:100%; height:5%; margin-top:1%; text-align:center;">
+                            <button type="button" id="send_message3" onclick="send_message_foodtruck(this);" style="width:45%; height:100%;">채팅 신청</button>
+                            <button type="button" id="exit_content3" onclick="exit_content_foodtruck(this);" sno_exit_num_3="<%=rsSns_foodtruck("article_number") %>" style="width:45%; height:100%; object-fit:contain;">창 닫기</button>
+                    </div>
+                 </div>
              </div>
         </div>
         <%
@@ -1168,32 +1161,34 @@
         <%
             Do While NOT rsSns_volunteer.EOF
         %>
-        <div id="popupAlertPosition_4_<%=rsSns_volunteer("article_number") %>" style="position:absolute; top: 10%; left: 30%;position: fixed;width: 50%;height: 50%; text-align:center; border-radius: 10px; background-color: rgba(0,0,0,0.9); display: none; padding:2%; align-content:center;">
-            <div id="popupInfoBox4" style="font-size:25pt; color:black; border:white 3px solid; text-align:center; background:#ffffff;">
+        <div id="popupAlertPosition_4_<%=rsSns_volunteer("article_number") %>" style="position:absolute; display:inline; top: 12%; left: 22%;position: fixed;width: 55%;height: 50%; border-radius: 10px; background-color: rgba(0,0,0,0.9); display: none; padding:2%; align-content:center;">
+            <div id="popupInfoBox4" style="display:block; font-size:25pt; width:90%;margin-left:4.5%; color:black; border:white 3px solid; text-align:center; background:#ffffff;">
                 VOLUNTEERING INFORMATION
             </div>
-            <div id="popupImageBox4" style=" float:left; width:50%; height:50%; border:3px solid red; background:#ffffff;">
-                <img id="popup_image_box_4_<%=rsSns_volunteer("article_number") %>" src="" alt="" style="width:100%; height:100%; object-fit:contain;" />
-            </div>
-            <div id="popupTextBox4" style="float:left; width:50%; height:100%; border:3px solid red; background:#ffffff">
-                <div id="popupScoreBox4" style="width:100%; height:5%;">
-                    <table style="width:100%; height:100%; color:white; font-size:15pt;">
-                      <tr style="width:100%; height:100%; color:white; font-size:15pt;">
-                        <td id="popup_date_box_4_<%=rsSns_volunteer("article_number") %>" style="color: #000000; border:3px red solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                        <td id="popup_profile_box_4_<%=rsSns_volunteer("article_number") %>" style=" color: #000000; border:3px blue solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                      </tr>
-                    </table>
+            <div id="underInfoBox4">
+                <div id="popupImageBox4" style="display:inline; float:left; width:45%; margin-left:4.5%; height:90%; border:3px solid red; background:#ffffff;">
+                    <img id="popup_image_box_4_<%=rsSns_volunteer("article_number") %>" src="" alt="" style="width:100%; height:100%; object-fit:contain;" />
                 </div>
-                <div id="popupTitleBox4" style="width:100%; height:5%; border:2px green solid; background:#ffffff;">
-                    <span id="popup_title_box_4_<%=rsSns_volunteer("article_number") %>" style="color:black; font-size:20pt; width:100%; height:100%;"></span>
-                </div>
-                <div id="popupContentBox4" style="width:100%; height:35%; border:3px red solid; background:#ffffff">
-                    <span id="popup_content_box_4_<%=rsSns_volunteer("article_number") %>" style="color:blue; font-size:20pt; width:100%; height:100%;"></span>
-                </div>
-                <div id="popupButtonBox4" style="width:100%; height:10%; margin-top:1%;">
-                        <button type="button" id="send_message4" onclick="send_message_volunteer(this);" style="width:50%; height:50%;">채팅 신청</button>
-                        <button type="button" id="exit_content4" onclick="exit_content_volunteer(this);" sno_exit_num_4="<%=rsSns_volunteer("article_number") %>" style="width:50%; height:50%;">창 닫기</button>
-                </div>
+                <div id="popupTextBox4" style="display:inline; float:left; width:45%; height:90%; border:3px solid red; background:#ffffff">
+                    <div id="popupScoreBox4" style="width:100%; height:10%;">
+                        <table style="width:100%; height:100%; color:white; font-size:15pt;">
+                          <tr style="width:100%; height:100%; color:white; font-size:15pt;">
+                            <td id="popup_date_box_4_<%=rsSns_volunteer("article_number") %>" style="color: #000000; border:3px red solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
+                            <td id="popup_profile_box_4_<%=rsSns_volunteer("article_number") %>" style=" color: #000000; border:3px blue solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
+                          </tr>
+                        </table>
+                    </div>
+                    <div id="popupTitleBox4" style="width:100%; height:10%; border:2px green solid; background:#ffffff;">
+                        <span id="popup_title_box_4_<%=rsSns_volunteer("article_number") %>" style="color:black; font-size:20pt; width:95%; height:100%;"></span>
+                    </div>
+                    <div id="popupContentBox4" style="width:100%; height:70%; border:3px red solid; background:#ffffff">
+                        <span id="popup_content_box_4_<%=rsSns_volunteer("article_number") %>" style="color:blue; font-size:20pt; width:95%; height:100%;"></span>
+                    </div>
+                    <div id="popupButtonBox4" style="width:100%; height:5%; margin-top:1%; text-align:center">
+                            <button type="button" id="send_message4" onclick="send_message_volunteer(this);" style="width:45%; height:100%;">채팅 신청</button>
+                            <button type="button" id="exit_content4" onclick="exit_content_volunteer(this);" sno_exit_num_4="<%=rsSns_volunteer("article_number") %>" style="width:45%; height:100%; object-fit:contain;">창 닫기</button>
+                    </div>
+                 </div>
              </div>
         </div>
         <%
