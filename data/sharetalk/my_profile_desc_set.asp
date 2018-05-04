@@ -2,10 +2,9 @@
 <%   
 
     profile_desc = request("profile_desc")
+    member_interest = request("member_interest")
 
-    strSQL = "p_gim_member_profile_desc_set '" & Session("member_no") & "','" & _
-                                                 request("member_name") & "','" & _
-                                                 profile_desc & "'"
+    strSQL = "p_gim_member_profile_desc_set '" & Session("member_no") & "','" & request("member_name") & "','" & member_interest & "','" & profile_desc & "'"
     
     Set rsData = Server.CreateObject("ADODB.RecordSet")
     rsData.Open strSQL, DbConn   

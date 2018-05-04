@@ -7,6 +7,7 @@
 
   if NOT rs.EOF and NOT rs.BOF then
     member_name = rs("member_name")
+    member_interest = rs("member_interest")
     profile_desc = rs("profile_desc")
 
     if rs("profile_url") <> "" then
@@ -99,6 +100,8 @@
               </span>
           </td></tr>
         </table>
+        <p align="center"> 관심사 </p>
+        <p id="member_interest"></p><button onclick="openInterest()">관심사 수정</button>
         <table width="100%;" border="0">
           <tr>
               <td width="80%" align="center">
@@ -111,20 +114,14 @@
           </tr>
         </table>
         </div>
-
-
-    <div style="text-align:center;">
-      <table style="width:100%">
-         <tr height="4px;"><td class="bbcDate" style="width:100%;height:3px;background:#EEEEEE"></td></tr>
-      </table>
-    </div>
-
-
 </div>
-<div class="bottom">
-
-</div>
-<script type="text/javascript" src="/_script/account.js?ver=1"></script>
+<script type="text/javascript" src="/_script/account.js"></script>
+<script>
+  var interest = [<%=member_interest %>];
+  var names = "";
+  for (i=0; i<interest.length; i++) names += interest[i] + ",";
+  setInterestText(names.substring(0,names.length-1));
+</script>
 </body>
 </html>
 

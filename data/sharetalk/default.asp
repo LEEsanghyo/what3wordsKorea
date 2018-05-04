@@ -1,6 +1,5 @@
 ﻿<!-- #include virtual="/_include/words.asp" -->
 <%
-	response.write Session("admin_flag")
 	'카테고리 리스트 불러오기
     strSQL = "p_tsm_category_list_read "
 
@@ -19,23 +18,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>What3Words Home</title>
 		<link rel="stylesheet" href="/_include/style.css" type="text/css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script>
-			var map;
-			var bounds = {
-				north: <%= lon2 %>,
-				south: <%= lon1 %>,
-				east: <%= lat2 %>,
-				west: <%= lat1 %>
-			};
-			var uluru = {lat: <%= lat_value %>, lng: <%= lon_value %> };
-			var zoom_level = <%= zoom_level %>;
-		</script>		
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
 		<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
+		<script src="/_script/chat.js"></script>
 	</head>
 
 	<body>
@@ -79,5 +66,18 @@
 		<% end if %>
 		<div id="map"></div>
 		<script type="text/javascript" src="/_script/map.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script>
+			var map;
+			var bounds = {
+				north: <%= lon2 %>,
+				south: <%= lon1 %>,
+				east: <%= lat2 %>,
+				west: <%= lat1 %>
+			};
+			var uluru = {lat: <%= lat_value %>, lng: <%= lon_value %> };
+			var zoom_level = <%= zoom_level %>;
+		</script>		
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
 	</body>
 </html>

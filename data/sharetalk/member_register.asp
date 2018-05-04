@@ -228,14 +228,6 @@
 				</td></tr>
 			</table>
 		</div>
-		<script type="text/javascript">
-			var openWin;
-
-			function openInterest()
-			{
-				window.name = "회원가입";
-				openWin = window.open("member_interest_set.html", "관심사 선택", "width=600, height=700, resizable=no, scrollbars = no");
-			}
-		</script>
+		<script type="text/javascript" src="/_script/account.js"></script>
 	</body>
 </html>
