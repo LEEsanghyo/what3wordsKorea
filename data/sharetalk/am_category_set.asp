@@ -1,16 +1,13 @@
-﻿<!-- #include virtual="/_include/login_check.inc" -->
-<!-- #include virtual="/_include/connect.inc" -->
+﻿<!-- #include virtual="/_include/login_check.asp" -->
 <%
    strSQL = "p_tsm_category_quick_set '" & request("cat_no") & "','" & _
                                            request("cat_name") & "'"
-    
-
     
    'response.write  strSQL
    'response.end
 
    Set rs = Server.CreateObject("ADODB.RecordSet")
-   rs.Open strSQL, DbCon, 1, 1      
+   rs.Open strSQL, DbConn, 1, 1
 
    data_desc = rs("data_desc")
 
@@ -20,5 +17,4 @@
    response.write  data_desc
 
 %>
-<!-- #include virtual="/_include/connect_close.inc" -->
 

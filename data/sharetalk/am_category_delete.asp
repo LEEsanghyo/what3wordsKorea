@@ -1,5 +1,4 @@
-﻿<!-- #include virtual="/_include/login_check.inc" -->
-<!-- #include virtual="/_include/connect.inc" -->
+﻿<!-- #include virtual="/_include/login_check.asp" -->
 <%
    strSQL = "p_tsm_category_delete '" & request("cat_no") & "'"
     
@@ -7,12 +6,11 @@
    'response.end
 
    Set rs = Server.CreateObject("ADODB.RecordSet")
-   rs.Open strSQL, DbCon, 1, 1      
+   rs.Open strSQL, DbConn, 1, 1      
 
    Set rs = nothing
 
    response.write "삭제 되었습니다"
    
 %>
-<!-- #include virtual="/_include/connect_close.inc" -->
 

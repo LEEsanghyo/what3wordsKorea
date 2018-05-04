@@ -101,7 +101,7 @@
 
 <html>
 <head>
-<title>������ �ѱ���ǥ</title>
+<title>What3Words Home</title>
 
 <style>
        #map {

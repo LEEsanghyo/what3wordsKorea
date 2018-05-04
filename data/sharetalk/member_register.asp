@@ -159,14 +159,9 @@
 											<% end if %>
 											<td style="width:20%;font-size:12px;font-weight:bold;font-family:Arial,맑은 고딕,돋움;color:#000000;text-align:center;">관&nbsp;&nbsp;심&nbsp;&nbsp;사</td>
 											<td width="10px;"></td>
-											<td class="td_content">
-												<select name="member_interest" ID="member_interest">
-												<option value=100>여행</option>
-												<option value=200>맛집</option>
-												<option value=300>행사</option>
-												<option value=400>등산</option>
-												<option value=500>운동</option>
-												</select>
+											<td>
+												<button onclick="openInterest()">관심사 선택하기</button>
+												<p id="member_interest"> <%=interest %></p>
 											</td>
 										</tr>
 									</table>
@@ -233,5 +228,14 @@
 				</td></tr>
 			</table>
 		</div>
+		<script type="text/javascript">
+			var openWin;
+
+			function openInterest()
+			{
+				window.name = "회원가입";
+				openWin = window.open("member_interest_set.html", "관심사 선택", "width=600, height=700, resizable=no, scrollbars = no");
+			}
+		</script>
 	</body>
 </html>

@@ -15,7 +15,6 @@
 			Session("member_no") = userData("member_no")
 			Session("member_name") = userData("member_name")
 			Session("member_email") = userData("member_email")
-			Session("admin_flag") = userData("admin_flag")
 			Session("authority_level") = userData("authority_level")
 		set userData = nothing
 		end if

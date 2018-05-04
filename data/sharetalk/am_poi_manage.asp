@@ -7,24 +7,7 @@
 		<title>좌표 관리</title>
 		<link rel="stylesheet" href="/_include/style.css" type="text/css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script src="/_script/map.js"></script>
-		<script>
-			var map;
-			var bounds;
-			var uluru;
-			var zoom_level = <%= zoom_level %>
-			bounds = {
-				north: <%= lon2 %>,
-				south: <%= lon1 %>,
-				east: <%= lat2 %>,
-				west: <%= lat1 %>
-			};
-			
-			uluru = {lat: <%= lat_value %>, lng: <%= lon_value %>};
-		</script>
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
+		
 	</head>
 	
 	<body>
@@ -96,5 +79,23 @@
 				</form>
 			</div>
 		</div>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="/_script/map.js"></script>
+		<script>
+			var map;
+			var bounds;
+			var uluru;
+			var zoom_level = <%= zoom_level %>
+			bounds = {
+				north: <%= lon2 %>,
+				south: <%= lon1 %>,
+				east: <%= lat2 %>,
+				west: <%= lat1 %>
+			};
+			
+			uluru = {lat: <%= lat_value %>, lng: <%= lon_value %>};
+		</script>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
 	</body>
 </html>
