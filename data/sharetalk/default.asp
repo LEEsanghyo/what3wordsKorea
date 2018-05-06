@@ -1,4 +1,4 @@
-﻿<!-- #include virtual="/_include/words.asp" -->
+<!-- #include virtual="/_include/words.asp" -->
 <%
 	'카테고리 리스트 불러오기
     strSQL = "p_tsm_category_list_read "
@@ -12,6 +12,7 @@
 	   NoDataCategory = False
     end if
 %>
+<!Doctype html>
 <html lang="ko">
 	<head>
 		<meta charset="UTF-8">
@@ -22,7 +23,6 @@
 		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
-		<script src="/_script/chat.js"></script>
 	</head>
 
 	<body>
@@ -62,10 +62,10 @@
 		<div align="center" id="firebaseui-auth-contanier">
 			<image src="/images/glogin.png" onclick=GoogleLogin(); style="cursor:pointer;width:120px;height:40px;">
 		</div><p></p>
-		<script src="/_script/login.js"></script>
+		<script type="text/javascript" src="/_script/login.js"></script>
 		<% end if %>
 		<div id="map"></div>
-		<script type="text/javascript" src="/_script/map.js"></script>
+		<script type="text/javascript" src="/_script/map.js"></script>	
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script>
 			var map;
@@ -79,5 +79,6 @@
 			var zoom_level = <%= zoom_level %>;
 		</script>		
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
+		<script type="text/javascript" src="/_script/community.js"></script>
 	</body>
 </html>

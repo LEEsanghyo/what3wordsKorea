@@ -1,0 +1,42 @@
+<SCRIPT language=VBScript RUNAT="Server">
+
+Sub Application_OnStart
+	'클라이언트 배열 객체화
+	Dim Clients_ID(0)
+	Dim Clients_Chat(0)
+	Clients_ID(0) = ""
+	Clients_Chat(0) = 0
+	Application("Clients_ID") = Clients_ID
+	Application("Clients_Chat") = Clients_Chat
+	Application("Req_ID") = 0
+	Application("Req_Name") = ""
+End Sub
+
+Sub Application_OnEnd
+	Application("Clients_ID") = nothing
+	Application("Clients_Chat") = nothing
+	Application("Req_ID") = nothing
+	Application("Req_Name") = nothing
+End sub
+
+Sub Session_OnStart
+End Sub
+
+Sub Session_OnEnd
+	'세션 종료 시 클라이언트 배열 안 해당 세션 객체 삭제
+	Application.lock
+	Clients_ID = Application("Clients_ID")
+	Clients_Chat = Application("Clients_Chat")
+	for i=0 to UBOUND(Clients_ID) step 1
+		if Clients_ID(i) = Session("member_no") then
+			Clients_ID(i) = nothing
+			Clients_Chat(i) = nothing
+			exit for
+		end if
+	next
+	Application("Clients_ID") = Clients_ID
+	Application("Clients_Chat") = Clients_Chat
+	Application.unlock
+End Sub
+
+</SCRIPT>

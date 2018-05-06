@@ -1,6 +1,6 @@
-﻿<!-- #include virtual="/_include/login_check.asp" -->
+﻿<!-- #include virtual="/_include/login_check.inc" -->
 <%
-  strSQL = "p_gim_member_read_detail  '" & Session("member_no") & "'"
+  strSQL = "p_gim_member_read_detail  '" & Request.Cookies("member_no") & "'"
 
   Set rs = Server.CreateObject("ADODB.RecordSet")
   rs.Open strSQL, DbConn

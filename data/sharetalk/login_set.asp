@@ -12,18 +12,26 @@
     Set rsGi = Server.CreateObject("ADODB.RecordSet")
     rsGi.Open strSQL, DbConn
 	if rsGi("p_count") = 1 Then
-		Session("member_no") = rsGi("member_no")
-		Session("member_name") = rsgi("member_name")
-		Session("member_email") = rsgi("member_email")
-		Session("authority_level") = rsgi("authority_level")
+		member_no = rsGi("member_no")
+		Response.Cookies("member_email") = member_email
+		Response.Cookies("member_name") = rsGi("member_name")
 		Session("admin_flag") = rsgi("admin_flag")
+		Session("member_uid") = member_uid
+		Session("member_no") = member_no
+		Session("chat_flag") = 0
 
-		Response.Cookies("talk_member_email") = member_email
-		Response.Cookies("talk_member_pwd") = member_pwd		
-		Response.Cookies("member_uid") = member_uid
+		'세션 아이디넘버를 전역변수에 저장
+		Application.lock
+		Clients_ID = Application("Clients_ID")
+		Clients_ID(UBOUND(Clients_ID)) = member_no
+		Redim Preserve Clients_ID(UBOUND(Clients_ID)+1)
+		Application("Clients_ID") = Clients_ID
+		Clients_Chat = Application("Clients_Chat")
+		Clients_Chat(UBOUND(Clients_Chat)) = 0
+		Redim Preserve Clients_Chat(UBOUND(Clients_Chat)+1)
+		Application("Clients_Chat") = Clients_Chat
+		Application.unlock
 
-		response.write rsgi("admin_flag")
-		response.write rsgi("l_message")
 	elseif rsgi("l_message") <> "" then
 		response.write "0"
 	else

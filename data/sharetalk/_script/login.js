@@ -55,7 +55,6 @@ function LoginConfirm(vals) {
 			if (this.responseText == "0")
 				callbackfunc(vals);
 			else{
-				alert(this.responseText);
 				var siteurl = "default.asp";
 				window.location.href = siteurl;
 			}

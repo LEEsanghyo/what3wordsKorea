@@ -7,7 +7,6 @@ function openInterest(){
 }
 
 function setInterestText(interest){
-    alert(interest);
     var names=['영화','노래부르기','당구','요리','클럽','스포츠 관람','장기/체스','공연/콘서트','주거 개선','드라이브','음주','스파/마사지샵','박물관/전시회','수다','봉사활동','쇼핑','게임','산책','등산','캠핑','음악 감상','악기 연주','사진촬영','애완동물 기르기','독서','그림그리기','운동','먹방','여행','차(Tea)'];
     var name = new Array();
     var index = interest.split(",");
