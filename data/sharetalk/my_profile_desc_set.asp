@@ -5,6 +5,7 @@
 
     strSQL = "p_gim_member_profile_desc_set '" & Session("member_no") & "','" & _
                                                  request("member_name") & "','" & _
+                                                 request("member_alias") & "','" & _
                                                  profile_desc & "'"
         
     
@@ -12,7 +13,7 @@
     'response.end
     
     Set rsData = Server.CreateObject("ADODB.RecordSet")
-    rsData.Open strSQL, DbConn, 1, 1     
+    rsData.Open strSQL, DbCon, 1, 1     
     
     set rsData = nothing
     

@@ -417,3 +417,53 @@
                 font-size: 11px;
                 margin-top: 0;
             }
+/* popup alert start */
+        .btnTime {
+              background-color: #9DB81A;
+              -webkit-border-radius: 10;
+              -moz-border-radius: 10;
+              border-radius: 10px;
+              font-family:Arial,맑은 고딕,돋움;
+              color: #ffffff;
+              font-size: 12px;
+              font-weight:bold;
+              text-align: center;
+              vertical-align: middle;
+              text-decoration:solid;
+              display: inline-block;
+              width:60px;
+ --             height:25px;
+              padding: 5px 10px 5px 10px;
+              border: solid #9DB81A 2px;
+              text-decoration: none;
+            }
+
+	#popupAlertPosition{
+		  top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+          	  border-radius: 10px;
+		background-color: rgba(0,0,0,0.7); 
+            	display: none;
+		}
+        #popupAlertHeader {
+            font-size:16px;
+            font-weight:bold;
+            font-family: Arial, 맑은 고딕, 돋움;
+            text-align:center;
+            vertical-align:middle;
+            padding:10px;
+            height:30px;
+            border-radius: 10px 10px 0px 0px;
+            color:#ffffff;
+            background-color: #939393;
+            background: linear-gradient(#939393, #424242);
+        }
+		#popupAlertWrapper{
+			width: 250px; margin: 100px auto; text-align: left;
+                border-radius: 10px;
+		}
+		#popupAlertContent{
+			background-color: #FFF; padding: 15px;
+            border-radius: 0px 0px 10px 10px;
+		}
+
+/* popup alert end */

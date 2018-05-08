@@ -33,7 +33,6 @@
 			var zoom_level = <%= zoom_level %>;
 		</script>		
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
-		<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	</head>
 
 	<body>
@@ -67,12 +66,10 @@
 			<p style="cursor:pointer;" onclick="LoginConfirm(null);">로그인</p>
 		</div>
 
-		<!-- 네이버 / 카카오 / 구글 로그인 -->
-		<div align="center" id="naverIdLogin"></div><p></p>
-		<div align="center" id="kakao-login-btn"></div><p></p>
-		<div align="center" id="firebaseui-auth-contanier">
-			<image src="/images/glogin.png" onclick=GoogleLogin(); style="cursor:pointer;width:120px;height:40px;">
-		</div><p></p>
+		<!-- 네이버 / 구글 로그인 -->
+		<div align="center" id="naverIdLogin"></div>
+		<div align="center" id="firebaseui-auth-contanier"></div>
+		<div id="loader">Loading..</div>
 		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
@@ -90,29 +87,6 @@
 
 			naverLogin.init();
 
-			// 사용할 앱의 JavaScript 키를 설정해 주세요.
-			Kakao.init('fd746baa46dfc1f5c9c5dbab60b692d6');
-			// 카카오 로그인 버튼을 생성합니다.
-			Kakao.Auth.createLoginButton({
-				container: '#kakao-login-btn',
-				success: function(authObj) {
-					Kakao.API.request({
-						url: '/v1/user/me',
-						success: function(res) {
-							var info = JSON.parse(JSON.stringify(res));
-							kLogin(info);
-						},
-						fail: function(error) {
-							alert(JSON.stringify(error));
-						}
-					});
-				},
-				fail: function(err) {
-					alert(JSON.stringify(err));
-				},
-				size : 'small'
-			});
-
 			// Initialize Firebase
 			var config = {
 				apiKey: "AIzaSyCgbsTJV7viSLJ4bxnW5verdCsbthGLnbU",
@@ -123,6 +97,17 @@
 				messagingSenderId: "239661248738"
 			};
 			firebase.initializeApp(config);
+
+			var provider = new firebase.auth.GoogleAuthProvider();
+			firebase.auth().signInWithPopup(provider).then(function(result){
+				var token = result.credential.accessToken; // 액세스 토큰 발급
+				var user = result.user;	// 로그인 할 유저 정보
+			}).catch(function(error){
+				var errorCode = error.code;	// 에러 코드를 받아 처리한다.
+				var errorMessage = error.message;
+				var email = error.email
+				var credentail = error.credential;
+			})
 		</script>
 		<% end if %>
 		<div id="map"></div>

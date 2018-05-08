@@ -6,22 +6,6 @@ function VisitRegister() {
 	window.location.href = siteurl;
 }
 
-// 카카오톡 로그인
-function kLogin(res){
-	var properties = JSON.stringify(res.properties);
-	alert(properties);
-	var vals = {
-		memail : res.kaccount_email,
-		verified : res.kaccount_email_verified,
-		mid : res.id,
-		mname : res.properties.nickname,
-		//mage : 2018-res.kstory_birthday.split('-')*1
-	}
-	alert(vals);
-	if (vals.verified == false)	return 0;
-	else	LoginConfirm(vals);
-}
-
 // 로그인
 function LoginConfirm(vals) {
 	var email;
@@ -69,17 +53,17 @@ function callbackfunc(vals){
 	var email = vals.memail;
 	var id = vals.mid;
 	var age = vals.mage;
-	strurl = "member_register.asp?member_nickname=" + name + "&member_email=" + email + "&member_uniqID=" + id + "&member_age=" + age;
+	strurl = "member_register.asp?member_nickname=" + name + "&member_email=" + email + "&member_uniqid=" + id + "&member_age=" + age;
 	location.href = strurl;
 }
 
 // 회원가입 or 다른 사이트 연동 로그인 시 정보 등록
 function MemberRegister(oflag, uid) {
+	//alert("1");
 	var mname, memail, mage, mint, mphone, mpwd, mpwd2, strurl;
-	var id = uid;
-	id += "";
 
-	// 사이트에서 회원 가입 시
+	// 사이트에서 회원 가입 시 
+	
 	mname = document.getElementById("member_name").value;
 	memail = document.getElementById("member_email").value;
 	mage = document.getElementById("member_age").value;
@@ -124,7 +108,7 @@ function MemberRegister(oflag, uid) {
 	  return false;
 	}
 
-	strurl = "member_register_set.asp?member_name=" + mname + "&member_email=" + memail + "&member_age=" + mage + "&member_interest=" + mint + "&member_phone=" + mphone + "&member_pwd=" + mpwd + "&org_flag=" + oflag + "&member_uniqid=" + id.substring(0,9);
+	strurl = "member_register_set.asp?member_name=" + mname + "&member_email=" + memail + "&member_age=" + mage + "&member_interest=" + mint + "&member_phone=" + mphone + "&member_pwd=" + mpwd + "&org_flag=" + oflag + "&member_uniqid=" + uid;
 
 	xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = MemberRegisterSet;
@@ -132,7 +116,7 @@ function MemberRegister(oflag, uid) {
 	xhr.send(null);
 }
 
-function MemberRegisterSet(){
+function MemberRegisterSet() {
 	if (xhr.readyState == 4) {
 	  var data = xhr.responseText;
 	  var slipdata = data.split(',');
@@ -146,27 +130,4 @@ function MemberRegisterSet(){
 		  window.location.href = siteurl;
 	  }
 	}
-}
-
-function GoogleLogin(){
-	var provider = new firebase.auth.GoogleAuthProvider();
-	firebase.auth().signInWithPopup(provider).then(function(result){
-		var token = result.credential.accessToken; // 액세스 토큰 발급
-		var user = result.user;	// 로그인 할 유저 정보
-		var providerData = user.providerData[0];
-		var vals = {
-			mname : providerData.displayName,
-			memail : user.email,
-			verified : user.emailVerified,
-			mid : providerData.uid.substring(0,9)
-		}
-		alert(vals.mid);
-		if (vals.verified)	LoginConfirm(vals);
-		else	alert("이메일을 인증받으신 후 로그인하시기 바랍니다.");
-	}).catch(function(error){
-		var errorCode = error.code;	// 에러 코드를 받아 처리한다.
-		var errorMessage = error.message;
-		var email = error.email
-		var credentail = error.credential;
-	})
 }
