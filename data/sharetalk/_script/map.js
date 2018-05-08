@@ -20,7 +20,7 @@ function original_search(){
 				var location=results[0].geometry.location;
 				lat=location.lat();
 				lng=location.lng();
-				var strsql = "range_find_ajax.asp?x_center=" + lat + "&y_center=" + lng;
+				var strsql = "/map/range_find_ajax.asp?x_center=" + lat + "&y_center=" + lng;
 				xhr = new XMLHttpRequest();
 				xhr.onreadystatechange = return_original_search;
 				xhr.open("Get", strsql);
@@ -86,7 +86,7 @@ function initMap() {
 				map: map
 			});
 			count++;
-			var strsql = "range_find_ajax.asp?x_center=" + x_center + "&y_center=" + y_center;
+			var strsql = "/map/range_find_ajax.asp?x_center=" + x_center + "&y_center=" + y_center;
 			xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = setMarker;
 			xhr.open("Get", strsql);
@@ -112,7 +112,7 @@ function setMarker(){
 function getLocation(){	   // 내 위치
 	if (navigator.geolocation) { // GPS를 지원하면
 		navigator.geolocation.getCurrentPosition(function(position) {
-			var strsql = "range_find_ajax.asp?x_center=" + position.coords.latitude + "&y_center=" + position.coords.longitude;
+			var strsql = "/map/range_find_ajax.asp?x_center=" + position.coords.latitude + "&y_center=" + position.coords.longitude;
 			move_camera(position.coords.latitude, position.coords.longitude);
 			marker = new google.maps.Marker({
 				position: {
@@ -215,7 +215,7 @@ function search_nearby_sql(no){
 	var min_lng = map.getBounds().getSouthWest().lng();
 	var max_lat = map.getBounds().getNorthEast().lat();
 	var max_lng = map.getBounds().getNorthEast().lng();
-	var strsql = "search_nearby_sql_ajax.asp?min_lat="+ min_lat+"&max_lat="+max_lat +"&min_lng="+min_lng  +"&max_lng="+max_lng;
+	var strsql = "/map/search_nearby_sql_ajax.asp?min_lat="+ min_lat+"&max_lat="+max_lat +"&min_lng="+min_lng  +"&max_lng="+max_lng;
 	console.log(strsql);
 	xhr=new XMLHttpRequest();
 	xhr.onreadystatechange=return_search_nearby_sql;
@@ -297,7 +297,7 @@ function search_nearby(url, no){
 					//	detail_url += place_id + "&key=AIzaSyAMrRsdusECHHPD-La4B6FUocXp6XcyxeQ";
 					//		show_detail(detail_url);
 					//	  });
-					strsql = "test_ajax.asp?p_poi_name=" + json["results"][i].name + "&p_gcat_name_en=restaurant&p_lat_value="+json["results"][i].geometry.location.lat + "&p_lon_value="+json["results"][i].geometry.location.lng;
+					strsql = "/map/test_ajax.asp?p_poi_name=" + json["results"][i].name + "&p_gcat_name_en=restaurant&p_lat_value="+json["results"][i].geometry.location.lat + "&p_lon_value="+json["results"][i].geometry.location.lng;
 					console.log(strsql);
 					test_ajax(strsql);
 				}

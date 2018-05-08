@@ -1,0 +1,312 @@
+﻿<!-- #include virtual="/_include/words.asp" -->
+<!-- #include virtual="/_include/connect.inc" -->
+<%
+	'카테고리 리스트 불러오기
+    strSQL = "p_tsm_category_list_read "
+
+    Set rsCategory = Server.CreateObject("ADODB.RecordSet")
+    rsCategory.Open strSQL, DbConn, 3, 1
+
+    if rsCategory.EOF or rsCategory.BOF then
+	   NoDataCategory = True
+    Else
+	   NoDataCategory = False
+    end if
+%>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>What3Words Home</title>
+		<link rel="stylesheet" href="/_include/style.css" type="text/css">		
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <style>
+            #under_the_nav{
+                width:100%;
+                height:100%;
+                display:flex;
+                flex-flow: row nowrap;
+                justify-content: space-between;
+                margin-top:70px;
+            }
+            #write_box{
+                width:100%;
+                height:100%;
+                margin-left:10%;
+                margin-right:10%;
+                margin-bottom:50%;
+                padding:2%;
+                border:1px red solid;
+            }
+            .content_box{
+                text-align:center;
+            }
+            .content_zone{
+
+            }
+            .content_input{
+
+            }
+            #content_input_area{
+                width:100%;
+                min-height:200px;
+            }
+            .file_upload_box{
+                text-align:center;
+            }
+            .file_zone{
+
+            }
+            .file_upload{
+
+            }
+            #file_upload_area{
+                width:100%;
+            }
+            .location_box{
+                text-align:center;
+            }
+            .location_zone{
+
+            }
+            .lat_input{
+                width:100%;
+            }
+            .log_input{
+                width:100%;
+            }
+            #latitude{
+                width:100%;
+            }
+            #logitude{
+                width:100%;
+            }
+            .button_box{
+                text-align:center;
+            }
+            .geo_address_row
+        </style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
+		<script src="/_script/login.js"></script>
+		<script type="text/javascript" src="/_script/map.js"></script>
+		<script>
+			var map;
+			var bounds = {
+				north: <%= lon2 %>,
+				south: <%= lon1 %>,
+				east: <%= lat2 %>,
+				west: <%= lat1 %>
+			};
+			var uluru = {lat: <%= lat_value %>, lng: <%= lon_value %> };
+			var zoom_level = <%= zoom_level %>;
+		</script>
+		<script type="text/javascript">
+		    var lat_r ="";
+            var log_r = "";
+            function geoFind() {
+                //Geolocation API에 액세스할 수 있는지를 확인
+                alert("System start finding your location... Please wait for completion");
+                if (navigator.geolocation) {
+                    //위치 정보를 얻기
+                        navigator.geolocation.getCurrentPosition(function (pos) {
+                            lat_r = pos.coords.latitude;
+                            log_r = pos.coords.longitude;
+                            $('#latitude').html(pos.coords.latitude);       // 위도
+                            $('#longitude').html(pos.coords.longitude);  // 경도
+                            alert(lat_r);
+                        });
+                } else {
+                    alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.")
+                }
+            }
+
+		    function write_upload() {
+		        var content_input_area = document.getElementById("content_input_area").value;
+		        var file_path = document.getElementById("file_upload_area").value;
+		        var file_upload_area = file_path.split("\\");
+		        var file_upload_area_real = "/images/" + file_upload_area[2];
+		        var latitude = lat_r;
+		        var longitude = log_r;
+
+		        if (latitude.length < 2) {
+		            alert("please wait for location");
+		            return false;
+		        }
+
+		        if (content_input_area == "") {
+		            alert("content is empty");
+		            return false;
+		        }
+		        else if (file_upload_area_real == "") {
+		            alert("upload is empty");
+		            return false;
+		        }
+		        else if (latitude == "") {
+		            alert("lat is empty");
+		            return false;
+		        }
+		        else if (longitude == "") {
+		            alert("lat is empty");
+		            return false;
+		        }
+		        else {
+		            var content = content_input_area.replace(/\n/g, '<br/>');
+		            var from_place = "what3words";
+		            alert(from_place);
+		            alert(content);
+		            alert(file_upload_area_real);
+		            alert(latitude);
+		            alert(longitude);
+		            var strurl = "test_send_write.asp?from_place=" + from_place +  "&file_upload_area_real=" +  file_upload_area_real +"&content_input_area=" + content + "&latitude=" + latitude + "&longitude=" + longitude;
+
+		            xhr = new XMLHttpRequest();
+		            xhr.onreadystatechange = SendContent;
+		            xhr.open("Get", strurl);
+		            alert(strurl);
+		            xhr.send(null);
+		            location.href = "test_page_insta.asp";
+		            return true;
+		            
+		        }
+		    }
+
+		    function SendContent() {
+		        if (xhr.readyState == 4) {
+		            var data = xhr.responseText;
+		            document.getElementById("result_msg").innerHTML = data;
+		        }
+		    }
+		    function BacktoDefault() {
+		        location.href = "test_page_insta.asp";
+            }
+            function geoCode() {
+                var latitude_x = document.getElementById("latitude");
+                var longitude_y = document.getElementById("longitude");
+                var faddr = document.getElementById("address").value;
+                var geocoder;
+           
+                geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ "address": faddr }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        var faddr_lat = results[0].geometry.location.lat();
+                        var faddr_lng = results[0].geometry.location.lng();
+                    } else {
+                        alert("here!!");
+                        var faddr_lat = "";
+                        var faddr_lng = "";
+                    }
+
+                    alert("주소 : " + faddr + "\n\n위도: " + faddr_lat + "\n\n경도: " + faddr_lng);
+
+		            $('#latitude').html(faddr_lat);       // 위도
+                    $('#longitude').html(faddr_lng);   // 경도
+                    lat_r = faddr_lat;
+                    log_r = faddr_lng;
+                    return;
+                });
+                
+
+            }
+		</script>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
+	</head>
+
+	<body>
+		<% top_menu = "HOME" %>
+		
+		<!-- #include virtual="/_include/top_menu.asp" -->
+		<!-- #include virtual="/_include/top_menulist.asp" -->
+        <div id="under_the_nav">
+            <div id="write_box">
+                <div class="content_box row">
+                    <div class="content_zone col-sm-2 col-lg-2">
+                        CONTENT
+                    </div>
+                    <div class="content_input col-sm-10 col-lg-10">
+                        <textarea id="content_input_area"></textarea>
+                    </div>
+                </div>
+                <div class="file_upload_box row">
+                    <div class="file_zone col-sm-2 col-lg-2">
+                        FILE UPLOAD
+                    </div>
+                    <div class="file_upload col-sm-10 col-lg-10">
+                        <input type="file" id="file_upload_area"/>
+                    </div>
+                </div>
+                <div class="location_box row">
+                    <div class="change_address_box row">
+                        <div class="location_zone col-sm-2 col-lg-2">
+                            LOCATION
+                        </div>
+                        <div class="address_input_box col-sm-8 col-lg-8">
+                            <input id="address" style="width:95%;" type="text" value="본인이 원하는 위치를 작성해주세요." />
+                        </div>
+                        <div class="address_change_button1 col-sm-1 col-lg-1">
+                            <button type="button" onclick="geoCode();">주소 변환</button>
+                        </div>
+                        <div class="address_change_button2 col-sm-1 col-lg-1">
+                            <button type="button" onclick="geoFind();">위치 자동 찾기</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="lat_input col-sm-5 col-lg-5">
+                            <ul>
+                                <li>위도 :<span id="latitude"></span></li>
+                            </ul>
+                        </div>
+                        <div class="log_input col-sm-5 col-lg-5">
+                            <ul>
+                                <li>경도 :<span id="longitude"></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="button_box row">
+                    <input type="submit" value="확인" onclick="write_upload()"/>
+                    <input type="button"value="취소" onclick="BacktoDefault()" />
+                </div>
+            </div>
+        </div>
+        <div id="result_msg">
+
+        </div>
+		
+		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+			var naverLogin = new naver.LoginWithNaverId(
+				{
+					clientId: "ePD3yuxPRSuXMeIBH5DA",
+					callbackUrl: "http://tour.abcyo.kr/callback.html",
+					isPopup: true,
+					callbackHandle: true,
+					loginButton: {color: "green", type: 1, height: 30} /* 로그인 버튼의 타입을 지정 */
+					/* callback 페이지가 분리되었을 경우에 callback 페이지에서는 callback처리를 해줄수 있도록 설정합니다. */
+				}
+			);
+		
+			/* (3) 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
+			naverLogin.init();
+			
+			naverLogin.getLoginStatus(function (status) {
+				if (status){
+					var email = naverLogin.user.getEmail();
+					var name = naverLogin.user.getNickName();
+					var uniqId = navrLogin.user.getId();
+					var age = naverLogin.user.getAge();
+				} else {
+					console.log("AccessToken이 올바르지 않습니다.");
+				}
+			});
+		</script>
+	</body>
+</html>
+<!-- #include virtual="/_include/connect_close.inc" -->

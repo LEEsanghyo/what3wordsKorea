@@ -2,7 +2,7 @@ var xhr;
 
 // 회원가입
 function VisitRegister() {
-	var siteurl = "member_register.asp";
+	var siteurl = "/account/member_register.asp";
 	window.location.href = siteurl;
 }
 
@@ -47,7 +47,7 @@ function LoginConfirm(vals) {
 		uid = vals.mid;
 	}
 
-	strurl = "login_set.asp?member_email=" + email + "&member_pwd=" + pwd + "&member_uniqid=" + uid;
+	strurl = "/account/login_set.asp?member_email=" + email + "&member_pwd=" + pwd + "&member_uniqid=" + uid;
 	
 	xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
@@ -69,7 +69,7 @@ function callbackfunc(vals){
 	var email = vals.memail;
 	var id = vals.mid;
 	var age = vals.mage;
-	strurl = "member_register.asp?member_nickname=" + name + "&member_email=" + email + "&member_uniqID=" + id + "&member_age=" + age;
+	strurl = "/account/member_register.asp?member_nickname=" + name + "&member_email=" + email + "&member_uniqID=" + id + "&member_age=" + age;
 	location.href = strurl;
 }
 
@@ -124,7 +124,7 @@ function MemberRegister(oflag, uid) {
 	  return false;
 	}
 
-	strurl = "member_register_set.asp?member_name=" + mname + "&member_email=" + memail + "&member_age=" + mage + "&member_interest=" + mint + "&member_phone=" + mphone + "&member_pwd=" + mpwd + "&org_flag=" + oflag + "&member_uniqid=" + id.substring(0,9);
+	strurl = "/account/member_register_set.asp?member_name=" + mname + "&member_email=" + memail + "&member_age=" + mage + "&member_interest=" + mint + "&member_phone=" + mphone + "&member_pwd=" + mpwd + "&org_flag=" + oflag + "&member_uniqid=" + id.substring(0,9);
 
 	xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = MemberRegisterSet;
@@ -170,3 +170,50 @@ function GoogleLogin(){
 		var credentail = error.credential;
 	})
 }
+
+var naverLogin = new naver.LoginWithNaverId(
+	{
+		clientId: "ePD3yuxPRSuXMeIBH5DA",
+		callbackUrl: "http://tour.abcyo.kr:8090/account/callback.html",
+		isPopup: false,
+		callbackHandle: true,
+		/* callback 페이지가 분리되었을 경우에 callback 페이지에서는 callback처리를 해줄수 있도록 설정합니다. */
+		loginButton: {color: "green", type: 2, height: 40}
+	}
+);
+
+naverLogin.init();
+
+// 사용할 앱의 JavaScript 키를 설정해 주세요.
+Kakao.init('fd746baa46dfc1f5c9c5dbab60b692d6');
+// 카카오 로그인 버튼을 생성합니다.
+Kakao.Auth.createLoginButton({
+	container: '#kakao-login-btn',
+	success: function(authObj) {
+		Kakao.API.request({
+			url: '/v1/user/me',
+			success: function(res) {
+				var info = JSON.parse(JSON.stringify(res));
+				kLogin(info);
+			},
+			fail: function(error) {
+				alert(JSON.stringify(error));
+			}
+		});
+	},
+	fail: function(err) {
+		alert(JSON.stringify(err));
+	},
+	size : 'small'
+});
+
+// Initialize Firebase
+var config = {
+	apiKey: "AIzaSyCgbsTJV7viSLJ4bxnW5verdCsbthGLnbU",
+	authDomain: "friendship-22539.firebaseapp.com",
+	databaseURL: "https://friendship-22539.firebaseio.com",
+	projectId: "friendship-22539",
+	storageBucket: "friendship-22539.appspot.com",
+	messagingSenderId: "239661248738"
+};
+firebase.initializeApp(config);
