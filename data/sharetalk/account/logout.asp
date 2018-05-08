@@ -1,6 +1,4 @@
-<%@ Language=VBScript%>
 <%
-	On Error Resume Next
 	member_no = Session("member_no")
 	Application.lock
 	ID = Application("Clients_ID")

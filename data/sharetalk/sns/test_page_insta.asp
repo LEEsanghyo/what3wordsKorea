@@ -1,4 +1,4 @@
-﻿<!-- #include virtual="/_include/words.asp" -->
+<!-- #include virtual="/_include/words.asp" -->
 <!-- #include virtual="/_include/login_check.inc" -->
 <%
 	    '================== [  카테고리 리스트 불러오기  ] ===================
@@ -563,7 +563,6 @@
 
             function addMarker(num_iter) {
 
-                alert(num_iter);
                 myIcon = new google.maps.MarkerImage(icon_image_array[num_iter], null, null, null, new google.maps.Size(45, 45));
 
                 var marker_piece = new google.maps.Marker({
@@ -657,7 +656,6 @@
                 var sno_click_num = num.getAttribute("sno_click_num");
 
 
-                alert(sno_click_num);
                 var marker_selected = { lat: parseFloat(lat_new), lng: parseFloat(long_new_real) };
                 map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 17,
@@ -1200,35 +1198,9 @@
             Loop
             rsSns_volunteer.MoveFirst
         %>
+        <input type="hidden" id="test" value="ee">
         <!-- 팝업창 Volunteer -->
-		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
-		
 		<script type="text/javascript">
-			var naverLogin = new naver.LoginWithNaverId(
-				{
-					clientId: "ePD3yuxPRSuXMeIBH5DA",
-					callbackUrl: "http://tour.abcyo.kr/callback.html",
-					isPopup: true,
-					callbackHandle: true,
-					loginButton: {color: "green", type: 1, height: 30} /* 로그인 버튼의 타입을 지정 */
-					/* callback 페이지가 분리되었을 경우에 callback 페이지에서는 callback처리를 해줄수 있도록 설정합니다. */
-				}
-			);
-		
-			/* (3) 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
-			naverLogin.init();
-			
-			naverLogin.getLoginStatus(function (status) {
-				if (status){
-					var email = naverLogin.user.getEmail();
-					var name = naverLogin.user.getNickName();
-					var uniqId = navrLogin.user.getId();
-					var age = naverLogin.user.getAge();
-				} else {
-					console.log("AccessToken이 올바르지 않습니다.");
-				}
-            });
-
             function return_number_of_write() {
                 return <%=num %>;
             }
@@ -1246,6 +1218,6 @@
             }
 
 		</script>
-        <script type="text/javascript" src="/_script/community.js?ver=1"></script>
+        <script type="text/javascript" src="/_script/community.js"></script>
 	</body>
 </html>

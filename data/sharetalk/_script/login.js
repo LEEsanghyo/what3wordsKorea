@@ -2,7 +2,7 @@ var xhr;
 
 // 회원가입
 function VisitRegister() {
-	var siteurl = "member_register.asp";
+	var siteurl = "/account/member_register.asp";
 	window.location.href = siteurl;
 }
 
@@ -47,7 +47,7 @@ function LoginConfirm(vals) {
 		uid = vals.mid;
 	}
 
-	strurl = "login_set.asp?member_email=" + email + "&member_pwd=" + pwd + "&member_uniqid=" + uid;
+	strurl = "/account/login_set.asp?member_email=" + email + "&member_pwd=" + pwd + "&member_uniqid=" + uid;
 	
 	xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
@@ -69,7 +69,7 @@ function callbackfunc(vals){
 	var email = vals.memail;
 	var id = vals.mid;
 	var age = vals.mage;
-	strurl = "member_register.asp?member_nickname=" + name + "&member_email=" + email + "&member_uniqID=" + id + "&member_age=" + age;
+	strurl = "/account/member_register.asp?member_nickname=" + name + "&member_email=" + email + "&member_uniqID=" + id + "&member_age=" + age;
 	location.href = strurl;
 }
 
@@ -124,7 +124,7 @@ function MemberRegister(oflag, uid) {
 	  return false;
 	}
 
-	strurl = "member_register_set.asp?member_name=" + mname + "&member_email=" + memail + "&member_age=" + mage + "&member_interest=" + mint + "&member_phone=" + mphone + "&member_pwd=" + mpwd + "&org_flag=" + oflag + "&member_uniqid=" + id.substring(0,9);
+	strurl = "/account/member_register_set.asp?member_name=" + mname + "&member_email=" + memail + "&member_age=" + mage + "&member_interest=" + mint + "&member_phone=" + mphone + "&member_pwd=" + mpwd + "&org_flag=" + oflag + "&member_uniqid=" + id.substring(0,9);
 
 	xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = MemberRegisterSet;

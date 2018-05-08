@@ -8,6 +8,7 @@ Sub Application_OnStart
 	Clients_Chat(0) = 0
 	Application("Clients_ID") = Clients_ID
 	Application("Clients_Chat") = Clients_Chat
+	Application("count") = 0
 	Application("Req_ID") = 0
 	Application("Req_Name") = ""
 End Sub
