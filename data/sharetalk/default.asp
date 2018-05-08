@@ -62,7 +62,7 @@
 		<div align="center" id="firebaseui-auth-contanier">
 			<image src="/images/glogin.png" onclick=GoogleLogin(); style="cursor:pointer;width:120px;height:40px;">
 		</div><p></p>
-		<script type="text/javascript" src="/_script/login.js"></script>
+		<script type="text/javascript" src="/_script/login.js?ver=1"></script>
 		<% end if %>
 		<div id="map"></div>
 		<script type="text/javascript" src="/_script/map.js"></script>	

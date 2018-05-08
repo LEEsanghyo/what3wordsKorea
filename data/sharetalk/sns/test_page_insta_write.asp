@@ -130,7 +130,7 @@
 		        var content_input_area = document.getElementById("content_input_area").value;
 		        var file_path = document.getElementById("file_upload_area").value;
 		        var file_upload_area = file_path.split("\\");
-		        var file_upload_area_real = "images/" + file_upload_area[2];
+		        var file_upload_area_real = "/images/" + file_upload_area[2];
 		        var latitude = lat_r;
 		        var longitude = log_r;
 
