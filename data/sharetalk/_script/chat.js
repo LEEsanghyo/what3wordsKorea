@@ -1,31 +1,16 @@
 var app = require('express')();
-var cors = require('cors');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var url = require('url');
-var querystring = require('querystring');
 var clients = [];
 
 app.get('/ichat', function(req,res){
-	//console.log(req);
-	var parsedUrl = url.parse(req.url);
-	var parsedQuery = querystring.parse(parsedUrl.query, '&', '=');
-	var my = parsedQuery.my;
-	var other = parsedQuery.other;
-	res.statusCode = 302;
-	res.setHeader('Location', 'http://localhost:8090/ichat.asp?myid=' + my + '&otherid=' + other);
-	res.end();
-	//console.log(req.socket.id);
 });
-
-app.use(cors());
 
 http.listen(1337,function(){
     console.log('Server Start at *:1337');
 });
 
 io.on('connection', function(socket){
-	//console.log(socket);
 	// 1대1 채팅을 위해 세션 정보 저장
 	socket.on('session', function(id){
 		console.log(socket.id + ' Session connected');
@@ -41,9 +26,10 @@ io.on('connection', function(socket){
 		for (var i=0; i<clients.length; i++){
 			if (clients[i].uid == data[0]){
 				io.to(clients[i].sid).emit('individual', data[1]);
-				break;
+				return false;
 			}
 		}
+		io.to(socket.id).emit('end', null);
 	});
 
 	// 지역 별 채팅방
@@ -56,11 +42,10 @@ io.on('connection', function(socket){
 	socket.on('disconnect', function(){
 		for (var i=0; i<clients.length; i++){
 			if (clients[i].sid = socket.id){
-				console.log(clients[i].id + ' disconnected');
+				console.log(clients[i].uid + ' disconnected');
 				clients.splice(i, 1);
 				break;
 			}
 		}
-
 	});
 });

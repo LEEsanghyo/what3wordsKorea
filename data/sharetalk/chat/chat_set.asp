@@ -50,7 +50,7 @@
 				elseif Chat(i) = 2 then
 					Chat(i) = 0
 					iid = Application("individual_id")
-					response.write "채팅 시작," + cstr(Session("member_no")) + "," + cstr(iid)
+					response.write "채팅 시작," + cstr(iid)
 					clearVar()
 				elseif Chat(i) = 3 then
 					Chat(i) = 0
@@ -68,7 +68,7 @@
 					Application.lock
 					Application("individual_id") = Session("member_no")
 					Application.unlock
-					response.write "수락," + Cstr(Session("member_no")) + "," + Cstr(req_id)
+					response.write "수락," + Cstr(req_id)
 				elseif Accept = 2 then
 					Chat(i) = 3
 					response.write "거절"

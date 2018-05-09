@@ -62,7 +62,6 @@
 		<div align="center" id="firebaseui-auth-contanier">
 			<image src="/images/glogin.png" onclick=GoogleLogin(); style="cursor:pointer;width:120px;height:40px;">
 		</div><p></p>
-<<<<<<< HEAD
 		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
@@ -114,9 +113,7 @@
 			};
 			firebase.initializeApp(config);
 		</script>
-=======
 		<script type="text/javascript" src="/_script/login.js?ver=1"></script>
->>>>>>> js
 		<% end if %>
 		<div id="map"></div>
 		<script type="text/javascript" src="/_script/map.js"></script>	

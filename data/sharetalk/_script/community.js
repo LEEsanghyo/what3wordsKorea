@@ -10,7 +10,7 @@ function Community(){
             else if (data[0] == "채팅 시작"){
                 var id = [data[1],data[2]];
                 window.name = "w3w";
-                openWin = window.open("http://localhost:1337/ichat?my=" + data[1] + "&other=" + data[2], "1대1 채팅", "width=500, height=600, resizable=no, scrollbars = no");
+                openWin = window.open("/chat/ichat.asp?otherid=" + data[1], "1대1 채팅", "width=500, height=600, resizable=no, scrollbars = no");
             }
             else if (this.responseText != "")   alert(this.responseText);
         }
@@ -41,13 +41,13 @@ function reqChat(aid, code){
 
 // 채팅 수락/거절
 function resChat(accept, id){
-    var strurl = "/chat_set.asp?accept=" + accept + "&id=" + id;
+    var strurl = "/chat/chat_set.asp?accept=" + accept + "&id=" + id;
     xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200){
             var data = this.responseText.split(',');
             if (data[0] == "수락"){
-                location.href("http://localhost:1337/ichat?my=" + data[1] + "&other=" + data[2]);
+                location.href("/chat/ichat.asp?otherid=" + data[1]);
             }
             else if (this.responseText == "거절") window.close();
         }

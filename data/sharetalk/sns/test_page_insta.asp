@@ -930,6 +930,7 @@
                                         <%=rsSns("sns_content_input_area") %>
                                     </td>
                                 </tr>
+								<!--
                                 <tr style="border:1px solid red">
                                     <td id="latitude_a">
                                         <%=rsSns("sns_latitude")%>
@@ -940,6 +941,7 @@
                                         <%=rsSns("sns_longitude")%>
                                     </td>
                                 </tr>
+								-->
                             </table>
                         </div>
                         <div id="go_to_box">
