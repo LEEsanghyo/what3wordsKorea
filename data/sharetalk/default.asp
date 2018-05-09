@@ -62,57 +62,6 @@
 		<div align="center" id="firebaseui-auth-contanier">
 			<image src="/images/glogin.png" onclick=GoogleLogin(); style="cursor:pointer;width:120px;height:40px;">
 		</div><p></p>
-		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
-		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
-		<script type="text/javascript">
-			var naverLogin = new naver.LoginWithNaverId(
-				{
-					clientId: "ePD3yuxPRSuXMeIBH5DA",
-					callbackUrl: "http://tour.abcyo.kr/callback.html",
-					isPopup: false,
-					callbackHandle: true,
-					/* callback 페이지가 분리되었을 경우에 callback 페이지에서는 callback처리를 해줄수 있도록 설정합니다. */
-					loginButton: {color: "green", type: 2, height: 40}
-				}
-			);
-
-			naverLogin.init();
-
-			// 사용할 앱의 JavaScript 키를 설정해 주세요.
-			Kakao.init('fd746baa46dfc1f5c9c5dbab60b692d6');
-			// 카카오 로그인 버튼을 생성합니다.
-			Kakao.Auth.createLoginButton({
-				container: '#kakao-login-btn',
-				success: function(authObj) {
-					Kakao.API.request({
-						url: '/v1/user/me',
-						success: function(res) {
-							var info = JSON.parse(JSON.stringify(res));
-							kLogin(info);
-						},
-						fail: function(error) {
-							alert(JSON.stringify(error));
-						}
-					});
-				},
-				fail: function(err) {
-					alert(JSON.stringify(err));
-				},
-				size : 'small'
-			});
-
-			// Initialize Firebase
-			var config = {
-				apiKey: "AIzaSyCgbsTJV7viSLJ4bxnW5verdCsbthGLnbU",
-				authDomain: "friendship-22539.firebaseapp.com",
-				databaseURL: "https://friendship-22539.firebaseio.com",
-				projectId: "friendship-22539",
-				storageBucket: "friendship-22539.appspot.com",
-				messagingSenderId: "239661248738"
-			};
-			firebase.initializeApp(config);
-		</script>
 		<script type="text/javascript" src="/_script/login.js?ver=1"></script>
 		<% end if %>
 		<div id="map"></div>

@@ -1,7 +1,7 @@
 ﻿<nav class="menu">
 	<ul>
     	<li><a href="/">지도</a></li>
-        <li><a href="/">길찾기</a></li>
+        <li><a href="/map/navigator.asp">길찾기</a></li>
         <li><a href="/sns/test_page_insta.asp">SNS</a></li>
         <li><a href="/account/mi_profile.asp">프로필관리</a></li>
 		<% if Session("member_no") < "1" then %>

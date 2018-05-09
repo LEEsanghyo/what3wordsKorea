@@ -23,7 +23,7 @@
     end if
 
   end if
-  set rs = nothing   
+  set rs = nothing
 %>
 <!doctype html>
 <html>
@@ -80,7 +80,55 @@
     <table style="width:100%">
        <tr height="4px;"><td class="bbcDate" style="width:100%;height:3px;background:#EEEEEE"></td></tr>
     </table>
-    </div>      
+    </div>
+
+        <div style="margin:20px 0;text-align:center;">
+        <table width="100%;" border="0">
+          <tr><td>
+              <% if back_url <> "" then %>
+              <img src="<%=back_url %>" style="width:50%;" />
+              <% else %>
+              (배경 이미지 없음)
+              <% end if %>
+          </td></tr>
+        </table>
+        <table width="100%;" border="0">
+          <tr>
+              <td  align="center">
+              <FORM NAME="FormBack" id="FormBack" METHOD="post" ACTION="mi_profile_back_upload.asp" ENCTYPE="multipart/form-data"> 
+              <INPUT TYPE="file" NAME="file1" >
+              <input type="button" onclick="UploadBack();" value="저장" />
+              </FORM>
+              </td>
+          </tr>
+        </table>
+        </div>
+    <div style="text-align:center;">
+    <table style="width:100%">
+       <tr height="4px;"><td class="bbcDate" style="width:100%;height:3px;background:#EEEEEE"></td></tr>
+    </table>
+    </div>
+        <div style="margin:20px 0;text-align:center;">
+        <table width="100%;" border="0">
+          <tr><td>
+              <% if logo_url <> "" then %>
+              <img src="<%=logo_url %>" style="width:50%;" />
+              <% else %>
+              (프로필 이미지 없음)
+              <% end if %>
+          </td></tr>
+        </table>
+        <table width="100%;" border="0">
+          <tr>
+              <td  align="center">
+              <FORM NAME="FormLogo" id="FormLogo" METHOD="post" ACTION="mi_profile_logo_upload.asp" ENCTYPE="multipart/form-data"> 
+              <INPUT TYPE="file" NAME="file1" >
+              <input type="button" onclick="UploadLogo();" value="저장" />
+              </FORM>
+              </td>
+          </tr>
+        </table>
+        </div>
     <div style="text-align:center;">
     <table style="width:100%">
        <tr height="4px;"><td class="bbcDate" style="width:100%;height:3px;background:#EEEEEE"></td></tr>
@@ -92,10 +140,10 @@
               <td>
               <span style="text-align:center" id="profile_desc_box">
               <%  if profile_desc <> "" then %>
-                  <%=profile_desc%>
+                  <%=profile_desc%> 
               <% else %>
-                  (프로필 설명 없음)
-              <% End if%>
+              (프로필 설명 없음)
+              <% end if %>
               </span>
           </td></tr>
         </table>
@@ -105,6 +153,7 @@
           <tr>
               <td width="80%" align="center">
                   <input type="text" id="member_name" value="<%=member_name %>" style="width:45%;" />
+                  <input type="text" id="member_alias" value="<%=member_alias %>" style="width:45%;" /> 
               </td>
               <td width="20%" align="center" rowspan="2"><input type="button" value="프로필 글 저장" onclick="ChangeProfile();" /></td>
           </tr>

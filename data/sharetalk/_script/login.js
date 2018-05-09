@@ -6,22 +6,6 @@ function VisitRegister() {
 	window.location.href = siteurl;
 }
 
-// 카카오톡 로그인
-function kLogin(res){
-	var properties = JSON.stringify(res.properties);
-	alert(properties);
-	var vals = {
-		memail : res.kaccount_email,
-		verified : res.kaccount_email_verified,
-		mid : res.id,
-		mname : res.properties.nickname,
-		//mage : 2018-res.kstory_birthday.split('-')*1
-	}
-	alert(vals);
-	if (vals.verified == false)	return 0;
-	else	LoginConfirm(vals);
-}
-
 // 로그인
 function LoginConfirm(vals) {
 	var email;
@@ -76,10 +60,9 @@ function callbackfunc(vals){
 // 회원가입 or 다른 사이트 연동 로그인 시 정보 등록
 function MemberRegister(oflag, uid) {
 	var mname, memail, mage, mint, mphone, mpwd, mpwd2, strurl;
-	var id = uid;
-	id += "";
 
-	// 사이트에서 회원 가입 시
+	// 사이트에서 회원 가입 시 
+	
 	mname = document.getElementById("member_name").value;
 	memail = document.getElementById("member_email").value;
 	mage = document.getElementById("member_age").value;
@@ -125,14 +108,13 @@ function MemberRegister(oflag, uid) {
 	}
 
 	strurl = "/account/member_register_set.asp?member_name=" + mname + "&member_email=" + memail + "&member_age=" + mage + "&member_interest=" + mint + "&member_phone=" + mphone + "&member_pwd=" + mpwd + "&org_flag=" + oflag + "&member_uniqid=" + id.substring(0,9);
-
 	xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = MemberRegisterSet;
 	xhr.open("Get", strurl);
 	xhr.send(null);
 }
 
-function MemberRegisterSet(){
+function MemberRegisterSet() {
 	if (xhr.readyState == 4) {
 	  var data = xhr.responseText;
 	  var slipdata = data.split(',');
