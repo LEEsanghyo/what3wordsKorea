@@ -1,5 +1,5 @@
+﻿<!-- #include virtual="/_include/connect.inc" -->
 <!-- #include virtual="/_include/words.asp" -->
-<!-- #include virtual="/_include/login_check.inc" -->
 <%
 	    '================== [  카테고리 리스트 불러오기  ] ===================
 	'카테고리 리스트 불러오기
@@ -194,8 +194,7 @@
             }
         </style>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="http://localhost:1337/socket.io/socket.io.js"></script>
-		<script src="/_script/chat.js"></script>
+		<script src="/_script/login.js"></script>
 		<script type="text/javascript" src="/_script/map.js"></script>
 		<script>
 			var map;
@@ -219,7 +218,6 @@
             var like_array = [];
             var heart_amount_array = [];
 
-            var d_user_id_busking = [];
             var d_user_profile_busking = [];
             var d_title_busking = [];
             var d_content_busking = [];
@@ -228,7 +226,6 @@
             var d_lat_busking = [];
             var d_long_busking = [];
 
-            var d_user_id_foodtruck = [];
             var d_user_profile_foodtruck = [];
             var d_title_foodtruck = [];
             var d_content_foodtruck = [];
@@ -237,7 +234,6 @@
             var d_lat_foodtruck = [];
             var d_long_foodtruck = [];
 
-            var d_user_id_volunteer = [];
             var d_user_profile_volunteer = [];
             var d_title_volunteer = [];
             var d_content_volunteer = [];
@@ -285,7 +281,7 @@
 
             function img_click5(elem) {
                 image_number = 5;
-                img_change(elem);
+                img_change(elem);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
             }
 
             function img_change(elem) {
@@ -563,6 +559,7 @@
 
             function addMarker(num_iter) {
 
+                alert(num_iter);
                 myIcon = new google.maps.MarkerImage(icon_image_array[num_iter], null, null, null, new google.maps.Size(45, 45));
 
                 var marker_piece = new google.maps.Marker({
@@ -634,13 +631,6 @@
                 var number_of_write = return_number_of_write();
 
             }
-
-            function go_to_write(lat, long) {
-
-                location.href = "test_page_insta_write.asp";
-
-            }
-
             function go_to_place(num) {
 
                 if (define_done == 0) {
@@ -656,6 +646,7 @@
                 var sno_click_num = num.getAttribute("sno_click_num");
 
 
+                alert(sno_click_num);
                 var marker_selected = { lat: parseFloat(lat_new), lng: parseFloat(long_new_real) };
                 map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 17,
@@ -844,22 +835,6 @@
                 else
                     open_window_volunteer.style.display = 'block';
             }
-
-            function go_to_busking_write() {
-
-                location.href = "test_busking_write.asp";
-
-            }
-            function go_to_foodtruck_write() {
-
-                location.href = "test_foodtruck_write.asp";
-
-            }
-            function go_to_volunteer_write(){
-
-                location.href = "test_volunteer_write()";
-
-            }
         </script>
 	</head>
 
@@ -869,7 +844,6 @@
 		<!-- #include virtual="/_include/top_menu.asp" -->
 		<!-- #include virtual="/_include/top_menulist.asp" -->
         <div id="buttons_box">
-            <button type="button" onclick="go_to_write()">글 쓰기</button>
             <button type="button" onclick="get_all_data()">모든 내용 지도에 표시하기</button>
         </div>
         <div id="under_the_nav">
@@ -930,7 +904,6 @@
                                         <%=rsSns("sns_content_input_area") %>
                                     </td>
                                 </tr>
-								<!--
                                 <tr style="border:1px solid red">
                                     <td id="latitude_a">
                                         <%=rsSns("sns_latitude")%>
@@ -941,7 +914,6 @@
                                         <%=rsSns("sns_longitude")%>
                                     </td>
                                 </tr>
-								-->
                             </table>
                         </div>
                         <div id="go_to_box">
@@ -980,7 +952,7 @@
                 <span id="popup_content_box_<%=rsSns("sns_box_number") %>" style="color:blue; font-size:20pt; width:100%; height:100%;"></span>
             </div>
             <div id="popupButtonBox" style="width:100%; height:10%; margin-top:1%;">
-                    <button type="button" id="send_message" onclick="reqChat(<%=rsSns("sns_box_number") %>, 1)" style="width:30%; height:50%;">채팅 신청</button>
+                    <button type="button" id="send_message" onclick="send_message();" style="width:30%; height:50%;">채팅 신청</button>
                     <button type="button" id="user_profile" onclick="discover_user();" style="width:30%; height:50%;">이 회원 살펴보기</button>
                     <button type="button" id="exit_content" onclick="exit_content(this);" sno_exit_num="<%=rsSns("sns_box_number") %>" style="width:30%; height:50%;">창 닫기</button>
             </div>
@@ -1000,7 +972,6 @@
         </div>
         <div id="extra_content_box" style="width:100%; height:100%; padding:2%;">
             <div style="float:left; width:33%; text-align:center;">
-                <button id="busking_info_write" onclick="go_to_busking_write();">버스킹 정보 올리기</button>
                 <button id="express_all_busking" onclick="get_all_busking_data();">버스킹 정보 지도에 표출</button>
                 <table style="border:1px solid red; width:90%; overflow-x:hidden; overflow-y:scroll; text-align:center;">
                     <% Do While NOT rsSns_busking.EOF%>
@@ -1027,7 +998,6 @@
                 </table>
             </div>
             <div style="float:left; width:33%; text-align:center;">
-                <button id="foodtruck_info_write" onclick="go_to_foodtruck_write();">푸드트럭 정보 올리기</button>
                 <button id="express_all_foodtruck" onclick="get_all_foodtruck_data();">푸드트럭 정보 지도에 표출</button>
                 <table style="border:1px solid red; width:90%; overflow-x:hidden; overflow-y:scroll; text-align:center;">
                     <% Do While NOT rsSns_foodtruck.EOF%>
@@ -1054,7 +1024,6 @@
                 </table>
             </div>
             <div style="float:left; width:33%; text-align:center;">
-                <button id="volunteer_info_write" onclick="go_to_volunteer_write();">봉사활동 정보 올리기</button>
                 <button id="express_all_volunteer" onclick="get_all_volunteer_data();">봉사활동 정보 지도에 표출</button>
                 <table style="border:1px solid red; width:90%; overflow-x:hidden; overflow-y:scroll; text-align:center;">
                     <% Do While NOT rsSns_volunteer.EOF%>
@@ -1109,7 +1078,7 @@
                         <span id="popup_content_box_2_<%=rsSns_busking("article_number") %>" style="color:blue; font-size:20pt; width:95%; height:100%;"></span>
                     </div>
                     <div id="popupButtonBox2" style="width:100%; height:5%; margin-top:1%; text-align:center;">
-                            <button type="button" id="send_message2" onclick="reqChat(<%=rsSns_busking("article_number") %>, 2)" style="width:45%; height:100%; object-fit:contain;">채팅 신청</button>
+                            <button type="button" id="send_message2" onclick="send_message_busking(this);" style="width:45%; height:100%; object-fit:contain;">채팅 신청</button>
                             <button type="button" id="exit_content2" onclick="exit_content_busking(this);" sno_exit_num_2="<%=rsSns_busking("article_number") %>" style="width:45%; height:100%; object-fit:contain;">창 닫기</button>
                     </div>
                  </div>
@@ -1149,7 +1118,7 @@
                         <span id="popup_content_box_3_<%=rsSns_foodtruck("article_number") %>" style="color:blue; font-size:20pt; width:95%; height:100%;"></span>
                     </div>
                     <div id="popupButtonBox3" style="width:100%; height:5%; margin-top:1%; text-align:center;">
-                            <button type="button" id="send_message3" onclick="reqChat(<%=rsSns_foodtruck("article_number") %>, 3);" style="width:45%; height:100%;">채팅 신청</button>
+                            <button type="button" id="send_message3" onclick="send_message_foodtruck(this);" style="width:45%; height:100%;">채팅 신청</button>
                             <button type="button" id="exit_content3" onclick="exit_content_foodtruck(this);" sno_exit_num_3="<%=rsSns_foodtruck("article_number") %>" style="width:45%; height:100%; object-fit:contain;">창 닫기</button>
                     </div>
                  </div>
@@ -1189,7 +1158,7 @@
                         <span id="popup_content_box_4_<%=rsSns_volunteer("article_number") %>" style="color:blue; font-size:20pt; width:95%; height:100%;"></span>
                     </div>
                     <div id="popupButtonBox4" style="width:100%; height:5%; margin-top:1%; text-align:center">
-                            <button type="button" id="send_message4" onclick="reqChat(<%=rsSns_volunteer("article_number") %>, 4);" style="width:45%; height:100%;">채팅 신청</button>
+                            <button type="button" id="send_message4" onclick="send_message_volunteer(this);" style="width:45%; height:100%;">채팅 신청</button>
                             <button type="button" id="exit_content4" onclick="exit_content_volunteer(this);" sno_exit_num_4="<%=rsSns_volunteer("article_number") %>" style="width:45%; height:100%; object-fit:contain;">창 닫기</button>
                     </div>
                  </div>
@@ -1200,9 +1169,35 @@
             Loop
             rsSns_volunteer.MoveFirst
         %>
-        <input type="hidden" id="test" value="ee">
         <!-- 팝업창 Volunteer -->
+		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
+		
 		<script type="text/javascript">
+			var naverLogin = new naver.LoginWithNaverId(
+				{
+					clientId: "ePD3yuxPRSuXMeIBH5DA",
+					callbackUrl: "http://tour.abcyo.kr/callback.html",
+					isPopup: true,
+					callbackHandle: true,
+					loginButton: {color: "green", type: 1, height: 30} /* 로그인 버튼의 타입을 지정 */
+					/* callback 페이지가 분리되었을 경우에 callback 페이지에서는 callback처리를 해줄수 있도록 설정합니다. */
+				}
+			);
+		
+			/* (3) 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
+			naverLogin.init();
+			
+			naverLogin.getLoginStatus(function (status) {
+				if (status){
+					var email = naverLogin.user.getEmail();
+					var name = naverLogin.user.getNickName();
+					var uniqId = navrLogin.user.getId();
+					var age = naverLogin.user.getAge();
+				} else {
+					console.log("AccessToken이 올바르지 않습니다.");
+				}
+            });
+
             function return_number_of_write() {
                 return <%=num %>;
             }
@@ -1220,6 +1215,6 @@
             }
 
 		</script>
-        <script type="text/javascript" src="/_script/community.js"></script>
 	</body>
 </html>
+<!-- #include virtual="/_include/connect_close.inc" -->
