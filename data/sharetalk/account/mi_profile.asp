@@ -76,33 +76,7 @@
         </table>
         </div>
 
-    <div style="text-align:center;">
-    <table style="width:100%">
-       <tr height="4px;"><td class="bbcDate" style="width:100%;height:3px;background:#EEEEEE"></td></tr>
-    </table>
-    </div>
-
-        <div style="margin:20px 0;text-align:center;">
-        <table width="100%;" border="0">
-          <tr><td>
-              <% if back_url <> "" then %>
-              <img src="<%=back_url %>" style="width:50%;" />
-              <% else %>
-              (배경 이미지 없음)
-              <% end if %>
-          </td></tr>
-        </table>
-        <table width="100%;" border="0">
-          <tr>
-              <td  align="center">
-              <FORM NAME="FormBack" id="FormBack" METHOD="post" ACTION="mi_profile_back_upload.asp" ENCTYPE="multipart/form-data"> 
-              <INPUT TYPE="file" NAME="file1" >
-              <input type="button" onclick="UploadBack();" value="저장" />
-              </FORM>
-              </td>
-          </tr>
-        </table>
-        </div>
+   
     <div style="text-align:center;">
     <table style="width:100%">
        <tr height="4px;"><td class="bbcDate" style="width:100%;height:3px;background:#EEEEEE"></td></tr>

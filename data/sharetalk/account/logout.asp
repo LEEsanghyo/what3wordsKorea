@@ -7,7 +7,7 @@
 	for i=0 to UBOUND(ID)-1
 		if ID(i) = member_no then
 			Chat(i) = 0
-			ID(i) = ""
+			ID(i) = 0
 			exit for
 		end if
 	next

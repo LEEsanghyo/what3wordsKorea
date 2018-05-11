@@ -36,6 +36,7 @@
 				end if
 			next
 		end if
+		rs = nothing
 	elseif Accept = 0 then
 		for i=0 to UBOUND(ID) step 1
 			'내 세션에 새 채팅 신청이 있는지 확인
@@ -44,13 +45,13 @@
 					Chat(i) = 0
 					req_id = Application("Req_ID")
 					Req_name = Application("Req_Name")
-					ReqInfo = "새 채팅," + Req_name + "," + CStr(req_id)
+					ReqInfo = "새 채팅," + Req_name + "," + req_id
 					response.write reqInfo
 					clearVar()
 				elseif Chat(i) = 2 then
 					Chat(i) = 0
 					iid = Application("individual_id")
-					response.write "채팅 시작," + cstr(iid)
+					response.write "채팅 시작," + iid
 					clearVar()
 				elseif Chat(i) = 3 then
 					Chat(i) = 0
@@ -68,7 +69,7 @@
 					Application.lock
 					Application("individual_id") = Session("member_no")
 					Application.unlock
-					response.write "수락," + Cstr(req_id)
+					response.write "수락," + req_id
 				elseif Accept = 2 then
 					Chat(i) = 3
 					response.write "거절"

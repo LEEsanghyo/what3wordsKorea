@@ -4,7 +4,7 @@ Sub Application_OnStart
 	'클라이언트 배열 객체화
 	Dim Clients_ID(0)
 	Dim Clients_Chat(0)
-	Clients_ID(0) = ""
+	Clients_ID(0) = 0
 	Clients_Chat(0) = 0
 	Application("Clients_ID") = Clients_ID
 	Application("Clients_Chat") = Clients_Chat

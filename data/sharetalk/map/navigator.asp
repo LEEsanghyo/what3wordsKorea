@@ -13,7 +13,7 @@
     <title>Whar3Words</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./_include/navigator.css" />
+    <link rel="stylesheet" href="../_include/navigator.css" />
     
     <style>
         .btnTime {
@@ -78,7 +78,7 @@
     <!-- //라는 상대 프로토콜 사용하면 사용자의 http, https 환경에 따라 자동으로 해당 프로토콜을 따라간다 -->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?&appkey=9a9b328e41d45bb4d7c639a649707e2d&libraries=services,clusterer,drawing"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc"></script>
-    <script type="text/javascript" src="./_script/navigator.js"></script>
+    <script type="text/javascript" src="../_script/navigator.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     
@@ -88,6 +88,7 @@
 
 </head>
 <body onload="initMap()">
+
     <!-- #include virtual="/_include/top_menu.asp" -->
     <!-- #include virtual="/_include/top_menulist.asp" -->
     <div style="margin-top: 100px" class="container-fluid">
@@ -580,8 +581,19 @@
          sendParameterToSearchRoute(inode, nextinode);
         }
 
-     
+        function serach() {
+             $.ajax({
+                url : 'http://192.168.0.14:8000/test',
+                data : { "member_no": <%=Session("member_no")%>},
+                type : 'post',
+                success:function(response) {
+                    document.getElementById("output").value = response.data;
+                }
+             })
+        }
+
         function initMap() {
+            serach()
             var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
             var options = { //지도를 생성할 때 필요한 기본 옵션
                 center: new daum.maps.LatLng(37.561143, 126.985856), //지도의 중심좌표.
@@ -1457,6 +1469,7 @@
 
 
     <!-- #include virtual="/_include/connect_close.inc" -->
+    <textarea id="output"></textarea>
 </body>
 
 

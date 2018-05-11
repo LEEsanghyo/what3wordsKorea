@@ -1,5 +1,7 @@
 <!-- #include virtual="/_include/words.asp" -->
 <%
+    MENU = "HOME"
+
 	'카테고리 리스트 불러오기
     strSQL = "p_tsm_category_list_read "
 
@@ -11,6 +13,8 @@
     Else
 	   NoDataCategory = False
     end if
+	
+	set rsCategory = nothing
 %>
 <!Doctype html>
 <html lang="ko">
@@ -19,10 +23,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>What3Words Home</title>
 		<link rel="stylesheet" href="/_include/style.css" type="text/css">
-		<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
-		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
+		<script async src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+		<script async type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
+		<script async src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
+		<script async src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
 	</head>
 
 	<body>
@@ -65,8 +69,8 @@
 		<script type="text/javascript" src="/_script/login.js?ver=1"></script>
 		<% end if %>
 		<div id="map"></div>
-		<script type="text/javascript" src="/_script/map.js"></script>	
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script async type="text/javascript" src="/_script/map.js"></script>	
+		<script async src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script>
 			var map;
 			var bounds = {
@@ -79,6 +83,6 @@
 			var zoom_level = <%= zoom_level %>;
 		</script>		
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
-		<script type="text/javascript" src="/_script/community.js"></script>
+		<script async type="text/javascript" src="/_script/community.js"></script>
 	</body>
 </html>

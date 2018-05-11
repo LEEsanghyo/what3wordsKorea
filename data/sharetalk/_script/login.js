@@ -6,6 +6,22 @@ function VisitRegister() {
 	window.location.href = siteurl;
 }
 
+// 카카오톡 로그인
+function kLogin(res){
+	var properties = JSON.stringify(res.properties);
+	alert(properties);
+	var vals = {
+		memail : res.kaccount_email,
+		verified : res.kaccount_email_verified,
+		mid : res.id,
+		mname : res.properties.nickname,
+		//mage : 2018-res.kstory_birthday.split('-')*1
+	}
+	alert(vals);
+	if (vals.verified == false)	return 0;
+	else	LoginConfirm(vals);
+}
+
 // 로그인
 function LoginConfirm(vals) {
 	var email;
@@ -70,6 +86,8 @@ function MemberRegister(oflag, uid) {
 	mphone = document.getElementById("phone1").value + "-" + document.getElementById("phone2").value + "-" + document.getElementById("phone3").value;
 	mpwd = document.getElementById("member_pwd").value;
 	mpwd2 = document.getElementById("member_pwd2").value;
+	if (mint == undefined)	mint = "";
+	if (document.getElementById("phone1").value == "")	mphone = "";
 
 	if (mname == "") {
 	  alert("닉네임을 입력하세요.");
@@ -107,7 +125,7 @@ function MemberRegister(oflag, uid) {
 	  return false;
 	}
 
-	strurl = "/account/member_register_set.asp?member_name=" + mname + "&member_email=" + memail + "&member_age=" + mage + "&member_interest=" + mint + "&member_phone=" + mphone + "&member_pwd=" + mpwd + "&org_flag=" + oflag + "&member_uniqid=" + id.substring(0,9);
+	strurl = "/account/member_register_set.asp?member_name=" + mname + "&member_email=" + memail + "&member_age=" + mage + "&member_interest=" + mint + "&member_phone=" + mphone + "&member_pwd=" + mpwd + "&org_flag=" + oflag + "&member_uniqid=" + uid.substring(0,9);
 	xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = MemberRegisterSet;
 	xhr.open("Get", strurl);
@@ -124,7 +142,7 @@ function MemberRegisterSet() {
 	  }
 	  else {
 		  alert(slipdata);
-		  var siteurl = "default.asp";
+		  var siteurl = "/default.asp";
 		  window.location.href = siteurl;
 	  }
 	}
@@ -156,7 +174,7 @@ function GoogleLogin(){
 var naverLogin = new naver.LoginWithNaverId(
 	{
 		clientId: "ePD3yuxPRSuXMeIBH5DA",
-		callbackUrl: "http://tour.abcyo.kr:8090/account/callback.html",
+		callbackUrl: "http://tour.abcyo.kr/account/callback.html",
 		isPopup: false,
 		callbackHandle: true,
 		/* callback 페이지가 분리되었을 경우에 callback 페이지에서는 callback처리를 해줄수 있도록 설정합니다. */
