@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Whar3Words</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/_css/bootstrap.min.css">
     <link rel="stylesheet" href="../_include/navigator.css" />
     
     <style>
@@ -73,6 +73,28 @@
             padding: 15px;
             border-radius: 0px 0px 10px 10px;
         }
+		
+		#popupBoxOnePosition{
+			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+			background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
+		}
+		#popupBoxDelete{
+			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+			background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
+		}
+		#popupBoxTwoPosition{
+			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+			background-color: rgba(0,0,0,0.7); display: none;
+		}#popupBoxThreePosition{
+			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+			background-color: rgba(0,0,0,0.7); display: none;
+		}
+		.popupBoxWrapper{
+			width: 300px; margin: 0px; text-align: left;position:absolute;top:50px;left:30px;border-radius:0px;
+		}
+		.popupBoxContent{
+			background-color: #FFF; padding: 0px;border-radius:2px;
+		}
     </style>
 
     <!-- //라는 상대 프로토콜 사용하면 사용자의 http, https 환경에 따라 자동으로 해당 프로토콜을 따라간다 -->
@@ -81,6 +103,15 @@
     <script type="text/javascript" src="../_script/navigator.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script>
+		function toggle_visibility(id) {
+			var e = document.getElementById(id);
+			if (e.style.display == 'block')
+				e.style.display = 'none';
+			else
+				e.style.display = 'block';
+		}
+	</script>
     
 
 
@@ -88,33 +119,45 @@
 
 </head>
 <body onload="initMap()">
-
-    <!-- #include virtual="/_include/top_menu.asp" -->
+	
+    <!-- #include virtual="/_include/top_menu_map.asp" -->
     <!-- #include virtual="/_include/top_menulist.asp" -->
+	<div style="margin:90px 0 10px 0;">
+		<table width=100%>
+			<tr>
+				<td width=50%>
+					<div style="margin:5px">
+						<input type="text" id="my_position" class="form-control" disabled>
+					</div>
+					</td>
+				<td width=50%>
+					<div style="margin:5px">
+						<input type="text" class="form-control" id="destination3Words" disabled>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td width=100% colspan="2">
+					<div style="margin:5px">
+						<textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<table width=100%>
+			<tr>
+				<td>
+					<div style="clear:both;height:10px"></div>
+					<div id="route"></div><input type="button" style="float: right" value="경로 저장" />
+				</td>
+			</tr>
+		</table>
+	</div>
     <div style="margin-top: 100px" class="container-fluid">
         <div class="row">
-            <div class="col-xs-12 col-sm-3" id="selectType">
-                <select class="selectpicker" id="selectOption" data-style="btn-danger">
-                    <option value="1">주소로 검색</option>
-                    <option value="2">3Words로 검색</option>
-                </select>
-
-            </div>
-            <div class="col-xs-9 col-sm-6">
-                <input type="text" id="addressSpace" class="form-control" placeholder="검색할 주소를 입력하세요">
-            </div>
-            <div class="col-xs-3 col-sm-3">
-                <button type="button" class="btn btn-primary" onclick="describeSearchType()">검색</button>
-            </div>
-        </div>
-
-        <br>
-        <hr>
-
-        <div class="row">
-
-            <div class="col-xs-1 col-md-2"></div>
-            <div class="col-xs-10 col-md-8" id="map">
+			
+			<div style="clear:both;height:5px"></div>
+            <div class="col-lg-12" id="map" style="box-shadow: rgba(0, 0, 0, 0.498039) 0px 0px 1px 0px, rgba(0, 0, 0, 0.14902) 0px 1px 10px 0px;">
 
 
                 <ul id="category" class="category">
@@ -152,50 +195,15 @@
 
         </div>
 
-        <br>
-        <br>
-        <hr>
-
-        <div>
-            <div class="row">
-                <div class="col-xs-0 col-sm-1"></div>
-                <div class="col-xs-4 col-sm-5" style="text-align: center">내 위치</div>
-                <div class="col-xs-8 col-sm-5">
-                    <input type="text" id="my_position" class="form-control" disabled>
-                </div>
-                <div class="col-xs-0 col-sm-1"></div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-xs-0 col-sm-1"></div>
-                <div class="col-xs-4 col-sm-5" style="text-align: center">갈 곳 </div>
-                <div class="col-xs-8 col-sm-5">
-                    <input type="text" class="form-control" id="destination3Words" disabled>
-                </div>
-                <div class="col-xs-0 col-sm-1"></div>
-            </div>
-        </div>
-
-        <hr>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12">
-
-                <textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
-            </div>
-        </div>
-        <hr>
-
         <div class="row">
             <div class="col-xs-12 col-sm-12" id="photo">
                 <div>
-                    <div class="col-xs-12 col-sm-12" id="route">
-                    </div>
+                    
 
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12">
-                        <input type="button" style="float: right" value="경로 저장" />
                     </div>
                 </div>
 
@@ -500,6 +508,7 @@
                     obj[objcnt] = document.createElement('input');
                     obj[objcnt].type = "button";
                     // obj.onclick = showRoute(node, node.next);
+					obj[objcnt].style = "padding:0 5px;margin:0 5px;";
                     obj[objcnt].value = "->";
 
                     (function (str, strcnt, obj, inode) {
@@ -980,7 +989,7 @@
                 content += '    <span title="' + place.address_name + '">' + place.address_name + '</span>';
             }
 
-            content += '    <span class="tel" >' + place.phone + '<input type="button" id="' + name + '"value="+" onclick="addRoute(this.id' + ',' + place.x + ',' + place.y + ')" /></span>' +
+            content += '    <span class="tel" >' + place.phone + '<input type="button" style="margin-left:10px;padding:2px 8px;" id="' + name + '"value="+" onclick="addRoute(this.id' + ',' + place.x + ',' + place.y + ')" /></span>' +
                 '</div>' +
                 '<div class="after"></div>';
 
@@ -1470,7 +1479,51 @@
 
     <!-- #include virtual="/_include/connect_close.inc" -->
     <textarea id="output"></textarea>
+	
 </body>
-
+<!-- post action start -->
+		<div id="popupBoxOnePosition">
+			<div class="popupBoxWrapper">
+				<div class="popupBoxContent">
+                    <table width="100%" border="0">
+                    <tr style = "height:40px;text-align:left;border-bottom:solid 1px #CCCCCC">
+                        <td width="40px"></td>
+                        <td>
+                            <a onclick="setScope(this);" style="cursor:pointer;" scd="10" sdesc="외부공개" >외부공개</a>
+                        </td>
+                    </tr
+                    <tr><td colspan="2" style="height:1px;text-align:left;border-bottom:solid 1px #CCCCCC"></td></tr>
+                    <tr style="height:40px;text-align:left;border-bottom:solid 1px #CCCCCC">
+                        <td width="40px"></td>
+                        <td>
+                            <a onclick="setScope(this);" style="cursor:pointer;" scd="20" sdesc="전체공개" >전체공개</button>
+                        </td>
+                    </tr>
+                    <tr><td colspan="2" style="height:1px;text-align:left;border-bottom:solid 1px #CCCCCC"></td></tr>
+                    <tr style="height:40px;text-align:left;">
+                        <td width="40px"></td>
+                        <td>
+                            <a onclick="setScope(this);" style="cursor:pointer;" scd="30"  sdesc="그룹공개" >그룹공개</button>
+                        </td>
+                    </tr>
+                    <tr><td colspan="2" style="height:1px;text-align:left;border-bottom:solid 1px #CCCCCC"></td></tr>
+                    <tr style="height:40px;text-align:left;">
+                        <td width="40px"></td>
+                        <td>
+                            <a onclick="setScope(this);" style="cursor:pointer;" scd="40" sdesc="비공개"  >비공개</button>
+                        </td>
+                    </tr>
+                    <tr><td colspan="2" style="height:1px;text-align:left;border-bottom:solid 1px #CCCCCC"></td></tr>
+                    <tr style="height:40px;text-align:left;">
+                        <td width="40px"></td>
+                        <td>
+                            <a onclick="toggle_visibility('popupBoxOnePosition');" style="cursor:pointer;">취소</button>
+                        </td>
+                    </tr>
+                    </table>
+				</div>
+			</div>
+		</div>
+    <!-- post action end -->
 
 </html>

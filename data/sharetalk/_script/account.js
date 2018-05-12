@@ -11,7 +11,7 @@ function setInterestText(interest){
     var name = new Array();
     var index = interest.split(",");
     for (i=0; i<index.length; i++){
-        if (index[i]!="")   name[i] = names[index[i]];
+        if (index[i]!="")   name[i] = names[index[i]-1];
     }
     if (opener!=null)   opener.document.getElementById("member_interest").innerHTML = name;
     else document.getElementById("member_interest").innerHTML = name;

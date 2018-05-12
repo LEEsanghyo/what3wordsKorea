@@ -6,22 +6,6 @@ function VisitRegister() {
 	window.location.href = siteurl;
 }
 
-// 카카오톡 로그인
-function kLogin(res){
-	var properties = JSON.stringify(res.properties);
-	alert(properties);
-	var vals = {
-		memail : res.kaccount_email,
-		verified : res.kaccount_email_verified,
-		mid : res.id,
-		mname : res.properties.nickname,
-		//mage : 2018-res.kstory_birthday.split('-')*1
-	}
-	alert(vals);
-	if (vals.verified == false)	return 0;
-	else	LoginConfirm(vals);
-}
-
 // 로그인
 function LoginConfirm(vals) {
 	var email;
@@ -64,6 +48,7 @@ function LoginConfirm(vals) {
 	xhr.send(null);
 }
 
+// 구글, 네이버, 카카오 로그인 시 해당 사용자의 프로필 정보를 넘겨준다.
 function callbackfunc(vals){
 	var name = vals.mname;
 	var email = vals.memail;
@@ -88,6 +73,7 @@ function MemberRegister(oflag, uid) {
 	mpwd2 = document.getElementById("member_pwd2").value;
 	if (mint == undefined)	mint = "";
 	if (document.getElementById("phone1").value == "")	mphone = "";
+	if (uid == undefined) uid = "";
 
 	if (mname == "") {
 	  alert("닉네임을 입력하세요.");
@@ -132,6 +118,7 @@ function MemberRegister(oflag, uid) {
 	xhr.send(null);
 }
 
+// 
 function MemberRegisterSet() {
 	if (xhr.readyState == 4) {
 	  var data = xhr.responseText;
@@ -168,6 +155,7 @@ function GoogleLogin(){
 		var errorMessage = error.message;
 		var email = error.email
 		var credentail = error.credential;
+		alert(errorCode + ", " + errorMessage + ", " + email);
 	})
 }
 
@@ -183,6 +171,22 @@ var naverLogin = new naver.LoginWithNaverId(
 );
 
 naverLogin.init();
+
+// 카카오톡 로그인
+function kLogin(res){
+	var properties = JSON.stringify(res.properties);
+	var mage;
+	if (properties.birthday != undefined) mage = properties.birthday;
+	var vals = {
+		memail : res.kaccount_email,
+		verified : res.kaccount_email_verified,
+		mid : res.id,
+		mname : res.properties.nickname,
+		mage : mage
+	}
+	if (vals.verified == false)	return 0;
+	else	LoginConfirm(vals);
+}
 
 // 사용할 앱의 JavaScript 키를 설정해 주세요.
 Kakao.init('fd746baa46dfc1f5c9c5dbab60b692d6');

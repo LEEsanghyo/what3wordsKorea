@@ -24,7 +24,7 @@
         <div>
         <input id="m" onkeypress="if(event.keyCode==13){sendMessage()}" autocomplete="off" /><button onclick="sendMessage()">Send</button>
         </div>
-        <script async src="http://tour.abcyo.kr:1337/socket.io/socket.io.js"></script>
+        <script src="http://tour.abcyo.kr:1337/socket.io/socket.io.js"></script>
         <script async src="https://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
             // 나와 상대방의 세션 ID 불러오고, 채팅 서버에 내 ID 저장
