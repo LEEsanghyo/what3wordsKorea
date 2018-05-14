@@ -227,22 +227,22 @@
                             </span> 
                         </td>
                     </tr>
+                    <% if age <> "" or age = "undefined" then %>
+                        <input type="hidden" name="member_age" ID="member_age" value="
+                        <% if age = "10-19" then %>10"
+                        <% elseif age = "20-29" then %>20"
+                        <% elseif age = "30-39" then %>30"
+                        <% elseif age = "40-49" then %>40"
+                        <% elseif age = "50-59" then %>50"
+                        <% elseif age = "60-69" then %>60"
+                        <% elseif age = "70-79" then %>70"
+                        <% else %>80"
+                        <% end if %>
+                        >
+                    <% else %>
                     <tr height="38">
                         <td colspan="3" style="border-bottom:solid 1px #CCCCCC;">
                             연령대 : 
-                            <% if age <> "undefined" then %>
-                                <input type="hidden" name="member_age" ID="member_age" value="
-                                <% if age = "10-19" then %>10"
-                                <% elseif age = "20-29" then %>20"
-                                <% elseif age = "30-39" then %>30"
-                                <% elseif age = "40-49" then %>40"
-                                <% elseif age = "50-59" then %>50"
-                                <% elseif age = "60-69" then %>60"
-                                <% elseif age = "70-79" then %>70"
-                                <% else %>80"
-                                <% end if %>
-                                >
-                            <% else %>
                             <select name="member_age" ID="member_age" style="width:15%;height: 30px;font-size: 16px; text-align:center;border: solid 1px #dddddd;"  >
                             <option value="10">10대</option>
                             <option value="20">20대</option>
@@ -250,9 +250,9 @@
                             <option value="40">40대</option>
                             <option value="50">50대 이상</option>
                             </select>
-                            <% end if %>
                         </td>
                     </tr>
+                    <% end if %>
                     <tr height="38">
                         <td width="70%" style="border-bottom:solid  1px #CCCCCC;">
 						<p id="member_interest" style="font-size: 16px;"><%=interest %></p>
