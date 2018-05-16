@@ -127,22 +127,22 @@
 			<tr>
 				<td width=50%>
 					<div style="margin:5px">
-						<input type="text" id="my_position" class="form-control" disabled>
+						<input type="hidden" id="my_position" class="form-control" disabled>
 					</div>
 					</td>
 				<td width=50%>
 					<div style="margin:5px">
-						<input type="text" class="form-control" id="destination3Words" disabled>
+						<input type="hidden" class="form-control" id="destination3Words" disabled>
 					</div>
 				</td>
 			</tr>
-			<tr>
+		<!--    <tr>
 				<td width=100% colspan="2">
 					<div style="margin:5px">
 						<textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
 					</div>
 				</td>
-			</tr>
+			</tr> -->
 		</table>
 		<table width=100%>
 			<tr>
@@ -153,7 +153,7 @@
 			</tr>
 		</table>
 	</div>
-    <div style="margin-top: 100px" class="container-fluid">
+    <div style="margin-top: 50px" class="container-fluid">
         <div class="row">
 			
 			<div style="clear:both;height:5px"></div>
@@ -241,7 +241,7 @@
                 <br />
                 <table width="100%" border="0" style="padding: 0px; margin: 0px;">
                     <tr>
-                        <td style="text-align: justify;" id="customAlert">
+                        <td style="text-align: center;" id="customAlert">
                             <!-- <a href="javascript:void(0)" onclick="toggleAlert();"><span class="btnTime">OK</span></a> -->
                         </td>
                     </tr>
@@ -860,6 +860,7 @@
                             success: function (data) {
                                 var destination3Words = document.getElementById("destination3Words");
                                 destination3Words.value = data;
+                                
                             }
                         });
                     }
@@ -1160,7 +1161,7 @@
             else if (result["result"]["searchType"] == 1) { // 도시간 직통 -> 상세 경로 루트 좌표가 안나옴 (출발지 - 역) - 직선 - (역 - 도착지)
                 //console.log(result["result"]);
 
-
+                /*
                 var e = document.getElementById("popupAlertPosition");
                 if (e.style.display == 'block')
                     e.style.display = 'none';
@@ -1168,13 +1169,38 @@
                     e.style.display = 'block';
 
                 document.getElementById("alerttext").innerHTML = "보고 싶은 경로를 선택해주세요";
+*/
 
                 var airplaneCount = 0, exbusCount = 0, outbusCount = 0, trainCount = 0;
 
 
                 if (result["result"].airRequest.count != undefined || result["result"].airRequest.count != 0) { // 비행기
-                    var t = $("<a href='javascript:void(0)' onclick='selectNavigateType();'><span class='btnTime'>비행기</span></a>");
-                    $("#customAlert").append(t);
+    //                var t = $("<a href='javascript:void(0)' onclick='selectNavigateType();'><span class='btnTime'>비행기</span></a>");
+  //                  $("#customAlert").append(t);
+
+                    var firstNode = new node(startMarker.getTitle(), startMarker.getPosition().getLng(), startMarker.getPosition().getLat());
+                    var firstStationNode = new node(result["result"].airRequest.OBJ[0].startSTN, result["result"].airRequest.OBJ[0].SX, result["result"].airRequest.OBJ[0].SY);
+                    var finalNode = new node(endMarker.getTitle(), endMarker.getPosition().getLng(), endMarker.getPosition().getLat());
+                    var finalStationNode = new node(result["result"].airRequest.OBJ[0].endSTN, result["result"].airRequest.OBJ[0].EX, result["result"].airRequest.OBJ[0].EY);    
+
+                    var path = [
+                        new daum.maps.LatLng(result["result"].airRequest.OBJ[0].SY, result["result"].airRequest.OBJ[0].SX),
+                        new daum.maps.LatLng(result["result"].airRequest.OBJ[0].EY, result["result"].airRequest.OBJ[0].EX),
+                    ]
+
+                    searchRoute(firstNode, firstStationNode);
+                    searchRoute(finalStationNode, finalNode);
+
+
+
+                    polyline[polylineCount++] = new daum.maps.Polyline({
+                        map: map,
+                        path: path,
+                        strokeWeight: 5,
+                        strokeColor: '#CC0033'
+                    });
+
+
                     /*
                     var xhr = new XMLHttpRequest();
                     // ajax로 출발-도착지 간 대중 교통 정보 요청 - opt=0 최단거리 
@@ -1478,7 +1504,7 @@
 
 
     <!-- #include virtual="/_include/connect_close.inc" -->
-    <textarea id="output"></textarea>
+    <!-- <textarea id="output"></textarea> -->
 	
 </body>
 <!-- post action start -->
