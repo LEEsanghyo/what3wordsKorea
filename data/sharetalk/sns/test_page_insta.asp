@@ -81,33 +81,39 @@
         <style>
             #buttons_box{
                 margin-top:70px;
+                padding-left:5%;
+                padding-right:5%;
+                padding-top:1%;
+                height:10px;
+                text-align:center;
             }
             #under_the_nav{
-                display:flex;
-                flex-flow: row nowrap;
-                justify-content: space-between;
-                margin-top:10px;
-                padding:5%;
+                margin-top:1%;
+                padding-left:5%;
+                padding-right:5%;
+                padding-top:1%;
             }
             #map_box{
                 font-size:20px;
                 text-align:center;
-                float:left;
-                width:68%;
                 height:90%;
                 display:inline-block;
             }
+            #map{
+              height:100%;
+            }
             #insta_box{
-                border-left:5px solid #648250;
-                float:right;
-                width:32%;
+
                 height:100%;
                 overflow-x:hidden;
                 overflow-y:scroll;
             }
             #board_box{
-                margin-right:20px;
                 padding:5px;
+                border-right: 5px solid #648250;
+                border-left: 5px solid #648250;
+                border-top:5px solid #648250;
+                border-bottom:5px solid #648250;
             }
             #personal_box{
                 margin-top:5px;
@@ -117,44 +123,38 @@
             #from_box1{
                 margin:5px;
                 background:#ffffff;
-                height:3%;
-                margin-right:10px;
+                height:40px;
                 text-align:left;
             }
            #from_box2{
                 margin:5px;
                 background:#ffffff;
-                height:3%;
-                margin-right:10px;
+                height:40px;
                 text-align:left;
             }
             #tag_box{
                 margin:5px;
                 padding:5px;
                 background:#ffffff;
-                height:3%;
-                margin-right:10px;
-            }
-            #content_box{
-                margin:5px;
-                height:10%;
-                padding:5px;
-                background:#ffffff;
-                margin-right:10px;
+                height:40px;
             }
             #image_box{
                 margin:5px;
                 padding:5px;
-                height:30%;
+                height:50%;
                 background:#ffffff;
-                margin-right:10px;
+            }
+            #content_box{
+                margin:5px;
+                height:25%;
+                padding:5px;
+                background:#ffffff;
             }
             #go_to_box{
                 background:#ffffff;
                 text-align:center;
                 margin:5px;
                 height:3%;
-                margin-right:10px;
                 cursor:pointer;
             }
             #user_img{
@@ -180,20 +180,53 @@
                 object-fit:contain;
                 cursor:pointer;
             }
-            #map{
-                height:100%;
-                width:100%;
-            }
-            #popupAlertPosition{
-			    
-		    }
             .popup_content_viewer{
                 font-size:20px;
                 text-align:center;
                 color:#00ff00;
             }
+            @media screen and (min-width:200px){
+                #map{
+                    height:600px;
+                    border:10px groove #161199;
+                }
+                body::-webkit-scrollbar{
+                    display:none;
+                }
+                #insta_box {
+                    height: 100%;
+                    overflow-x: hidden;
+                    overflow-y: scroll;
+                    margin-top:20px;
+                }
+                #insta_box::-webkit-scrollbar{
+                    display:none;
+                }
+                #board_box{
+                    height:50%;
+                }
+                .modal::-webkit-scrollbar{
+                    display:none;
+                }
+                .container{
+                    width:200px;
+                    max-width: none !important;
+                }
+            }
+            .modal{
+                background:rgb(0,0,0);
+                background:rgba(0,0,0,0.4);
+                z-index:1;
+                margin-top:70px;
+            }
+            .modal-dialog{
+                background:rgb(255,255,255);
+            }
         </style>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<script src="/_script/login.js"></script>
 		<script type="text/javascript" src="/_script/map.js"></script>
 		<script>
@@ -254,6 +287,11 @@
             var open_window_busking;
             var open_window_foodtruck;
             var open_window_volunteer;
+            var open_window_busking_content;
+            var open_window_foodtruck_content;
+            var open_window_volunteer_content;
+            var modal_define = 0;
+            var marker_define = 0;
 
             var busking_image = "images/busking.jpg";
             var foodtruck_image = "images/foodtruck.jpg";
@@ -545,7 +583,7 @@
                 var marker_for_add;
                 var myIcon;
                 var mapOptions_place = {
-                    zoom: 15,
+                    zoom: 10,
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
                     center: new google.maps.LatLng(parseFloat(latitude_array[0]), parseFloat(longitude_array[0]))
                 }
@@ -559,8 +597,7 @@
 
             function addMarker(num_iter) {
 
-                alert(num_iter);
-                myIcon = new google.maps.MarkerImage(icon_image_array[num_iter], null, null, null, new google.maps.Size(45, 45));
+                myIcon = new google.maps.MarkerImage(icon_image_array[num_iter], null, null, null, new google.maps.Size(25, 25));
 
                 var marker_piece = new google.maps.Marker({
                     position: { lat: parseFloat(latitude_array[num_iter]), lng: parseFloat(longitude_array[num_iter]) },
@@ -580,7 +617,7 @@
             function addMarker_daily(elem, code) {
 
                 if (code == 1) {
-                    myIcon = new google.maps.MarkerImage(busking_image, null, null, null, new google.maps.Size(45, 45));
+                    myIcon = new google.maps.MarkerImage(busking_image, null, null, null, new google.maps.Size(35, 35));
 
                     var marker_piece1 = new google.maps.Marker({
                         position: { lat: parseFloat(d_lat_busking[elem]), lng: parseFloat(d_long_busking[elem]) },
@@ -595,7 +632,7 @@
                     b_markers.push(marker_piece1);
                 }
                 else if (code == 2) {
-                    myIcon = new google.maps.MarkerImage(foodtruck_image, null, null, null, new google.maps.Size(45, 45));
+                    myIcon = new google.maps.MarkerImage(foodtruck_image, null, null, null, new google.maps.Size(35, 35));
 
                     var marker_piece2 = new google.maps.Marker({
                         position: { lat: parseFloat(d_lat_foodtruck[elem]), lng: parseFloat(d_long_foodtruck[elem]) },
@@ -610,7 +647,7 @@
                     f_markers.push(marker_piece2);
                 }
                 else {
-                    myIcon = new google.maps.MarkerImage(volunteer_image, null, null, null, new google.maps.Size(45, 45));
+                    myIcon = new google.maps.MarkerImage(volunteer_image, null, null, null, new google.maps.Size(35, 35));
 
                     var marker_piece3 = new google.maps.Marker({
                         position: { lat: parseFloat(d_lat_volunteer[elem]), lng: parseFloat(d_long_volunteer[elem]) },
@@ -645,11 +682,9 @@
                 var long_new_real = long_new_head[0] + "." + long_new_tail;
                 var sno_click_num = num.getAttribute("sno_click_num");
 
-
-                alert(sno_click_num);
                 var marker_selected = { lat: parseFloat(lat_new), lng: parseFloat(long_new_real) };
                 map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 17,
+                    zoom: 12,
                     center: marker_selected
                 });
 
@@ -666,7 +701,6 @@
                 marker_set.addListener('click', function () {
                     SetContent(sno_click_num);
                 });
-
             }
 
             function go_to_place_daily(num) {
@@ -676,6 +710,7 @@
                     get_all_foodtruck_data();
                     get_all_volunteer_data();
                 }
+                modal_define = 1;
 
                 var lat_new = num.getAttribute("lat_daily");
                 var long_new = num.getAttribute("long_daily");
@@ -692,7 +727,7 @@
                 var marker_selected = { lat: parseFloat(lat_new), lng: parseFloat(long_new) };
 
                 map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 17,
+                    zoom: 10,
                     center: marker_selected
                 });
 
@@ -740,43 +775,50 @@
 
             function exit_content(num) {
 
-                open_window.style.display = 'none';
+                //open_window.style.display = 'none';
 
             }
 
             function exit_content_busking(num) {
 
-                open_window_busking.style.display = 'none';
+                //open_window_busking.style.display = 'none';
 
             }
 
             function exit_content_foodtruck(num) {
 
-                open_window_foodtruck.style.display = 'none';
+                //open_window_foodtruck.style.display = 'none';
 
             }
 
             function exit_content_volunteer(num) {
 
-                open_window_volunteer.style.display = 'none';
+                //open_window_volunteer.style.display = 'none';
 
             }
 
             function exit_popup(num) {
 
-                var content_number = num.getAttribute("sno_box_num");
-                var e = document.getElementById("popupAlertPostion_" + content_number);
-                e.style.display = 'none';
+                //var content_number = num.getAttribute("sno_box_num");
+               // var e = document.getElementById("popupAlertPostion_" + content_number);
+                //e.style.display = 'none';
 
             }
 
             function SetContent(num) {
 
-                open_window = document.getElementById("popupAlertPosition_" + num);
+                if (define_done_daily == 0) {
+                    get_all_busking_data();
+                    get_all_foodtruck_data();
+                    get_all_volunteer_data();
+                }
   
                 document.getElementById("popup_image_box_" + num).src = icon_image_array[num-1];
-                document.getElementById("popup_score_box_" + num).innerHTML = like_array[num-1];
-                document.getElementById("popup_like_box_" + num).innerHTML = parseFloat(parseFloat(heart_amount_array[num-1]) / parseFloat(like_array[num-1]));
+                document.getElementById("popup_score_box_" + num).innerHTML = like_array[num - 1];
+                var score = parseFloat(heart_amount_array[num - 1]) / parseFloat(like_array[num - 1]);
+                score = score.toString();
+                score = score.substring(0,3);
+                document.getElementById("popup_like_box_" + num).innerHTML = score;
                 document.getElementById("popup_content_box_" + num).innerHTML = content_array[num-1];
 
                 //$('#popup_image_box_' + num).html(icon_image_array[num]);       // 위도
@@ -784,80 +826,198 @@
                 //$('#popup_like_box_' + num).html(like_array[num]);   // 경도
                 //$('#popup_content_box_' + num).html(content_array[num]);   // 경도
 
-                if (open_window.style.display == 'block')
-                    open_window.style.display = 'none';
-                else 
-                    open_window.style.display = 'block';
+                $(document).ready(function () {
+                    $("#popupAlertPosition_" + num).modal();
+                });
 
             }
 
             function SetContent_busking(num) {
-                open_window_busking = document.getElementById("popupAlertPosition_2_" + num);
+
+                if (define_done_daily == 0) {
+                    get_all_busking_data();
+                    get_all_foodtruck_data();
+                    get_all_volunteer_data();
+                }
 
                 document.getElementById("popup_image_box_2_" + num).src = d_image_location_busking[num - 1];
                 document.getElementById("popup_date_box_2_" + num).innerHTML = d_write_date_busking[num - 1].toString();
                 document.getElementById("popup_title_box_2_" + num).innerHTML = d_title_busking[num - 1].toString();
                 document.getElementById("popup_profile_box_2_" + num).innerHTML = d_user_profile_busking[num - 1];
                 document.getElementById("popup_content_box_2_" + num).innerHTML = d_content_busking[num - 1];
-
-                if (open_window_busking.style.display == 'block')
-                    open_window_busking.style.display = 'none';
-                else
-                    open_window_busking.style.display = 'block';
+                if (modal_define == 0) {
+                    $(document).ready(function () {
+                        $("#popupAlertPosition_busking").modal('toggle');
+                    });
+                } else {
+                    modal_define = 0;
+                }
+                $(document).ready(function () {
+                        $("#popupAlertPosition_2_" + num).modal();
+                });
             }
 
             function SetContent_foodtruck(num) {
-                open_window_foodtruck = document.getElementById("popupAlertPosition_3_" + num);
+
+                if (define_done_daily == 0) {
+                    get_all_busking_data();
+                    get_all_foodtruck_data();
+                    get_all_volunteer_data();
+                }
 
                 document.getElementById("popup_image_box_3_" + num).src = d_image_location_foodtruck[num - 1];
                 document.getElementById("popup_date_box_3_" + num).innerHTML = d_write_date_foodtruck[num - 1];
                 document.getElementById("popup_title_box_3_" + num).innerHTML = d_title_foodtruck[num - 1];
                 document.getElementById("popup_profile_box_3_" + num).innerHTML = d_user_profile_foodtruck[num - 1];
                 document.getElementById("popup_content_box_3_" + num).innerHTML = d_content_foodtruck[num - 1];
+                if (modal_define == 0) {
+                    $(document).ready(function () {
+                        $("#popupAlertPosition_foodtruck").modal('toggle');
+                    });
+                } else {
+                    modal_define = 0;
+                }
+                $(document).ready(function () {
+                        $("#popupAlertPosition_3_" + num).modal();
+                });
 
-                if (open_window_foodtruck.style.display == 'block')
-                    open_window_foodtruck.style.display = 'none';
-                else
-                    open_window_foodtruck.style.display = 'block';
             }
 
             function SetContent_volunteer(num) {
-                open_window_volunteer = document.getElementById("popupAlertPosition_4_" + num);
+
+                if (define_done_daily == 0) {
+                    get_all_busking_data();
+                    get_all_foodtruck_data();
+                    get_all_volunteer_data();
+                }
 
                 document.getElementById("popup_image_box_4_" + num).src = d_image_location_volunteer[num - 1];
                 document.getElementById("popup_date_box_4_" + num).innerHTML = d_write_date_volunteer[num - 1];
                 document.getElementById("popup_title_box_4_" + num).innerHTML = d_title_volunteer[num - 1];
                 document.getElementById("popup_profile_box_4_" + num).innerHTML = d_user_profile_volunteer[num - 1];
                 document.getElementById("popup_content_box_4_" + num).innerHTML = d_content_volunteer[num - 1];
+                if (modal_define == 0) {
+                    $(document).ready(function () {
+                        $("#popupAlertPosition_volunteer").modal('toggle');
+                    });
+                } else {
+                    modal_define = 0;
+                }
+                $(document).ready(function () {
+                        $("#popupAlertPosition_4_" + num).modal();
+                });
 
-                if (open_window_volunteer.style.display == 'block')
-                    open_window_volunteer.style.display = 'none';
-                else
-                    open_window_volunteer.style.display = 'block';
             }
+
+
+
+            function busking_popup_open() {
+
+                /*open_window_busking_content = document.getElementById("popupAlertPosition_busking");
+
+                open_window_busking_content.modal();
+                if (open_window_busking_content == 'block')
+                    open_window_busking_content.style.display = 'none';
+                else
+                    open_window_busking_content.style.diaplay = 'block';*/
+
+            }
+
+            function foodtruck_popup_open() {
+
+                /*open_window_foodtruck_content = document.getElementById("popupAlertPosition_foodtruck");
+
+                if (open_window_foodtruck_content == 'block') {
+                    open_window_foodtruck_content.style.display = 'none';
+                }
+                else {
+                    open_window_foodtruck_content.style.diaplay = 'block';
+                }*/
+
+            }
+
+            function volunteer_popup_open() {
+
+                /*open_window_volunteer_content = document.getElementById("popupAlertPosition_volunteer");
+
+                if (open_window_volunteer_content == 'block')
+                    open_window_volunteer_content.style.display = 'none';
+                else
+                    open_window_volunteer_content.style.diaplay = 'block';*/
+
+            }
+
+            function exit_window_busking_content() {
+
+                //open_window_busking_content.style.display = 'none';
+
+            }
+
+            function exit_window_foodtruck_content() {
+
+                //open_window_foodtruck_content.style.display = 'none';
+
+            }
+
+            function exit_window_volunteer_content() {
+
+                //open_window_volunteer_content.style.display = 'none';
+
+            }
+
+            $(document).ready(function (){
+                $("#myBtn1").click(function () {
+                    $("#popupAlertPosition_busking").modal();
+                });
+            });
+
+            $(document).ready(function (){
+                $("#myBtn2").click(function () {
+                    $("#popupAlertPosition_foodtruck").modal();
+                });
+            });
+
+            $(document).ready(function (){
+                $("#myBtn3").click(function () {
+                    $("#popupAlertPosition_volunteer").modal();
+                });
+            });
         </script>
 	</head>
 
 	<body>
+
 		<% top_menu = "HOME" %>
 		
 		<!-- #include virtual="/_include/top_menu.asp" -->
 		<!-- #include virtual="/_include/top_menulist.asp" -->
-        <div id="buttons_box">
-            <button type="button" onclick="get_all_data()">모든 내용 지도에 표시하기</button>
+        <div class="row" id="buttons_box">
+            <div class="col-xs-3" >
+                <button type="button" onclick="get_all_data()" class="btn btn-primary btn-lg btn-block" style="font-size:6pt;">SNS</button>
+            </div>
+            <div class="col-xs-3">
+                <button type="button" id="myBtn1" class="btn btn-primary btn-lg btn-block" onclick="busking_popup_open();" style="font-size:6pt;">버스킹</button>
+            </div>
+            <div class="col-xs-3">
+                <button type="button" id="myBtn2" class="btn btn-primary btn-lg btn-block" onclick="foodtruck_popup_open();" style="font-size:6pt;">푸드트럭</button>
+            </div>
+            <div class="col-xs-3">
+                <button type="button" id="myBtn3" class="btn btn-primary btn-lg btn-block" onclick="volunteer_popup_open();" style="font-size:6pt;">봉사활동</button>
+            </div>
         </div>
-        <div id="under_the_nav">
-            <div id="map">
+        <hr />
+
+        <div class="row" id="under_the_nav">
+            <div class="col-sm-8" id="map">
                 map_box
             </div>
-            <div id="insta_box">
-                insta_box
+            <div class="col-sm-4" id="insta_box">
                 <%
                 Do While Not rsSns.EOF
                 %>
-                <div id="board_box">
-                    <div id="personal_box">
-                        <div id="from_box1">
+                <div class="row" id="board_box">
+                    <div class="row" id="personal_box">
+                        <div class="row" id="from_box1">
                             <%
                                 from_sns = rsSns("sns_from_place")
                                 if StrComp(from_sns, "instagram")=0 then
@@ -875,48 +1035,40 @@
                                 end if
                             %>
                         </div>
-                        <div id="image_box">
+                        <div class="row" id="image_box">
                            <img id="user_img" src="<%=rsSns("sns_file_upload_area_real") %>" alt="" style="cursor:pointer" />
                         </div>
-                        <div id="tag_box">
-                            <table>
-                                <tr style="margin-bottom:3%;">
-                                    <td style="width:50%; display:inline-flex; text-align:center;">
-                                        <img id="heart_img1_<%=num %>" style="max-width:30px; max-height:30px; cursor:pointer;" sno="<%=num %>" src="images/heart_empty.png" alt="" style="cursor:pointer" onclick="img_click1(this)"/>
-                                        <img id="heart_img2_<%=num %>" style="max-width:30px; max-height:30px; cursor:pointer;" sno="<%=num %>" src="images/heart_empty.png" alt="" style="cursor:pointer" onclick="img_click2(this)"/>
-                                        <img id="heart_img3_<%=num %>" style="max-width:30px; max-height:30px; cursor:pointer;" sno="<%=num %>" src="images/heart_empty.png" alt="" style="cursor:pointer" onclick="img_click3(this)"/>
-                                        <img id="heart_img4_<%=num %>" style="max-width:30px; max-height:30px; cursor:pointer;" sno="<%=num %>" src="images/heart_empty.png" alt="" style="cursor:pointer" onclick="img_click4(this)"/>
+                        <div class="row" id="tag_box">
+                                <div class="col-xs-1">
+                                        <img id="heart_img1_<%=num %>" style="max-width:30px; max-height:30px; cursor:pointer;" sno="<%=num %>" src="images/heart_empty.png" alt="" onclick="img_click1(this)"/>
+                                </div>
+                                <div class="col-xs-1">
+                                        <img id="heart_img2_<%=num %>" style="max-width:30px; max-height:30px; cursor:pointer;" sno="<%=num %>" src="images/heart_empty.png" alt="" onclick="img_click2(this)"/>
+                                </div>
+                                <div class="col-xs-1">
+                                        <img id="heart_img3_<%=num %>" style="max-width:30px; max-height:30px; cursor:pointer;" sno="<%=num %>" src="images/heart_empty.png" alt="" onclick="img_click3(this)"/>
+                                </div>
+                                <div class="col-xs-1">
+                                        <img id="heart_img4_<%=num %>" style="max-width:30px; max-height:30px; cursor:pointer;" sno="<%=num %>" src="images/heart_empty.png" alt="" onclick="img_click4(this)"/>
+                                </div>
+                                <div class="col-xs-1">
                                         <img id="heart_img5_<%=num %>" style="max-width:30px; max-height:30px; cursor:pointer;" sno="<%=num %>" src="images/heart_empty.png" alt="" style="cursor:pointer" onclick="img_click5(this)"/>
-                                    </td>
-                                    <td style="border:2px blue solid; font-size:8pt; width:25%; text-align:center;">
-                                        AVG score - <%= rsSns("sns_like_average") / rsSns("sns_like_number")%>
-                                    </td>
-                                    <td style="border:2px green solid; width:25%; font-size:8pt; text-align:center">
-                                        <%=rsSns("sns_like_number") %> People Like It!
-                                    </td>
-                                </tr>
-                            </table>
+                                </div>
+                                <%
+                                    s_number = Cstr(rsSns("sns_like_average")/rsSns("sns_like_number"))
+                                    s_number = LEFT(s_number, 3)
+                                %>
+                                <div class="col-xs-3 col-xs-offset-1" style="background-color:#3fbb74; text-align:center; margin-top:1%;">
+                                        공감도 <%=s_number%>
+                                </div>
+                                <div class="col-xs-3" style="background-color:#3fbb74; text-align:center; border-left:white 4px solid; margin-top:1%;">
+                                        공감 <%=rsSns("sns_like_number") %> 명
+                                </div>
                         </div>
-                        <div id="content_box">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <%=rsSns("sns_content_input_area") %>
-                                    </td>
-                                </tr>
-                                <tr style="border:1px solid red">
-                                    <td id="latitude_a">
-                                        <%=rsSns("sns_latitude")%>
-                                    </td>
-                                </tr>
-                                <tr style="border:1px solid red">
-                                    <td id="longitude_a">
-                                        <%=rsSns("sns_longitude")%>
-                                    </td>
-                                </tr>
-                            </table>
+                        <div class="row" id="content_box">
+                            <%=rsSns("sns_content_input_area") %>
                         </div>
-                        <div id="go_to_box">
+                        <div class="row" id="go_to_box">
                             <span onclick="go_to_place(this);" sno ="<%=num %>" id="snsbox_<%=num %>" sno_click_num ="<%=rsSns("sns_box_number") %>" latno="<%=rsSns("sns_latitude")%>" lonno="<%=rsSns("sns_longitude")%>" sno_image ="<%=rsSns("sns_file_upload_area_real") %>" >위치로 가기</span>
                         </div>
                     </div>
@@ -926,35 +1078,202 @@
                     num = num  + 1
                     rsSns.MoveNext
                     Loop
-
                     rsSns.MoveFirst
                 %>
             </div>
         </div>
+        <!-- BUSKING 게시판 팝업 -->
+            <div class="modal" id="popupAlertPosition_busking" role="dialog" style="position:absolute; position:fixed; height:60%; border-radius:10px; display:none; padding:2%; overflow-x:none; overflow-y:scroll;">
+                <div class="modal-dialog">
+
+                    <div class="modal-body" style="width:100%;">
+                        <div class="container-fluid">
+                <div class="row" style="width:100%; font-size:20pt; text-align:center; color:black; background:#ffffff;">
+                    BUSKING INFO
+                </div>
+                <div class="row" style="width:100%; font-size:10pt; text-align:center; color:black; background:#eb27de;">
+                    이미지를 클릭하면 정보가 나와요
+                </div>
+                <% Do While NOT rsSns_busking.EOF%>
+                <div class="row" style="font-style:italic; text-align:left;">
+                    <%=rsSns_busking("write_date") %>
+                </div>
+                <div class="row" style="font-size:10pt; text-align:center; border:2px solid white;   margin-top:3%;  height:80px;">
+                    <div class="col-xs-3" style="border-right:rgba(128, 128, 128, 0.5) solid 2px; height:100%; font-size:6pt;">
+                        <img src="<%=rsSns_busking("image_place") %>" onclick="SetContent_busking(<%=rsSns_busking("article_number") %>);" alt="" style="width:100%; height:100%; object-fit:contain; padding:1%;"  sno_code ="1" sno_daily="<%=rsSns_busking("article_number") %>" lat_daily="<%=rsSns_busking("latitude") %>" long_daily="<%=rsSns_busking("longitude") %>" image_place="<%=rsSns_busking("image_place") %>"/>
+                    </div>
+                    <div class="col-xs-3" style="border-right:rgba(128, 128, 128, 0.5) solid 2px;  display:table; text-align:center; height:80px;">
+                        <div style="display:table-cell; vertical-align:middle;">
+                            <p><%=rsSns_busking("title_input") %></p>
+                        </div>
+                    </div>
+                    <div class="col-xs-2" style="border-right:rgba(128, 128, 128, 0.5) solid 2px; display:table; text-align:center; height:80px;">
+                        <div style="display:table-cell; vertical-align:middle; font-size:6pt;">
+                            <p><%=rsSns_busking("input_user") %></p>
+                        </div>
+                    </div>
+                    <div class="col-xs-1" style="border-left:white 1px solid; display:table; text-align:center; height:80px;">
+                        <div style="display:table-cell; vertical-align:middle;">
+                            <button type="button" class="btn btn-primary" style="font-size:8pt;" onclick="go_to_place_daily(this);" sno_code ="1" sno_daily="<%=rsSns_busking("article_number") %>" lat_daily="<%=rsSns_busking("latitude") %>" long_daily="<%=rsSns_busking("longitude") %>" image_place="<%=rsSns_busking("image_place") %>">위치</button>
+                        </div>       
+                    </div>
+                    </div>
+                            <hr style="border:rgba(128,128,128,0.3) solid 3px;" />
+                <%
+                    rsSns_busking.MoveNext
+                    Loop
+                    rsSns_busking.MoveFirst
+                %>
+                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal" onclick="exit_window_busking_content();" style="font-size:20pt;">창 닫기</button>
+                </div>
+            </div>
+            <!-- 버스킹 게시판 팝업 -->
+            <!-- 푸드트럭 게시판 팝업 -->
+            <div class="modal" id="popupAlertPosition_foodtruck" role="dialog" style="position:absolute; position:fixed; height:60%; border-radius:10px; display:none; padding:2%; overflow-x:none; overflow-y:scroll;">
+                <div class="modal-dialog">
+                    <div class="modal-body" style="width:100%;">
+                        <div class="container-fluid">
+                <div class="row" style="width:100%; font-size:20pt; text-align:center; color:black; background:#ffffff;">
+                    FOODTRUCK INFO
+                </div>
+                <div class="row" style="width:100%; font-size:10pt; text-align:center; color:black; background:#eb27de;">
+                    이미지를 클릭하면 정보가 나와요
+                </div>
+                <% Do While NOT rsSns_foodtruck.EOF%>
+                <div class="row" style="font-style:italic; text-align:left;">
+                    <%=rsSns_foodtruck("write_date") %>
+                </div>
+                <div class="row" style="font-size:10pt; text-align:center; border:2px solid white;   margin-top:3%;  height:80px;">
+                    <div class="col-xs-3" style="border-right:rgba(128, 128, 128, 0.5) solid 2px; height:100%; font-size:6pt;">
+                        <img src="<%=rsSns_foodtruck("image_place") %>" onclick="SetContent_foodtruck(<%=rsSns_foodtruck("article_number") %>);" alt="" style="width:100%; height:100%; object-fit:contain; padding:1%;"  sno_code ="1" sno_daily="<%=rsSns_foodtruck("article_number") %>" lat_daily="<%=rsSns_foodtruck("latitude") %>" long_daily="<%=rsSns_foodtruck("longitude") %>" image_place="<%=rsSns_foodtruck("image_place") %>"/>
+                    </div>
+                    <div class="col-xs-3" style="border-right:rgba(128, 128, 128, 0.5) solid 2px;  display:table; text-align:center; height:80px;">
+                        <div style="display:table-cell; vertical-align:middle;">
+                            <p><%=rsSns_foodtruck("title_input") %></p>
+                        </div>
+                    </div>
+                    <div class="col-xs-2" style="border-right:rgba(128, 128, 128, 0.5) solid 2px; display:table; text-align:center; height:80px;">
+                        <div style="display:table-cell; vertical-align:middle; font-size:6pt;">
+                            <p><%=rsSns_foodtruck("input_user") %></p>
+                        </div>
+                    </div>
+                    <div class="col-xs-1" style="border-left:white 1px solid; display:table; text-align:center; height:80px;">
+                        <div style="display:table-cell; vertical-align:middle;">
+                            <button type="button" class="btn btn-primary" style="font-size:8pt;" onclick="go_to_place_daily(this);" sno_code ="2" sno_daily="<%=rsSns_foodtruck("article_number") %>" lat_daily="<%=rsSns_foodtruck("latitude") %>" long_daily="<%=rsSns_foodtruck("longitude") %>" image_place="<%=rsSns_foodtruck("image_place") %>">위치</button>
+                        </div>       
+                    </div>
+                    </div>
+                            <hr style="border:rgba(128,128,128,0.3) solid 3px;" />
+                <%
+                    rsSns_foodtruck.MoveNext
+                    Loop
+                    rsSns_foodtruck.MoveFirst
+                %>
+                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="button" class="btn btn-danger btn-lg btn-block " data-dismiss="modal" onclick="exit_window_foodtruck_content();" style="font-size:20pt;">창 닫기</button>
+                </div>
+            </div>
+            <!-- 푸드트럭 게시판 팝업 -->
+            <!-- 봉사활동 게시판 팝업 -->
+            <div class="modal fade" id="popupAlertPosition_volunteer" role="dialog" style="position:absolute; position:fixed; height:60%; border-radius:10px; display:none; padding:2%; overflow-x:none; overflow-y:scroll;">
+                <div class="modal-dialog">
+                    <div class="modal-body" style="width:100%;">
+                        <div class="container-fluid">
+                <div class="row" style="width:100%; font-size:20pt; text-align:center; color:black; background:#ffffff;">
+                    VOLUNTEER INFO
+                </div>
+                <div class="row" style="width:100%; font-size:10pt; text-align:center; color:black; background:#eb27de;">
+                    이미지를 클릭하면 정보가 나와요
+                </div>
+                <% Do While NOT rsSns_volunteer.EOF%>
+                <div class="row" style="font-style:italic; text-align:left;">
+                    <%=rsSns_volunteer("write_date") %>
+                </div>
+                <div class="row" style="font-size:10pt; text-align:center; border:2px solid white;   margin-top:3%;  height:80px;">
+                    <div class="col-xs-3" style="border-right:rgba(128, 128, 128, 0.5) solid 2px; height:100%; font-size:6pt;">
+                        <img src="<%=rsSns_volunteer("image_place") %>" onclick="SetContent_volunteer(<%=rsSns_volunteer("article_number") %>);" alt="" style="width:100%; height:100%; object-fit:contain; padding:1%;"  sno_code ="1" sno_daily="<%=rsSns_volunteer("article_number") %>" lat_daily="<%=rsSns_volunteer("latitude") %>" long_daily="<%=rsSns_volunteer("longitude") %>" image_place="<%=rsSns_volunteer("image_place") %>"/>
+                    </div>
+                    <div class="col-xs-3" style="border-right:rgba(128, 128, 128, 0.5) solid 2px;  display:table; text-align:center; height:80px;">
+                        <div style="display:table-cell; vertical-align:middle;">
+                            <p><%=rsSns_volunteer("title_input") %></p>
+                        </div>
+                    </div>
+                    <div class="col-xs-2" style="border-right:rgba(128, 128, 128, 0.5) solid 2px; display:table; text-align:center; height:80px;">
+                        <div style="display:table-cell; vertical-align:middle; font-size:6pt;">
+                            <p><%=rsSns_volunteer("input_user") %></p>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 ml-auto" style="border-left:white 1px solid; display:table; text-align:center; height:80px;">
+                        <div style="display:table-cell; vertical-align:middle;">
+                            <button type="button" class="btn btn-primary" style="font-size:8pt;" onclick="go_to_place_daily(this);" sno_code ="3" sno_daily="<%=rsSns_volunteer("article_number") %>" lat_daily="<%=rsSns_volunteer("latitude") %>" long_daily="<%=rsSns_volunteer("longitude") %>" image_place="<%=rsSns_volunteer("image_place") %>">위치</button>
+                        </div>       
+                    </div>
+                    </div>
+                            <hr style="border:rgba(128,128,128,0.3) solid 3px;" />
+                <%
+                    rsSns_volunteer.MoveNext
+                    Loop
+                    rsSns_volunteer.MoveFirst
+                %>
+                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="button" class="btn btn-danger btn-lg btn-block " data-dismiss="modal" onclick="exit_window_volunteer_content();" style="font-size:20pt;">창 닫기</button>
+                </div>
+            </div>
+        <!-- 팝업 창 -->
         <%
             num = 0
             Do While NOT rsSns.EOF
         %>
-        <!-- 팝업 창 -->
-        <div id="popupAlertPosition_<%=rsSns("sns_box_number") %>" style="position:absolute; top: 10%; left: 30%;position: fixed;width: 20%;height: 60%; text-align:center; border-radius: 10px; background-color: rgba(0,0,0,0.9); display: none; padding:2%; align-content:center;">
-            <div id="popupImageBox" style="width:100%; height:50%; border:3px solid red; background:#ffffff;">
-                <img id="popup_image_box_<%=rsSns("sns_box_number") %>" src="" alt="" style="width:100%; height:100%; object-fit:contain;" />
-            </div>
-            <div id="popupScoreBox" style="width:100%; height:5%;">
-                <table style="width:100%; height:100%; color:white; font-size:15pt;">
-                  <tr style="width:100%; height:100%; color:white; font-size:15pt;">
-                    <td id="popup_score_box_<%=rsSns("sns_box_number") %>" style="color: #000000; border:3px red solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                    <td id="popup_like_box_<%=rsSns("sns_box_number") %>" style=" color: #000000; border:3px blue solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                  </tr>
-                </table>
-            </div>
-            <div id="popupContentBox" style="width:100%; height:35%; border:3px red solid; background:#ffffff">
-                <span id="popup_content_box_<%=rsSns("sns_box_number") %>" style="color:blue; font-size:20pt; width:100%; height:100%;"></span>
-            </div>
-            <div id="popupButtonBox" style="width:100%; height:10%; margin-top:1%;">
-                    <button type="button" id="send_message" onclick="send_message();" style="width:30%; height:50%;">채팅 신청</button>
-                    <button type="button" id="user_profile" onclick="discover_user();" style="width:30%; height:50%;">이 회원 살펴보기</button>
-                    <button type="button" id="exit_content" onclick="exit_content(this);" sno_exit_num="<%=rsSns("sns_box_number") %>" style="width:30%; height:50%;">창 닫기</button>
+       <div class="modal fade" id="popupAlertPosition_<%=rsSns("sns_box_number") %>" role="dialog" style=" position: fixed;height: 60%; overflow-x:hidden; overflow-y:scroll; margin-top:70px; border-radius: 10px; display: none; padding:2%; align-content:center;">
+            <div class="modal-dialog">
+                <div class="modal-body">
+                    <div class="container-fluid" style="width:90%;">
+                        <div class="row" style="font-size:15pt; font-style:italic;">
+                            USER CONTENT INFO
+                        </div>
+                        <div class="row">
+                            <img id="popup_image_box_<%=rsSns("sns_box_number") %>" src="" alt="" style="width:100%; object-fit:contain;" />
+                        </div>
+                        <div class="row" style="border-bottom:3px white solid;">
+                            <div class="col-xs-3 col-xs-offset-1" style="text-align:center;">
+                                <p>공감 인원</p>
+                            </div>
+                            <div class="col-xs-2" style="border:2px solid white; text-align:left; align-content:left;">
+                                <p id="popup_score_box_<%=rsSns("sns_box_number")%>"></p> 
+                            </div>
+                            <div class="col-xs-3" style="text-align:center;"><p style="text-align:center;">공감도</p></div>
+                            <div class="col-xs-2" style="border:2px solid white; text-align:center;">
+                                <p id="popup_like_box_<%=rsSns("sns_box_number") %>"></p>
+                            </div>
+                        </div>
+                        <hr style="border:2px solid gray;">
+                        <div class="row" style="height:20%; border-right:2px solid white; border-left:2px solid white; border-bottom:2px solid white;">
+                            <span id="popup_content_box_<%=rsSns("sns_box_number") %>" ></span>
+                        </div>
+                        <hr style="border:2px solid gray;">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message" onclick="send_message();" style="font-size:8pt; font-style:oblique;">채팅 신청</button>
+                            </div>
+                            <div class="col-xs-4">
+                                <button type="button" class="btn btn-info btn-lg btn-block" id="user_profile" onclick="discover_user();" style="font-size:8pt; font-style:oblique;">회원 정보</button>
+                            </div>
+                            <div class="col-xs-4">
+                                <button type="button" class="btn btn-danger btn-lg btn-block" id="exit_content"  data-dismiss="modal" sno_exit_num="<%=rsSns("sns_box_number") %>" style="font-size:8pt; font-style:oblique;">창 닫기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- 팝업 창 -->
@@ -964,125 +1283,47 @@
             Loop
             rsSns.MoveFirst
         %>
-        <div style="font-size:30pt; text-align:center; color:blue; padding:3%;">
-            게시판
-            <hr />
-            <hr />
-
-        </div>
-        <div id="extra_content_box" style="width:100%; height:100%; padding:2%;">
-            <div style="float:left; width:33%; text-align:center;">
-                <button id="express_all_busking" onclick="get_all_busking_data();">버스킹 정보 지도에 표출</button>
-                <table style="border:1px solid red; width:90%; overflow-x:hidden; overflow-y:scroll; text-align:center;">
-                    <% Do While NOT rsSns_busking.EOF%>
-                    <tr style="border:1px solid blue">
-                        <td style="border:1px solid green; max-height:60px; max-width:60px;">
-                            <img src="<%=rsSns_busking("image_place") %>" alt="" style="width:100%;object-fit:contain;"/>
-                        </td>
-                        <td style="border:1px solid green">
-                            <%=rsSns_busking("input_user") %>
-                        </td>
-                        <td style="border:1px solid green">
-                            <%=rsSns_busking("title_input") %>
-                        </td>
-                        <td style="border:1px solid green">
-                            <button type="button" onclick="go_to_place_daily(this);" sno_code ="1" sno_daily="<%=rsSns_busking("article_number") %>" lat_daily="<%=rsSns_busking("latitude") %>" long_daily="<%=rsSns_busking("longitude") %>" image_place="<%=rsSns_busking("image_place") %>">찾아가기</button>
-                        </td>
-                    </tr>
-                    <%
-                        num2 = num2 + 1
-                        rsSns_busking.MoveNext
-                        Loop
-                        rsSns_busking.MoveFirst
-                    %>
-                </table>
-            </div>
-            <div style="float:left; width:33%; text-align:center;">
-                <button id="express_all_foodtruck" onclick="get_all_foodtruck_data();">푸드트럭 정보 지도에 표출</button>
-                <table style="border:1px solid red; width:90%; overflow-x:hidden; overflow-y:scroll; text-align:center;">
-                    <% Do While NOT rsSns_foodtruck.EOF%>
-                    <tr style="border:1px solid blue">
-                        <td style="border:1px solid green; max-height:60px; max-width:60px;">
-                            <img src="<%=rsSns_foodtruck("image_place") %>" alt="" style="width:100%; object-fit:contain;"/>
-                        </td>
-                        <td style="border:1px solid green">
-                            <%=rsSns_foodtruck("input_user") %>
-                        </td>
-                        <td style="border:1px solid green">
-                            <%=rsSns_foodtruck("title_input") %>
-                        </td>
-                        <td style="border:1px solid green">
-                            <button type="button" onclick="go_to_place_daily(this);" sno_code ="2" sno_daily="<%=rsSns_foodtruck("article_number") %>" lat_daily="<%=rsSns_foodtruck("latitude") %>" long_daily="<%=rsSns_foodtruck("longitude") %>" image_place="<%=rsSns_foodtruck("image_place") %>">찾아가기</button>
-                        </td>
-                    </tr>
-                    <%
-                        num3 = num3 + 1
-                        rsSns_foodtruck.MoveNext
-                        Loop
-                        rsSns_foodtruck.MoveFirst
-                    %>
-                </table>
-            </div>
-            <div style="float:left; width:33%; text-align:center;">
-                <button id="express_all_volunteer" onclick="get_all_volunteer_data();">봉사활동 정보 지도에 표출</button>
-                <table style="border:1px solid red; width:90%; overflow-x:hidden; overflow-y:scroll; text-align:center;">
-                    <% Do While NOT rsSns_volunteer.EOF%>
-                    <tr style="border:1px solid blue">
-                        <td style="border:1px solid green; max-height:60px; max-width:60px;">
-                            <img src="<%=rsSns_volunteer("image_place") %>" alt="" style="width:100%; object-fit:contain;"/>
-                        </td>
-                        <td style="border:1px solid green">
-                            <%=rsSns_volunteer("input_user") %>
-                        </td>
-                        <td style="border:1px solid green">
-                            <%=rsSns_volunteer("title_input") %>
-                        </td>
-                        <td style="border:1px solid green">
-                            <button type="button" onclick="go_to_place_daily(this);" sno_code ="3" sno_daily="<%=rsSns_volunteer("article_number") %>" lat_daily="<%=rsSns_volunteer("latitude") %>" long_daily="<%=rsSns_volunteer("longitude") %>" image_place="<%=rsSns_volunteer("image_place") %>">찾아가기</button>
-                        </td>
-                    </tr>
-                    <%
-                        num4 = num4 + 1
-                        rsSns_volunteer.MoveNext
-                        Loop
-                        rsSns_volunteer.MoveFirst
-                    %>
-                </table>
-            </div>
-        </div>		
         <!-- 팝업창 Busking -->
         <%
             Do While NOT rsSns_busking.EOF
         %>
-        <div id="popupAlertPosition_2_<%=rsSns_busking("article_number") %>" style="position:absolute; display:inline; top: 12%; left: 22%;position: fixed;width: 55%;height: 50%; border-radius: 10px; background-color: rgba(0,0,0,0.9); display: none; padding:2%; align-content:center;">
-            <div id="popupInfoBox2" style="display:block; font-size:25pt; width:90%;margin-left:4.5%; color:black; border:white 3px solid; text-align:center; background:#ffffff;">
-                BUSKING INFORMATION
-            </div>
-            <div id="underInfoBox2">
-                <div id="popupImageBox2" style="display:inline; float:left; width:45%; margin-left:4.5%; height:90%; border:3px solid red; background:#ffffff;">
-                    <img id="popup_image_box_2_<%=rsSns_busking("article_number") %>" src="" alt="" style="width:100%; height:100%; object-fit:contain;" />
+       <div class="modal fade" id="popupAlertPosition_2_<%=rsSns_busking("article_number") %>" role="dialog" style="z-index:1; position: fixed;height: 60%; overflow-x:hidden; overflow-y:scroll; border-radius: 10px; background:#ffffff; display: none; padding:2%; align-content:center;">
+            <div class="modal-dialog">
+                <div class="modal-body">
+                    <div class="container-fluid" style="width:90%;">
+                        <div class="row" style="font-size:15pt; font-style:italic;">
+                            BUSKING CONTENT INFO
+                        </div>
+                        <div class="row" style="border-bottom:3px white solid; text-align:left;">
+                            <p id="popup_date_box_2_<%=rsSns_busking("article_number") %>"></p>
+                        </div>
+                        <div class="row" style="border-bottom:3px white solid; text-align:center;">
+                            <div class="col-xs-6">
+                                <p id="popup_title_box_2_<%=rsSns_busking("article_number") %>"></p>
+                            </div>
+                            <div class="col-xs-6">
+                                <p id="popup_profile_box_2_<%=rsSns_busking("article_number") %>"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <img id="popup_image_box_2_<%=rsSns_busking("article_number") %>" src="" alt="" style="width:100%; object-fit:contain;" />
+                        </div>
+                        <hr style="border: 3px solid rgba(128, 128, 128, 0.3);" />
+                        <div class="row" style="height:20%; border:3px solid white;">
+                            <span id="popup_content_box_2_<%=rsSns_busking("article_number") %>" ></span>
+                        </div>
+                        <hr style="border: 3px solid rgba(128, 128, 128, 0.3);" />
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message2" onclick="send_message_busking(this);">채팅 신청</button>
+                            </div>
+                            <div class="col-xs-6">
+                                <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal" id="exit_content2" onclick="exit_content_busking(this)" sno_exit_num_2="<%=rsSns_busking("article_number") %>">창 닫기</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div id="popupTextBox2" style="display:inline; float:left; width:45%; height:90%; border:3px solid red; background:#ffffff">
-                    <div id="popupScoreBox2" style="width:100%; height:10%;">
-                        <table style="width:100%; height:100%; color:white; font-size:15pt;">
-                          <tr style="width:100%; height:100%; color:white; font-size:15pt;">
-                            <td id="popup_date_box_2_<%=rsSns_busking("article_number") %>" style="color: #000000; border:3px red solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                            <td id="popup_profile_box_2_<%=rsSns_busking("article_number") %>" style=" color: #000000; border:3px blue solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                          </tr>
-                        </table>
-                    </div>
-                    <div id="popupTitleBox2" style="width:100%; height:10%; border:2px green solid; background:#ffffff;">
-                        <span id="popup_title_box_2_<%=rsSns_busking("article_number") %>" style="color:black; font-size:20pt; width:95%; height:100%;"></span>
-                    </div>
-                    <div id="popupContentBox2" style="width:100%; height:70%; border:3px red solid; background:#ffffff">
-                        <span id="popup_content_box_2_<%=rsSns_busking("article_number") %>" style="color:blue; font-size:20pt; width:95%; height:100%;"></span>
-                    </div>
-                    <div id="popupButtonBox2" style="width:100%; height:5%; margin-top:1%; text-align:center;">
-                            <button type="button" id="send_message2" onclick="send_message_busking(this);" style="width:45%; height:100%; object-fit:contain;">채팅 신청</button>
-                            <button type="button" id="exit_content2" onclick="exit_content_busking(this);" sno_exit_num_2="<%=rsSns_busking("article_number") %>" style="width:45%; height:100%; object-fit:contain;">창 닫기</button>
-                    </div>
-                 </div>
-             </div>
+            </div>
         </div>
         <%
             rsSns_busking.MoveNext
@@ -1094,35 +1335,43 @@
         <%
             Do While NOT rsSns_foodtruck.EOF
         %>
-        <div id="popupAlertPosition_3_<%=rsSns_foodtruck("article_number") %>" style="position:absolute; display:inline; top: 12%; left: 22%;position: fixed;width: 55%;height: 50%; border-radius: 10px; background-color: rgba(0,0,0,0.9); display: none; padding:2%; align-content:center;">
-            <div id="popupInfoBox3" style="display:block; font-size:25pt; width:90%;margin-left:4.5%; color:black; border:white 3px solid; text-align:center; background:#ffffff;">
-                FOODTRUCK INFORMATION
-            </div>
-            <div id="underInfoBox3">
-                <div id="popupImageBox3" style="display:inline; float:left; width:45%; margin-left:4.5%; height:90%; border:3px solid red; background:#ffffff;">
-                    <img id="popup_image_box_3_<%=rsSns_foodtruck("article_number") %>" src="" alt="" style="width:100%; height:100%; object-fit:contain;" />
+        <div class="modal fade" id="popupAlertPosition_3_<%=rsSns_foodtruck("article_number") %>" role="dialog" style="z-index:1; position: fixed;height: 60%; overflow-x:hidden; overflow-y:scroll; border-radius: 10px; background:#ffffff; display: none; padding:2%; align-content:center;">
+            <div class="modal-dialog">
+                <div class="modal-body">
+                    <div class="container-fluid" style="width:90%;">
+                        <div class="row" style="font-size:15pt; font-style:italic;">
+                            FOODTRUCK CONTENT INFO
+                        </div>
+                        <div class="row" style="border-bottom:3px white solid; text-align:left;">
+                            <p id="popup_date_box_3_<%=rsSns_foodtruck("article_number") %>"></p>
+                        </div>
+                        <div class="row" style="border-bottom:3px white solid; text-align:center;">
+                            <div class="col-xs-6">
+                                <p id="popup_title_box_3_<%=rsSns_foodtruck("article_number") %>"></p>
+                            </div>
+                            <div class="col-xs-6">
+                                <p id="popup_profile_box_3_<%=rsSns_foodtruck("article_number") %>"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <img id="popup_image_box_3_<%=rsSns_foodtruck("article_number") %>" src="" alt="" style="width:100%; object-fit:contain;" />
+                        </div>
+                        <hr style="border: 3px solid rgba(128, 128, 128, 0.3);" />
+                        <div class="row" style="height:20%; border:3px solid white;">
+                            <span id="popup_content_box_3_<%=rsSns_foodtruck("article_number") %>" ></span>
+                        </div>
+                        <hr style="border: 3px solid rgba(128, 128, 128, 0.3);" />
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message3" onclick="send_message_foodtruck(this);">채팅 신청</button>
+                            </div>
+                            <div class="col-xs-6">
+                                <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal" id="exit_content3" onclick="exit_content_foodtruck(this)" sno_exit_num_2="<%=rsSns_foodtruck("article_number") %>">창 닫기</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div id="popupTextBox3" style="display:inline; float:left; width:45%; height:90%; border:3px solid red; background:#ffffff">
-                    <div id="popupScoreBox3" style="width:100%; height:10%;">
-                        <table style="width:100%; height:100%; color:white; font-size:15pt;">
-                          <tr style="width:100%; height:100%; color:white; font-size:15pt;">
-                            <td id="popup_date_box_3_<%=rsSns_foodtruck("article_number") %>" style="color: #000000; border:3px red solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                            <td id="popup_profile_box_3_<%=rsSns_foodtruck("article_number") %>" style=" color: #000000; border:3px blue solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                          </tr>
-                        </table>
-                    </div>
-                    <div id="popupTitleBox3" style="width:100%; height:10%; border:2px green solid; background:#ffffff;">
-                        <span id="popup_title_box_3_<%=rsSns_foodtruck("article_number") %>" style="color:black; font-size:20pt; width:95%; height:100%;"></span>
-                    </div>
-                    <div id="popupContentBox3" style="width:100%; height:70%; border:3px red solid; background:#ffffff">
-                        <span id="popup_content_box_3_<%=rsSns_foodtruck("article_number") %>" style="color:blue; font-size:20pt; width:95%; height:100%;"></span>
-                    </div>
-                    <div id="popupButtonBox3" style="width:100%; height:5%; margin-top:1%; text-align:center;">
-                            <button type="button" id="send_message3" onclick="send_message_foodtruck(this);" style="width:45%; height:100%;">채팅 신청</button>
-                            <button type="button" id="exit_content3" onclick="exit_content_foodtruck(this);" sno_exit_num_3="<%=rsSns_foodtruck("article_number") %>" style="width:45%; height:100%; object-fit:contain;">창 닫기</button>
-                    </div>
-                 </div>
-             </div>
+            </div>
         </div>
         <%
             rsSns_foodtruck.MoveNext
@@ -1134,35 +1383,43 @@
         <%
             Do While NOT rsSns_volunteer.EOF
         %>
-        <div id="popupAlertPosition_4_<%=rsSns_volunteer("article_number") %>" style="position:absolute; display:inline; top: 12%; left: 22%;position: fixed;width: 55%;height: 50%; border-radius: 10px; background-color: rgba(0,0,0,0.9); display: none; padding:2%; align-content:center;">
-            <div id="popupInfoBox4" style="display:block; font-size:25pt; width:90%;margin-left:4.5%; color:black; border:white 3px solid; text-align:center; background:#ffffff;">
-                VOLUNTEERING INFORMATION
-            </div>
-            <div id="underInfoBox4">
-                <div id="popupImageBox4" style="display:inline; float:left; width:45%; margin-left:4.5%; height:90%; border:3px solid red; background:#ffffff;">
-                    <img id="popup_image_box_4_<%=rsSns_volunteer("article_number") %>" src="" alt="" style="width:100%; height:100%; object-fit:contain;" />
+       <div class="modal fade" id="popupAlertPosition_4_<%=rsSns_volunteer("article_number") %>" role="dialog" style="z-index:1; position: fixed;height: 60%; overflow-x:hidden; overflow-y:scroll; border-radius: 10px; background:#ffffff; display: none; padding:2%; align-content:center;">
+            <div class="modal-dialog">
+                <div class="modal-body">
+                    <div class="container-fluid" style="width:90%;">
+                        <div class="row" style="font-size:15pt; font-style:italic;">
+                            VOLUNTEERING CONTENT INFO
+                        </div>
+                        <div class="row" style="border-bottom:3px white solid; text-align:center;">
+                            <p id="popup_title_box_4_<%=rsSns_volunteer("article_number") %>"></p>
+                        </div>
+                        <div class="row" style="border-bottom:3px white solid; text-align:center;">
+                            <div class="col-xs-6">
+                                <p id="popup_date_box_4_<%=rsSns_volunteer("article_number") %>"></p>
+                            </div>
+                            <div class="col-xs-6">
+                                <p id="popup_profile_box_4_<%=rsSns_volunteer("article_number") %>"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <img id="popup_image_box_4_<%=rsSns_volunteer("article_number") %>" src="" alt="" style="width:100%; object-fit:contain;" />
+                        </div>
+                        <hr style="border: 3px solid rgba(128, 128, 128, 0.3);" />
+                        <div class="row" style="height:20%; border:3px solid white;">
+                            <span id="popup_content_box_4_<%=rsSns_volunteer("article_number") %>" ></span>
+                        </div>
+                        <hr style="border: 3px solid rgba(128, 128, 128, 0.3);" />
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message4" onclick="send_message_volunteer(this);">채팅 신청</button>
+                            </div>
+                            <div class="col-xs-6">
+                                <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal" id="exit_content4" onclick="exit_content_volunteer(this)" sno_exit_num_4="<%=rsSns_volunteer("article_number") %>">창 닫기</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div id="popupTextBox4" style="display:inline; float:left; width:45%; height:90%; border:3px solid red; background:#ffffff">
-                    <div id="popupScoreBox4" style="width:100%; height:10%;">
-                        <table style="width:100%; height:100%; color:white; font-size:15pt;">
-                          <tr style="width:100%; height:100%; color:white; font-size:15pt;">
-                            <td id="popup_date_box_4_<%=rsSns_volunteer("article_number") %>" style="color: #000000; border:3px red solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                            <td id="popup_profile_box_4_<%=rsSns_volunteer("article_number") %>" style=" color: #000000; border:3px blue solid; width:50%; height:100%; font-size:15pt; text-align:center;background:#ffffff;"></td>
-                          </tr>
-                        </table>
-                    </div>
-                    <div id="popupTitleBox4" style="width:100%; height:10%; border:2px green solid; background:#ffffff;">
-                        <span id="popup_title_box_4_<%=rsSns_volunteer("article_number") %>" style="color:black; font-size:20pt; width:95%; height:100%;"></span>
-                    </div>
-                    <div id="popupContentBox4" style="width:100%; height:70%; border:3px red solid; background:#ffffff">
-                        <span id="popup_content_box_4_<%=rsSns_volunteer("article_number") %>" style="color:blue; font-size:20pt; width:95%; height:100%;"></span>
-                    </div>
-                    <div id="popupButtonBox4" style="width:100%; height:5%; margin-top:1%; text-align:center">
-                            <button type="button" id="send_message4" onclick="send_message_volunteer(this);" style="width:45%; height:100%;">채팅 신청</button>
-                            <button type="button" id="exit_content4" onclick="exit_content_volunteer(this);" sno_exit_num_4="<%=rsSns_volunteer("article_number") %>" style="width:45%; height:100%; object-fit:contain;">창 닫기</button>
-                    </div>
-                 </div>
-             </div>
+            </div>
         </div>
         <%
             rsSns_volunteer.MoveNext
@@ -1170,34 +1427,7 @@
             rsSns_volunteer.MoveFirst
         %>
         <!-- 팝업창 Volunteer -->
-		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
-		
 		<script type="text/javascript">
-			var naverLogin = new naver.LoginWithNaverId(
-				{
-					clientId: "ePD3yuxPRSuXMeIBH5DA",
-					callbackUrl: "http://tour.abcyo.kr/callback.html",
-					isPopup: true,
-					callbackHandle: true,
-					loginButton: {color: "green", type: 1, height: 30} /* 로그인 버튼의 타입을 지정 */
-					/* callback 페이지가 분리되었을 경우에 callback 페이지에서는 callback처리를 해줄수 있도록 설정합니다. */
-				}
-			);
-		
-			/* (3) 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
-			naverLogin.init();
-			
-			naverLogin.getLoginStatus(function (status) {
-				if (status){
-					var email = naverLogin.user.getEmail();
-					var name = naverLogin.user.getNickName();
-					var uniqId = navrLogin.user.getId();
-					var age = naverLogin.user.getAge();
-				} else {
-					console.log("AccessToken이 올바르지 않습니다.");
-				}
-            });
-
             function return_number_of_write() {
                 return <%=num %>;
             }
