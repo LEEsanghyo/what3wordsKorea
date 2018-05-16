@@ -22,15 +22,15 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>What3Words Home</title>
-		<link rel="stylesheet" href="/_include/style.css" type="text/css">
-		<script async src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+		<link rel="stylesheet" href="/_include/style.css?ver=1" type="text/css">
+		<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 		<script async type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
 		<script async src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
 		<script async src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
 	</head>
 
 	<body>
-		<% top_menu = "HOME" %>
+		<% MENU = "HOME" %>
 		
 		<!-- #include virtual="/_include/top_menu.asp" -->
 		<!-- #include virtual="/_include/top_menulist.asp" -->
@@ -66,7 +66,7 @@
 		<div align="center" id="firebaseui-auth-contanier">
 			<image src="/images/glogin.png" onclick=GoogleLogin(); style="cursor:pointer;width:120px;height:40px;">
 		</div><p></p>
-		<script type="text/javascript" src="/_script/login.js?ver=1"></script>
+		<script type="text/javascript" src="/_script/login.js?ver=5"></script>
 		<% end if %>
 		<div id="map"></div>
 		<script async type="text/javascript" src="/_script/map.js"></script>	
