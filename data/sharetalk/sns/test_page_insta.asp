@@ -1263,7 +1263,7 @@
                         <hr style="border:2px solid gray;">
                         <div class="row">
                             <div class="col-xs-4">
-                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message" onclick="send_message();" style="font-size:8pt; font-style:oblique;">채팅 신청</button>
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message" onclick="reqChat(<%=rsSns("sns_box_number") %>, 1)" style="font-size:8pt; font-style:oblique;">채팅 신청</button>
                             </div>
                             <div class="col-xs-4">
                                 <button type="button" class="btn btn-info btn-lg btn-block" id="user_profile" onclick="discover_user();" style="font-size:8pt; font-style:oblique;">회원 정보</button>
@@ -1315,7 +1315,7 @@
                         <hr style="border: 3px solid rgba(128, 128, 128, 0.3);" />
                         <div class="row">
                             <div class="col-xs-6">
-                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message2" onclick="send_message_busking(this);">채팅 신청</button>
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message2" onclick="reqChat(<%=rsSns_busking("article_number") %>, 2)">채팅 신청</button>
                             </div>
                             <div class="col-xs-6">
                                 <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal" id="exit_content2" onclick="exit_content_busking(this)" sno_exit_num_2="<%=rsSns_busking("article_number") %>">창 닫기</button>
@@ -1363,7 +1363,7 @@
                         <hr style="border: 3px solid rgba(128, 128, 128, 0.3);" />
                         <div class="row">
                             <div class="col-xs-6">
-                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message3" onclick="send_message_foodtruck(this);">채팅 신청</button>
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message3" onclick="reqChat(<%=rsSns_foodtruck("article_number") %>, 3);">채팅 신청</button>
                             </div>
                             <div class="col-xs-6">
                                 <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal" id="exit_content3" onclick="exit_content_foodtruck(this)" sno_exit_num_2="<%=rsSns_foodtruck("article_number") %>">창 닫기</button>
@@ -1411,7 +1411,7 @@
                         <hr style="border: 3px solid rgba(128, 128, 128, 0.3);" />
                         <div class="row">
                             <div class="col-xs-6">
-                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message4" onclick="send_message_volunteer(this);">채팅 신청</button>
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message4" onclick="reqChat(<%=rsSns_volunteer("article_number") %>, 4);">채팅 신청</button>
                             </div>
                             <div class="col-xs-6">
                                 <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal" id="exit_content4" onclick="exit_content_volunteer(this)" sno_exit_num_4="<%=rsSns_volunteer("article_number") %>">창 닫기</button>
