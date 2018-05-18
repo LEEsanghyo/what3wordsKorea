@@ -13,7 +13,6 @@
     <title>Whar3Words</title>
 
     <link rel="stylesheet" href="/_css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../_include/navigator.css" />
     
     <style>
@@ -140,23 +139,7 @@
             background: #f6f6f6;
             bottom:0;
             width:100%;
-            text-align:left;            
-        }
-
-        #myPositionButton{
-            position:absolute;
-            z-index:3;
-            right:0;
-            top:50%;
-            border-radius:50%;
-
-        }
-        #callCategoryButton {
-            position: absolute;
-            z-index: 3;
-            right: 0;
-            top: 60%;
-            border-radius: 50%;
+            text-align:center;            
         }
 
     </style>
@@ -218,14 +201,14 @@
 			</tr>
 		</table>
 	</div>
-    <div style="margin-top: 5px" class="container-fluid">
+    <div style="margin-top: 50px" class="container-fluid">
         <div class="row">
 			
 			<div style="clear:both;height:5px"></div>
             <div class="col-lg-12" id="map" style="box-shadow: rgba(0, 0, 0, 0.498039) 0px 0px 1px 0px, rgba(0, 0, 0, 0.14902) 0px 1px 10px 0px;">
 
 
-                <ul id="category" class="category" style="display:none;">
+                <ul id="category" class="category">
                     <li id="FD6" data-order="0">
                         <span class=""></span>
                         음식점
@@ -250,15 +233,10 @@
                         <span class=""></span>
                         지하철역
                     </li>
-
+                    <li>
+                        <input type="button" value="내 위치" onclick="backToMyPosition()" style="z-index: 3" />
+                    </li>
                 </ul>
-                <button type="button" id="myPositionButton" onclick="backToMyPosition()">
-                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> 
-                </button>
-                <button type="button" id="callCategoryButton" onclick="callCategory()">
-                    <span class ="glyphicon glyphicon-option-horizontal"></span>
-
-                </button>
 
                 <div id="info" style="display:none"> </div>
             </div>
@@ -322,12 +300,6 @@
 
     <div class="loader" style="display:none;" id="loader"> 
         </div>
-
-
-    
-
-
-
     <script type="text/javascript">
         var map;  // 지도 변수 
         var myPosition; // gps로 따오는 내 위치
@@ -340,20 +312,12 @@
         var centerMarker; // 지도 조작시 지도의 중앙에 찍는 마커
         var centerLatlng; // 중심 lat, lng
         var centerInfowindow; // 중심 infowindow
-
-
         var autoGpsFlag = 0;
         var geocoder = new google.maps.Geocoder(); // 주소 검색 google 이용 
 
         var currentBound;
-
-
         var count = 0;
-
         // var apikey = encodeURIComponent("nxb4coDQx0Z6d7mjF6RT+g");
-
-
-
         var select = 0;
 
         var startRouteMarker = [];
@@ -417,24 +381,18 @@
         var strcnt = 1;
         var objcnt = 1;
         */
-
         str = [];
         obj = [];
         var strcnt = 0;
         var objcnt = 0;
-
          var airplaneCount = 0, exbusCount = 0, outbusCount = 0, trainCount = 0;
-
         var type = -1;
 
-
-  
         linkedList.prototype.add = function (name, x, y, position) {
             //position이 null일 경우 마지막위치로
             var position = position == undefined ? this.length + 1 : position;
 
             //입력값으로 node 생성
-
             var newNode = new node(name, x, y);
 
             var preNode = this.headNode;
@@ -450,49 +408,31 @@
         linkedList.prototype.remove = function (position) {
             var ret = null;
             var position = position == undefined ? 0 : position;
-            if (this.isEmpty()) {
-                console.log("list is Empty");
-            }
+            if (this.isEmpty()) console.log("list is Empty");
             else if (position < this.length) {
                 var preNode = this.headNode;
 
-                for (i = 0; i < position; i++) {
-                    preNode = preNode.next;
-                }
+                for (i = 0; i < position; i++)  preNode = preNode.next;
                 ret = preNode.next.data;
                 preNode.next = preNode.next.next;
 
                 this.length--;
             }
-            else {
-                console.log("index error");
-            }
-
+            else console.log("index error");            
             return ret;
         }
 
 
         linkedList.prototype.peek = function (position) {
-
             var ret = null;
             var position = position == undefined ? 0 : position;
-            if (this.isEmpty()) {
-                console.log("list is Empty");
-            }
+            if (this.isEmpty()) console.log("list is Empty");
             else if (position < this.length) {
                 var preNode = this.headNode;
-
-                for (i = 0; i < position; i++) {
-                    preNode = preNode.next;
-
-                }
+                for (i = 0; i < position; i++)  preNode = preNode.next;
                 ret = preNode.next.data;
-
             }
-            else {
-                console.log("index error");
-            }
-
+            else console.log("index error");
             return ret;
         }
         //var inode = routeItem.headNode.next;
@@ -502,15 +442,10 @@
 
             var inode = this.headNode.next;
             while (inode != null) {
-
                 str[strcnt] = document.createElement('input');
                 str[strcnt].type = "button";
-         
                 str[strcnt].value = inode.name;
-
                 route.appendChild(str[strcnt]);
-
-
 
                 if (inode.next != null) {
                     obj[objcnt] = document.createElement('input');
@@ -527,19 +462,13 @@
                     })(str, strcnt++, obj, inode);
            
                     route.appendChild(obj[objcnt]);
-
-                    
                     (function (inode, nextinode, objcnt) {
                         $(obj[objcnt]).on("click", function () {
                             sendParameterToSearchRoute(inode, nextinode);
                         });
-
                     })(inode, inode.next, objcnt);
-
                     objcnt++;
-
                 }
-
                 inode = inode.next;
             };
 
@@ -595,7 +524,7 @@
         }
 
         function callback(inode, nextinode) {
-         sendParameterToSearchRoute(inode, nextinode);
+            sendParameterToSearchRoute(inode, nextinode);
         }
 
         function serach() {
@@ -606,15 +535,7 @@
                 success:function(response) {
                     document.getElementById("output").value = response.data;
                 }
-             });
-        }
-        function callCategory() {
-            var a = document.getElementById("category");
-            if (a.style.display == 'block') a.style.display = 'none';
-            else if (a.style.display == 'none') a.style.display = 'block';
-
-
-
+             })
         }
 
         function initMap() {
@@ -633,8 +554,8 @@
             setTile(); // 화면 선으로 분할 
 
             // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성
-          //  var zoomControl = new daum.maps.ZoomControl();
-           // map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
+            var zoomControl = new daum.maps.ZoomControl();
+            map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
 
             // zoom 변할 때 마다, 화면 분할 함수 호출
             daum.maps.event.addListener(map, 'zoom_changed', function () {
@@ -679,11 +600,6 @@
                                 $("#customAlert").append(t);
                                 var t = $("<a href='javascript:void(0)' onclick='closePopUp();'><span class='btnTime'>NO</span></a>");
                                 $("#customAlert").append(t);
-
-
-
-
-
                                 //mouseMarker.setMap(null);
                                 //mouseInfowindow.close();
                             });
@@ -728,13 +644,13 @@
                         map: map,
                         position: centerLatlng
                     });
-/*                    
+                    /*                    
                     centerMarker = new google.maps.Marker({
                         map: map,
                         position: centerLatlng
                     });
 
-*/
+                    */
                     (function (center3words, centerLatlng) {
                         daum.maps.event.addListener(centerMarker,'click', function () {
 
@@ -753,10 +669,6 @@
                         });
 
                     })(center3words, centerLatlng);
-                    
-                        
-                
-                    
                     centerInfowindow = new daum.maps.InfoWindow({
                         content: content,
                         position: centerLatlng
@@ -766,6 +678,7 @@
                 }
             });
         }
+
         function closePopUp() {
             $("#customAlert").empty();
             var e = document.getElementById("popupAlertPosition");
@@ -848,18 +761,7 @@
 
         function backToMyPosition() {  // 내 위치로 복귀
             //alert(coords);
-            if (coords == undefined) {
-                
-               
-                var e = document.getElementById("popupAlertPosition");
-                
-                    e.style.display = 'block';
-
-                document.getElementById("alerttext").innerHTML = "GPS에 연결할 수 없습니다.";
-                t = $("<a href='javascript:void(0)' onclick='closePopUp();'><span class='btnTime'>OK</span></a>");
-                $("#customAlert").append(t);
-                return;
-            }
+            if (coords == undefined) { alert("GPS에 연결할 수 없습니다"); return; }
             else moveCamera(position.coords.latitude, position.coords.longitude);
         }
 
@@ -867,7 +769,7 @@
             if (destinationMarker != null) destinationMarker.setMap(null);
             var Option = $("#selectOption option:selected").val();
             if (Option == 1) originalSearch();
-            else if (Option == 2) threeWordsSearch();
+            else if (Option == 2) threeWordsSearch(null);
         }
 
         function originalSearch() {   // 1.주소로 검색
@@ -901,8 +803,8 @@
                 });
         }
 
-        function threeWordsSearch() { // 2. 3words로 검색
-            var threeWords = document.getElementById('addressSpace').value;
+        function threeWordsSearch(threeWords) { // 2. 3words로 검색
+            if (threeWords == "undefined" || threeWords == null)  threeWords = document.getElementById('addressSpace').value;
             $.ajax({
                 url: 'search_ajax.asp',
                 type: 'get',
@@ -910,6 +812,7 @@
                 success: function (data) {
                     var dataArray = data.split(',');
                     var coords = new daum.maps.LatLng(dataArray[0], dataArray[1]);
+                    othercoords = coords;
                     destinationMarker = new daum.maps.Marker({
                         map: map,
                         position: coords
@@ -960,7 +863,6 @@
 
         // 지도에 마커를 표출하는 함수입니다
         function displayPlaces(places) {
-
             var order = document.getElementById(currCategory).getAttribute('data-order');
 
             //console.log(places.length);
@@ -977,15 +879,13 @@
                         displayPlaceInfo(place);
                     });
                 })(marker, places[i]);
-
-
             }
         }
 
         // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
         function addMarker(position, order) {
-            var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png'; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-            var imageSize = new daum.maps.Size(27, 28),  // 마커 이미지의 크기
+            var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+                imageSize = new daum.maps.Size(27, 28),  // 마커 이미지의 크기
                 imgOptions = {
                     spriteSize: new daum.maps.Size(72, 208), // 스프라이트 이미지의 크기
                     spriteOrigin: new daum.maps.Point(46, (order * 36)), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
@@ -1078,21 +978,15 @@
 
 
         function selectNavigateType(type,startSTN, SX, SY, endSTN, EX, EY) {
-            //alert("a");
-
-
-
             $("#customAlert").empty();
             var e = document.getElementById("popupAlertPosition");
             if (e.style.display == 'block')  // popup close
                 e.style.display = 'none';
 
-
             var loader = document.getElementById('loader');
             loader.style.display = "block";
            // var entire = document.getElementById('entire');
            // document.body.style.backgroundColor = 'gray';
-
 
             var firstNode = new node(startMarker.getTitle(), startMarker.getPosition().getLng(), startMarker.getPosition().getLat());
             var firstStationNode = new node(startSTN, SX, SY);
@@ -1107,18 +1001,13 @@
             searchRoute(firstNode, firstStationNode);
             searchRoute(finalStationNode, finalNode);
 
-
             polyline[polylineCount++] = new daum.maps.Polyline({
                 map: map,
                 path: path,
                 strokeWeight: 5,
                 strokeColor: '#CC0033'
             });
-
         }
-
-
-
 
         function addRoute(name, x, y) { // linked list에 항목 이름, x,y node로 만들어 추가 
             $("#customAlert").empty();
@@ -1129,6 +1018,7 @@
             routeItem.add(name, x, y);
             routeItem.print(); // 
         }
+
         function clearScreen() {
             /* 화면 clear */
             //alert("a");
@@ -1138,7 +1028,6 @@
             for (var i = 0; i < startRouteMarker.length; i++)startRouteMarker[i].setMap(null);
             for (var i = 0; i < endRouteMarker.length; i++) endRouteMarker[i].setMap(null);
             for (var i = 0; i < routeinfowindow.length; i++) routeinfowindow[i].close();
-            
 
             currCategory = "";
             removeMarker();
@@ -1185,19 +1074,11 @@
                     searchRoute(startnode, endnode);
                 });
             })(startnode, endnode);
-                    
-
-         
-
-
-
             //searchRoute(startnode, endnode);
-           
             moveCamera(startnode.y, startnode.x);
         }
 
         function printSelectedCategoryMarker(startnode, endnode) {  // startnode, endmarker 
-
             startMarker = new daum.maps.Marker({
                 map: map,
                 position: new daum.maps.LatLng(startnode.y, startnode.x),
@@ -1223,12 +1104,8 @@
             var e = document.getElementById("popupAlertPosition");
             if (e.style.display == 'block')
                 e.style.display = 'none';
-
-
             var loader = document.getElementById('loader');
             loader.style.display = "block";
-
-
 
             var xhr = new XMLHttpRequest();
             // ajax로 출발-도착지 간 대중 교통 정보 요청 - opt=0 최단거리 
@@ -1239,18 +1116,16 @@
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     //노선그래픽 데이터 호출
                     detailRouteSearch(JSON.parse(xhr.responseText), startnode, endnode);
+                    xhr = null
                 }
             }
-
         }
+
         function searchRoute2(startnode, endnode) {
             $("#customAlert").empty();
             var e = document.getElementById("popupAlertPosition");
             if (e.style.display == 'block')
                 e.style.display = 'none';
-            
-   
-
             $.ajax({
                 method: "POST",
                 headers: headers,
@@ -1290,15 +1165,9 @@
                     $("#info").text(tDistance + "  " + tTime +"  " + tFare+ "  " + taxiFare);
                     var a = document.getElementById('info');
                     a.style.display = 'block';
-
-   //                 $("#result").text(tDistance + tTime + tFare + taxiFare);
-
-//                    prtcl = new Tmap.Format.KML({ extractStyles: true, extractAttributes: true }).read(prtcl);//데이터(prtcl)를 읽고, 벡터 도형(feature) 목록을 리턴합니다.
-
-                 
-
+                    //("#result").text(tDistance + tTime + tFare + taxiFare);
+                    // prtcl = new Tmap.Format.KML({ extractStyles: true, extractAttributes: true }).read(prtcl);//데이터(prtcl)를 읽고, 벡터 도형(feature) 목록을 리턴합니다.
                     // 결과 출력
-     
                     var result = ($intRate[0].getElementsByTagName("coordinates"));
                     //console.log(result);
                     //console.log(result);
@@ -1326,29 +1195,17 @@
                             strokeWeight: 5,
                             strokeColor: '#CC0033'
                         });
-
                     }
-
-
-
-
-	
                 },
                 //요청 실패시 콘솔창에서 에러 내용을 확인할 수 있습니다.
                 error: function (request, status, error) {
                     console.log("에러 code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                 }
             });
-
-
         }
 
-
-
         function detailRouteSearch(result, startnode, endnode) {
-           
-              console.log(result["result"]);
-
+            console.log(result["result"]);
             //console.log("search type=\n" + result["result"]["searchType"]);
             //console.log(result["result"]["path"]);
             //alert("traffic type = " + result["result"]["searchType"]);
@@ -1358,29 +1215,18 @@
                 for (var i = 0; i < result["result"]["path"][0].subPath.length; i++) {
 
                     if (result["result"]["path"][0].subPath[i].trafficType == 1 || result["result"]["path"][0].subPath[i].trafficType == 2) { // 지하철 or 버스
-
                         var loader = document.getElementById('loader');
                         loader.style.display = "block";
                        // var entire = document.getElementById('entire');
                           // document.body.style.backgroundColor = 'gray';
-
-
                         drawTransitMarker(0, startRouteMarker, endRouteMarker, result["result"]["path"][0].subPath[i]);
-                   
-       
                     }
-                    else if (result["result"]["path"][0].subPath[i].trafficType == 3) {} // 도보
-                       
+                    else if (result["result"]["path"][0].subPath[i].trafficType == 3) {} // 도보      
                 }
-
-                
-
             }
 
             else if (result["result"]["searchType"] == 1) { // 도시간 직통 -> 상세 경로 루트 좌표가 안나옴 (출발지 - 역) - 직선 - (역 - 도착지)
                 //console.log(result["result"]);
-
-
                 var e = document.getElementById("popupAlertPosition");
                 if (e.style.display == 'block')
                     e.style.display = 'none';
@@ -1388,8 +1234,6 @@
                     e.style.display = 'block';
 
                 document.getElementById("alerttext").innerHTML = "보고 싶은 경로를 선택해주세요";
-
-
                 airplaneCount = 0, exbusCount = 0, outbusCount = 0, trainCount = 0;
 
                 var t;
@@ -1400,9 +1244,6 @@
                     
                     t = $("<a href='javascript:void(0)' id = "+startSTN+" class="+endSTN+" onclick='selectNavigateType(0,this.id" + "," +result["result"].airRequest.OBJ[0].SX + "," +result["result"].airRequest.OBJ[0].SY + ",this.className" +"," +result["result"].airRequest.OBJ[0].EX + "," +result["result"].airRequest.OBJ[0].EY+");'><span class='btnTime'>비행기</span></a>");
                     $("#customAlert").append(t);
-                
-                                        
-
                 }
                 // 고속버스
                 if (result["result"].exBusRequest.count != undefined && result["result"].exBusRequest.count != 0) {
@@ -1412,10 +1253,8 @@
                     
                     t = $("<a href='javascript:void(0)' id = "+startSTN+" class="+endSTN+" onclick='selectNavigateType(0,this.id" + "," +result["result"].exBusRequest.OBJ[0].SX + "," +result["result"].exBusRequest.OBJ[0].SY + ",this.className" +"," +result["result"].exBusRequest.OBJ[0].EX + "," +result["result"].exBusRequest.OBJ[0].EY+");'><span class='btnTime'>고속버스</span></a>");
                     $("#customAlert").append(t);
-
                     //<a href="javascript:void(0)" onclick="toggleAlert();"><span class="btnTime">OK</span></a>
                 }
-
                 // 시외버스
                 if (result["result"].outBusRequest.count != undefined && result["result"].outBusRequest.count != 0) {
                     //outbusCount++;
@@ -1424,10 +1263,7 @@
 
                     t = $("<a href='javascript:void(0)' id = " + startSTN + " class=" + endSTN + " onclick='selectNavigateType(0,this.id" + "," + result["result"].outBusRequest.OBJ[0].SX + "," + result["result"].outBusRequest.OBJ[0].SY + ",this.className" + "," + result["result"].outBusRequest.OBJ[0].EX + "," + result["result"].outBusRequest.OBJ[0].EY + ");'><span class='btnTime'>시외버스</span></a>");
                     $("#customAlert").append(t);
-
-
                 }
-
                 // 기차
                 if (result["result"].trainRequest.count != undefined && result["result"].trainRequest.count != 0) {
                     var startSTN = result["result"].trainRequest.OBJ[0].startSTN;
@@ -1435,28 +1271,15 @@
 
                     t = $("<a href='javascript:void(0)' id = " + startSTN + " class=" + endSTN + " onclick='selectNavigateType(0,this.id" + "," + result["result"].trainRequest.OBJ[0].SX + "," + result["result"].trainRequest.OBJ[0].SY + ",this.className" + "," + result["result"].trainRequest.OBJ[0].EX + "," + result["result"].trainRequest.OBJ[0].EY + ");'><span class='btnTime'>기차</span></a>");
                     $("#customAlert").append(t);
-
                 }
-
-
                 console.log(t);
-
-
             }
-
             else if (result["result"]["searchType"] == 2) { // 도시간 환승
                 // console.log(result["result"]["path"]);
-
             }
-
-
             WalkingMarker(startRouteMarker, endRouteMarker);
-
             var loader = document.getElementById('loader');
             loader.style.display = "none";
-
-
-
         }
 
         function drawTransitMarker(type, startRouteMarker, endRouteMarker, object, startnode, endnode) {
@@ -1467,39 +1290,25 @@
                 var startname = object.startName;
                 var endname = object.endName;
                 //console.log("a" + object);
-
-
                 startRouteMarker[startRouteCount] = new daum.maps.Marker({  // 탑승 지점 마커
                     position: new daum.maps.LatLng(starty, startx),
                     map: map,
                 });
 
-            
                 endRouteMarker[endRouteCount] = new daum.maps.Marker({  // 하차 지점 마커
-                    position: new daum.maps.LatLng(endy, endx)
-                    
+                    position: new daum.maps.LatLng(endy, endx),
+                    map: map
                 });
-                
-
                 //console.log("rc= " + routeCount);
 
-            if (object.trafficType == 1) { // subway
-                var content = "<p><b>" + startname + "</b>에서 " + "<b>" + object.passStopList.stations[1].stationName + "</b>역 방향</p>";
-                content += "<p><b>" + object.lane[0].name + "</b>열차 승차 후 <b>" + endname + "</b>역에서 하차</p>";
-                content += "소요시간  " + object.sectionTime + "분";
-
-             
+                if (object.trafficType == 1) { // subway
+                    var content = startname + '역 에서 ' + object.passStopList.stations[1].stationName + '역 방향 ' + object.lane[0].name + ' 열차 승차 후 ' + endname + '역 에서 하차\n';
+                    content += '소요 시간= ' + object.sectionTime + ' 분';
                 }
-
-            else if (object.trafficType == 2) { // bus
-                var content = "<p><b>" + startname + "</b>에서 <b>" + object.lane[0].busNo + "번</b> 승차 후 <b>" + endname + "</b>에서 하차</p>";
-                content += "소요시간  " + object.sectionTime + "분";
-
-
-       
+                else if (object.trafficType == 2) { // bus
+                    var content = startname + '에서 ' + object.lane[0].busNo + '번 승차 후 ' + endname + '에서 하차\n';
+                    content += '소요 시간 = ' + object.sectionTime + '분';
                 }
-
-
                 routeinfowindow[startRouteCount] = new daum.maps.InfoWindow({
                     content: content,
                     position: new daum.maps.LatLng(starty, startx)
@@ -1518,33 +1327,27 @@
                         if (checkOpenRouteinfowindow == 0 || checkOpenRouteinfowindow == undefined) {
                             //routeinfowindow.open(map, routeMarker);
                             checkOpenRouteinfowindow = 1;
-                            $("#info").html(content);
+                            $("#info").text(content);
                             var a = document.getElementById("info");
                             a.style.display = "block";
                         }
                         else {
                             routeinfowindow.setMap(null);
                             checkOpenRouteinfowindow = 0;
-                         
                             var a = document.getElementById("info");
                             a.style.display = "none";
                         }
-
                     });
                 })(startRouteMarker[startRouteCount], routeinfowindow[startRouteCount], checkOpenRouteinfowindow[startRouteCount], startRouteCount);
-
                 startRouteMarker[startRouteCount].setTitle(startname); //+ "에서 출발하여 " + endname + "에서 하차");
                 endRouteMarker[endRouteCount].setTitle(endname);
-
                 startRouteCount++;
                 endRouteCount++;
-          
-
-
         }
+
         function WalkingMarker(startRouteMarker, endRouteMarker) {  // tamp 도보 api 
             var i = 0;
-       //     for (var i = 0; i < endRouteCount + 1; ) {
+            //for (var i = 0; i < endRouteCount + 1; ) {
                 //  alert(endRouteCount + " " + i);
                 //i가 넘어가서
             // ajax 비동기라서
@@ -1552,37 +1355,29 @@
             var t = setInterval(function () { 
                 console.log("i = " + i);
                 if (i == endRouteCount) clearInterval(t);
-                
+                if (i == 0) {  // startmarker - startRoutemarker[first]
+                    //  alert(startMarker.getPosition().getLat());
+                    //  alert(startRouteMarker[i].getPosition());
+                    // console.log(startMarker.getPosition());
+                    drawWalkingMarker(startMarker, startRouteMarker[i]);
+                    //console.log(startMarker.getPosition());
 
-                    if (i == 0) {  // startmarker - startRoutemarker[first]
-                        //  alert(startMarker.getPosition().getLat());
-                        //  alert(startRouteMarker[i].getPosition());
-                        // console.log(startMarker.getPosition());
-
-                         
-                        
-                        drawWalkingMarker(startMarker, startRouteMarker[i]);
-                        //console.log(startMarker.getPosition());
-
-                    }
-                    else if (i == endRouteCount) { // endRouteMarker[last] - endmarker
-                        //alert(endRouteMarker[i].getPosition());
-                        // alert(endMarker.getPosition());
-                         // console.log(endMarker.getPosition());
-                        drawWalkingMarker(endRouteMarker[i - 1], endMarker);
-                       // console.log(endMarker.getPosition());
-                    }
-                    else { // endRouteMarker[] - startRouteMarker[]
-                        //  alert(startRouteMarker[i].getPosition());
-                        // alert(endRouteMarker[i-1].getPosition());
-                        //console.log(startRouteMarker[i].getPosition());
-                        drawWalkingMarker(endRouteMarker[i - 1], startRouteMarker[i]);
-                      //  console.log(startRouteMarker[i].getPosition());
-                    }
-
+                }
+                else if (i == endRouteCount) { // endRouteMarker[last] - endmarker
+                    //alert(endRouteMarker[i].getPosition());
+                    // alert(endMarker.getPosition());
+                     // console.log(endMarker.getPosition());
+                    drawWalkingMarker(endRouteMarker[i - 1], endMarker);
+                   // console.log(endMarker.getPosition());
+                }
+                else { // endRouteMarker[] - startRouteMarker[]
+                    //  alert(startRouteMarker[i].getPosition());
+                    // alert(endRouteMarker[i-1].getPosition());
+                    //console.log(startRouteMarker[i].getPosition());
+                    drawWalkingMarker(endRouteMarker[i - 1], startRouteMarker[i]);
+                  //  console.log(startRouteMarker[i].getPosition());
+                }
                 i++;
-
-     //       }
                 }, 1000);
         }
 
@@ -1623,11 +1418,8 @@
                     xmlDoc = $.parseXML(prtclString),
                         $xml = $(xmlDoc),
                         $intRate = $xml.find("Document");
-
                     var tDistance = "총 거리 : " + ($intRate[0].getElementsByTagName("tmap:totalDistance")[0].childNodes[0].nodeValue / 1000).toFixed(1) + "km,";
                     var tTime = " 총 시간 : " + ($intRate[0].getElementsByTagName("tmap:totalTime")[0].childNodes[0].nodeValue / 60).toFixed(0) + "분";
-
-
                     var result = ($intRate[0].getElementsByTagName("coordinates"));
                     //console.log(result);
                     //console.log(result);
@@ -1646,18 +1438,14 @@
                           
                             if (latlng[1] != undefined && latlng[[0]] != undefined)
                                 lineArray.push(new daum.maps.LatLng(latlng[1], latlng[0]));
-                
                         }
-
                             walkingPolyline[walkingPolylineCount++] = new daum.maps.Polyline({
                                 map: map,
                                 path: lineArray,
                                 strokeWeight: 5,
                                 strokeColor: '#006600'
                             });
-
                     }
-                                    
                 },
                 //요청 실패시 콘솔창에서 에러 내용을 확인할 수 있습니다.
                 error: function (request, status, error) {
@@ -1665,16 +1453,9 @@
                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                 }
             });
-            
-
-
         }
 
-
-
-
         function drawdetail(mapObj, startnode, endnode) {  // 선그리기
-
             var xhr = new XMLHttpRequest();
             var url = "https://api.odsay.com/v1/api/loadLane?mapObject=0:0@" + mapObj + "&apiKey=" + apikey;
             xhr.open("GET", url, true);
@@ -1710,41 +1491,21 @@
         }
 
         <%  route = request("route")
+            response.write route
             if route <> "" then %>
-            
-            $.ajax({
-                url: 'search_ajax.asp',
-                type: 'get',
-                data: 'word=<%=route%>',
-                success: function (data) {
-                    var dataArray = data.split(',');
-                    var othernode = new Node(dataArray[2], dataArray[0], dataArray[1]);
-                    moveCamera(dataArray[0], dataArray[1]);
-                }
-            });
+            var othercoords;
+            threeWordsSearch(<%=route%>);
+            othernode = new Node(<%=route%>, othercoords.latitude, othercoords.longitude);
 
-            var myroute = getRoute(<%=Session("member_no")%>);
-            $.ajax({
-                url: 'search_ajax.asp',
-                type: 'get',
-                data: 'word=' + myroute,
-                success: function (data) {
-                    var dataArray = data.split(',');
-                    var othernode = new Node(dataArray[2], dataArray[0], dataArray[1]);
-                    moveCamera(dataArray[0], dataArray[1]);
-                }
-            });
+            var myroute = getRoute(<%Session("member_no")%>);
+            threeWordsSearch(myroute);
+            mynode = new Node(myroute, myposition.latitude, myposition.longitude);
 
             sendParameterToSearchRoute(mynode, othernode);
 
         <% end if %>
-        
-
-
         addCategoryClickEvent();
     </script>
-
-
     <!-- #include virtual="/_include/connect_close.inc" -->
     <!-- <textarea id="output"></textarea> -->
 	

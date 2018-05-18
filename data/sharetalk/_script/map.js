@@ -104,8 +104,7 @@ function initMap() {
 function setMarker(){
 	if (xhr.readyState == 4) {
 		var data = xhr.responseText;
-		if(data != '')
-		test3word.value = data;
+		if(data != '')	test3word.value = data;
 	}
 }
 
