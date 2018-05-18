@@ -13,6 +13,7 @@
     <title>Whar3Words</title>
 
     <link rel="stylesheet" href="/_css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../_include/navigator.css" />
     
     <style>
@@ -139,7 +140,23 @@
             background: #f6f6f6;
             bottom:0;
             width:100%;
-            text-align:center;            
+            text-align:left;            
+        }
+
+        #myPositionButton{
+            position:absolute;
+            z-index:3;
+            right:0;
+            top:50%;
+            border-radius:50%;
+
+        }
+        #callCategoryButton {
+            position: absolute;
+            z-index: 3;
+            right: 0;
+            top: 60%;
+            border-radius: 50%;
         }
 
     </style>
@@ -201,14 +218,14 @@
 			</tr>
 		</table>
 	</div>
-    <div style="margin-top: 50px" class="container-fluid">
+    <div style="margin-top: 5px" class="container-fluid">
         <div class="row">
 			
 			<div style="clear:both;height:5px"></div>
             <div class="col-lg-12" id="map" style="box-shadow: rgba(0, 0, 0, 0.498039) 0px 0px 1px 0px, rgba(0, 0, 0, 0.14902) 0px 1px 10px 0px;">
 
 
-                <ul id="category" class="category">
+                <ul id="category" class="category" style="display:none;">
                     <li id="FD6" data-order="0">
                         <span class=""></span>
                         음식점
@@ -233,10 +250,15 @@
                         <span class=""></span>
                         지하철역
                     </li>
-                    <li>
-                        <input type="button" value="내 위치" onclick="backToMyPosition()" style="z-index: 3" />
-                    </li>
+
                 </ul>
+                <button type="button" id="myPositionButton" onclick="backToMyPosition()">
+                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> 
+                </button>
+                <button type="button" id="callCategoryButton" onclick="callCategory()">
+                    <span class ="glyphicon glyphicon-option-horizontal"></span>
+
+                </button>
 
                 <div id="info" style="display:none"> </div>
             </div>
@@ -584,7 +606,15 @@
                 success:function(response) {
                     document.getElementById("output").value = response.data;
                 }
-             })
+             });
+        }
+        function callCategory() {
+            var a = document.getElementById("category");
+            if (a.style.display == 'block') a.style.display = 'none';
+            else if (a.style.display == 'none') a.style.display = 'block';
+
+
+
         }
 
         function initMap() {
@@ -603,8 +633,8 @@
             setTile(); // 화면 선으로 분할 
 
             // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성
-            var zoomControl = new daum.maps.ZoomControl();
-            map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
+          //  var zoomControl = new daum.maps.ZoomControl();
+           // map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
 
             // zoom 변할 때 마다, 화면 분할 함수 호출
             daum.maps.event.addListener(map, 'zoom_changed', function () {
@@ -818,7 +848,18 @@
 
         function backToMyPosition() {  // 내 위치로 복귀
             //alert(coords);
-            if (coords == undefined) { alert("GPS에 연결할 수 없습니다"); return; }
+            if (coords == undefined) {
+                
+               
+                var e = document.getElementById("popupAlertPosition");
+                
+                    e.style.display = 'block';
+
+                document.getElementById("alerttext").innerHTML = "GPS에 연결할 수 없습니다.";
+                t = $("<a href='javascript:void(0)' onclick='closePopUp();'><span class='btnTime'>OK</span></a>");
+                $("#customAlert").append(t);
+                return;
+            }
             else moveCamera(position.coords.latitude, position.coords.longitude);
         }
 
@@ -943,8 +984,8 @@
 
         // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
         function addMarker(position, order) {
-            var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-                imageSize = new daum.maps.Size(27, 28),  // 마커 이미지의 크기
+            var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png'; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+            var imageSize = new daum.maps.Size(27, 28),  // 마커 이미지의 크기
                 imgOptions = {
                     spriteSize: new daum.maps.Size(72, 208), // 스프라이트 이미지의 크기
                     spriteOrigin: new daum.maps.Point(46, (order * 36)), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
@@ -1433,27 +1474,29 @@
                     map: map,
                 });
 
+            
                 endRouteMarker[endRouteCount] = new daum.maps.Marker({  // 하차 지점 마커
-                    position: new daum.maps.LatLng(endy, endx),
-                    map: map
+                    position: new daum.maps.LatLng(endy, endx)
+                    
                 });
-
+                
 
                 //console.log("rc= " + routeCount);
 
-                if (object.trafficType == 1) { // subway
-                    var content = startname + '역 에서 ' + object.passStopList.stations[1].stationName + '역 방향 ' + object.lane[0].name + ' 열차 승차 후 ' + endname + '역 에서 하차\n';
-                    content += '소요 시간= ' + object.sectionTime + ' 분';
+            if (object.trafficType == 1) { // subway
+                var content = "<p><b>" + startname + "</b>에서 " + "<b>" + object.passStopList.stations[1].stationName + "</b>역 방향</p>";
+                content += "<p><b>" + object.lane[0].name + "</b>열차 승차 후 <b>" + endname + "</b>역에서 하차</p>";
+                content += "소요시간  " + object.sectionTime + "분";
 
              
                 }
 
-                else if (object.trafficType == 2) { // bus
-                    var content = startname + '에서 ' + object.lane[0].busNo + '번 승차 후 ' + endname + '에서 하차\n';
-                    content += '소요 시간 = ' + object.sectionTime + '분';
+            else if (object.trafficType == 2) { // bus
+                var content = "<p><b>" + startname + "</b>에서 <b>" + object.lane[0].busNo + "번</b> 승차 후 <b>" + endname + "</b>에서 하차</p>";
+                content += "소요시간  " + object.sectionTime + "분";
 
-         
 
+       
                 }
 
 
@@ -1475,7 +1518,7 @@
                         if (checkOpenRouteinfowindow == 0 || checkOpenRouteinfowindow == undefined) {
                             //routeinfowindow.open(map, routeMarker);
                             checkOpenRouteinfowindow = 1;
-                            $("#info").text(content);
+                            $("#info").html(content);
                             var a = document.getElementById("info");
                             a.style.display = "block";
                         }
