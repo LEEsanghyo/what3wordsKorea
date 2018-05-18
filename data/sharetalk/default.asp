@@ -22,8 +22,13 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>What3Words Home</title>
+<<<<<<< HEAD
 		<link rel="stylesheet" href="/_include/style.css" type="text/css">
 		<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+=======
+		<link rel="stylesheet" href="/_css/style.css" type="text/css">
+		<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+>>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
 		<script async type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
 		<script async src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
 		<script async src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
@@ -67,11 +72,17 @@
 			<image src="/images/glogin.png" onclick=GoogleLogin(); style="cursor:pointer;width:120px;height:40px;">
 		</div><p></p>
 		<script type="text/javascript" src="/_script/login.js"></script>
+<<<<<<< HEAD
+=======
+		<% else %>
+		<script type="text/javascript" src="/_script/community.js"></script>
+>>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
 		<% end if %>
 		<div id="map"></div>
-		<script async type="text/javascript" src="/_script/map.js"></script>	
-		<script async src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script>
+		<script type="text/javascript" src="/_script/map.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
+		<script type="text/javascript">
 			var map;
 			var bounds = {
 				north: <%= lon2 %>,
@@ -81,9 +92,23 @@
 			};
 			var uluru = {lat: <%= lat_value %>, lng: <%= lon_value %> };
 			var zoom_level = <%= zoom_level %>;
+<<<<<<< HEAD
 			getKey();
 		</script>		
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
 		<script async type="text/javascript" src="/_script/community.js"></script>
+=======
+			<% if Session("member_no") then %>
+					setTimeout(function(){
+						var data = new Array();
+						data[0] = <%=Session("member_no")%>;
+						data[1] = my_position;
+						setRoute(data);
+					}, 5000);
+			<% else %>
+			getKey();
+			<% end if %>
+		</script>
+>>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
 	</body>
 </html>

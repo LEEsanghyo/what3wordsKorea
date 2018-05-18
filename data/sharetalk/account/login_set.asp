@@ -13,12 +13,21 @@
     rsGi.Open strSQL, DbConn, 1, 1
 	if rsGi("p_count") = 1 Then
 		member_no = rsGi("member_no")
-		Response.Cookies("member_email") = member_email
-		Response.Cookies("member_name") = rsGi("member_name")
+		Clients_ID = Application("Clients_ID")
+
+		for i=0 to UBOUND(Clients_ID) step 1
+			if member_no = Clients_ID(i) then
+				response.write "이미 로그인된 사용자입니다."
+				response.end
+			end if
+
+		next
+
 		Session("admin_flag") = rsgi("admin_flag")
+		Response.Cookies("profile_url") = rsGi("profile_url")
+		Response.Cookies("member_name") = rsGi("member_name")
 		Session("member_uid") = member_uid
 		Session("member_no") = member_no
-		Session("chat_flag") = 0
 
 		'세션 아이디넘버를 전역변수에 저장
 		Application.lock
@@ -33,10 +42,10 @@
 		Application("count") = Application("count") + 1
 		Application.unlock
 
-	elseif rsgi("l_message") <> "" then
+	elseif rsgi("l_message") <> "로그인 오류입니다." then
 		response.write "0"
 	else
-		response.write "로그인 오류입니다."
+		response.write rsgi("l_message")
 	end if
 	set rsGi = nothing
 %>

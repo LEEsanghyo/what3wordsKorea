@@ -41,6 +41,7 @@ function LoginConfirm(vals) {
 	};
 	xhr.open("Get", strurl);
 	xhr.send(null);
+	xhr = null;
 }
 
 // 구글, 네이버, 카카오 로그인 시 해당 사용자의 프로필 정보를 넘겨준다.
@@ -107,6 +108,7 @@ function MemberRegister(oflag, uid) {
 	}
 
 	strurl = "/account/member_register_set.asp?member_name=" + mname + "&member_email=" + memail + "&member_age=" + mage + "&member_interest=" + mint + "&member_phone=" + mphone + "&member_pwd=" + mpwd + "&org_flag=" + oflag + "&member_uniqid=" + uid;
+
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
 		if (this.readyState == 4 && this.status == 200) {
@@ -122,6 +124,7 @@ function MemberRegister(oflag, uid) {
 	};
 	xhr.open("Get", strurl);
 	xhr.send(null);
+	xhr = null;
 }
 
 // 카카오톡 로그인
@@ -164,8 +167,7 @@ function GoogleLogin(){
 	})
 }
 
-
-// 네이버 로그인 버튼
+// 버튼 초기화
 function ButtonInit(){
 	var naverLogin = new naver.LoginWithNaverId({
 		clientId: keys[0],

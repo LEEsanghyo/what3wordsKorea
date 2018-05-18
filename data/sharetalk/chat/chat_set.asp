@@ -36,7 +36,6 @@
 				end if
 			next
 		end if
-		rs = nothing
 	elseif Accept = 0 then
 		for i=0 to UBOUND(ID) step 1
 			'내 세션에 새 채팅 신청이 있는지 확인
@@ -90,5 +89,7 @@
 		Application("individual_id") = ""
 		Application.unlock
 	End function
+
+	Set rs = nothing
 %>
 <!-- #include virtual="/_include/connect_close.inc" -->
