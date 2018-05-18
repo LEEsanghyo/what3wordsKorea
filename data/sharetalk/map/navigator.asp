@@ -29,7 +29,7 @@
             vertical-align: middle;
             text-decoration: solid;
             display: inline-block;
-            width: 60px;
+            width: 80px;
             padding: 5px 10px 5px 10px;
             border: solid #9DB81A 2px;
             text-decoration: none;
@@ -95,6 +95,53 @@
 		.popupBoxContent{
 			background-color: #FFF; padding: 0px;border-radius:2px;
 		}
+
+        .loader {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 5;
+            width: 150px;
+            height: 150px;
+            margin: -75px 0 0 -75px;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        #info {
+            position: absolute;
+            z-index: 3;
+            background: #f6f6f6;
+            bottom:0;
+            width:100%;
+            text-align:center;            
+        }
+
     </style>
 
     <!-- //라는 상대 프로토콜 사용하면 사용자의 http, https 환경에 따라 자동으로 해당 프로토콜을 따라간다 -->
@@ -119,30 +166,31 @@
 
 </head>
 <body onload="initMap()">
-	
     <!-- #include virtual="/_include/top_menu_map.asp" -->
     <!-- #include virtual="/_include/top_menulist.asp" -->
-	<div style="margin:90px 0 10px 0;">
+
+    <div id="entire">
+	<div style="margin:90px 0 10px 0;" >
 		<table width=100%>
 			<tr>
 				<td width=50%>
 					<div style="margin:5px">
-						<input type="text" id="my_position" class="form-control" disabled>
+						<input type="hidden" id="my_position" class="form-control" disabled>
 					</div>
 					</td>
 				<td width=50%>
 					<div style="margin:5px">
-						<input type="text" class="form-control" id="destination3Words" disabled>
+						<input type="hidden" class="form-control" id="destination3Words" disabled>
 					</div>
 				</td>
 			</tr>
-			<tr>
+		<!--    <tr>
 				<td width=100% colspan="2">
 					<div style="margin:5px">
 						<textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
 					</div>
 				</td>
-			</tr>
+			</tr> -->
 		</table>
 		<table width=100%>
 			<tr>
@@ -153,7 +201,7 @@
 			</tr>
 		</table>
 	</div>
-    <div style="margin-top: 100px" class="container-fluid">
+    <div style="margin-top: 50px" class="container-fluid">
         <div class="row">
 			
 			<div style="clear:both;height:5px"></div>
@@ -190,7 +238,7 @@
                     </li>
                 </ul>
 
-
+                <div id="info" style="display:none"> </div>
             </div>
 
         </div>
@@ -224,7 +272,7 @@
         </div>
 
     </div>
-
+</div>
 
     <div id="popupAlertPosition">
         <div id="popupAlertWrapper">
@@ -241,7 +289,7 @@
                 <br />
                 <table width="100%" border="0" style="padding: 0px; margin: 0px;">
                     <tr>
-                        <td style="text-align: justify;" id="customAlert">
+                        <td style="text-align: center;" id="customAlert">
                             <!-- <a href="javascript:void(0)" onclick="toggleAlert();"><span class="btnTime">OK</span></a> -->
                         </td>
                     </tr>
@@ -249,6 +297,13 @@
             </div>
         </div>
     </div>
+
+    <div class="loader" style="display:none;" id="loader"> 
+        </div>
+
+
+    
+
 
 
     <script type="text/javascript">
@@ -346,81 +401,12 @@
         var strcnt = 0;
         var objcnt = 0;
 
-        /*
-        objectLinkedList.prototype.add = function (object, position) {
-            var position = position == undefined ? this.length + 1 : position;
-           // alert("c");
-            var newObjectNode = new objectNode(object);
-            //alert("d");
-            
-            var preNode = this.headNode;
-            for (i = 1; i < position; i++) {
-                preNode = preNode.next;
-            }
-            newObjectNode.next = preNode == null ? null : preNode.next;
-            preNode.next = newObjectNode;
+         var airplaneCount = 0, exbusCount = 0, outbusCount = 0, trainCount = 0;
 
-          //  alert(position);
-            this.length++;
-        }
-        objectLinkedList.prototype.peek = function (position) {
-          //  alert(position);
-           // alert(this.length);
-            var ret = null;
-            var position = position == undefined ? 0 : position;
-            
-            
-            if (this.isEmpty()) { // 링크드리스트가 비었으면
-                console.log("list is Empty");
-            }
-            else if (position < this.length) { 
-                var preNode = this.headNode;
+        var type = -1;
 
-                for (i = 0; i < position; i++) {
-                    preNode = preNode.next;
 
-                }
-                ret = preNode.next.objet;
-
-            }
-            else {
-                console.log("index error");
-            }
-
-            return ret;
-        }
-        objectLinkedList.prototype.remove = function (position) {
-            var ret = null;
-            var position = position == undefined ? 0 : position;
-            if (this.isEmpty()) {
-                console.log("list is Empty");
-            }
-            else if (position < this.length) {
-                var preNode = this.headNode;
-
-                for (i = 0; i < position; i++) {
-                    preNode = preNode.next;
-                }
-                ret = preNode.next.data;
-                preNode.next = preNode.next.next;
-
-                this.length--;
-            }
-            else {
-                console.log("index error");
-            }
-
-            return ret;
-        }
-
-        objectLinkedList.prototype.isEmpty = function () {
-            var ret = false;
-            if (!this.length) {
-                ret = true;
-            }
-            return ret;
-        }
-        */
+  
         linkedList.prototype.add = function (name, x, y, position) {
             //position이 null일 경우 마지막위치로
             var position = position == undefined ? this.length + 1 : position;
@@ -667,6 +653,7 @@
 
 
 
+
                                 //mouseMarker.setMap(null);
                                 //mouseInfowindow.close();
                             });
@@ -711,6 +698,9 @@
                         map: map,
                         position: centerLatlng
                     });
+                    
+          
+
 
                     (function (center3words, centerLatlng) {
                         daum.maps.event.addListener(centerMarker,'click', function () {
@@ -860,6 +850,7 @@
                             success: function (data) {
                                 var destination3Words = document.getElementById("destination3Words");
                                 destination3Words.value = data;
+                                
                             }
                         });
                     }
@@ -1041,6 +1032,50 @@
             }
         }
 
+
+        function selectNavigateType(type,startSTN, SX, SY, endSTN, EX, EY) {
+            //alert("a");
+
+
+
+            $("#customAlert").empty();
+            var e = document.getElementById("popupAlertPosition");
+            if (e.style.display == 'block')  // popup close
+                e.style.display = 'none';
+
+
+            var loader = document.getElementById('loader');
+            loader.style.display = "block";
+           // var entire = document.getElementById('entire');
+           // document.body.style.backgroundColor = 'gray';
+
+
+            var firstNode = new node(startMarker.getTitle(), startMarker.getPosition().getLng(), startMarker.getPosition().getLat());
+            var firstStationNode = new node(startSTN, SX, SY);
+            var finalNode = new node(endMarker.getTitle(), endMarker.getPosition().getLng(), endMarker.getPosition().getLat());
+            var finalStationNode = new node(endSTN, EX, EY);
+
+            var path = [
+                new daum.maps.LatLng(SY, SX),
+                new daum.maps.LatLng(EY, EX),
+            ]
+
+            searchRoute(firstNode, firstStationNode);
+            searchRoute(finalStationNode, finalNode);
+
+
+            polyline[polylineCount++] = new daum.maps.Polyline({
+                map: map,
+                path: path,
+                strokeWeight: 5,
+                strokeColor: '#CC0033'
+            });
+
+        }
+
+
+
+
         function addRoute(name, x, y) { // linked list에 항목 이름, x,y node로 만들어 추가 
             $("#customAlert").empty();
             var e = document.getElementById("popupAlertPosition");
@@ -1072,22 +1107,49 @@
             polylineCount = 0;
             walkingPolylineCount = 0;
             placeOverlay.setMap(null);
+
+            
+            $("#info").text("");
+            var a = document.getElementById('info');
+            a.style.display = 'none';
         }
 
         // 경로 탐색시 가장 먼저 실행되는 함수 
         function sendParameterToSearchRoute(startnode, endnode) {
-            //var node = routeItem.headNode.next;
-
-            //alert(startnode.name + endnode.name);
-
-
             clearScreen();
             printSelectedCategoryMarker(startnode, endnode);
-            searchRoute(startnode, endnode);
-            moveCamera(startnode.y, startnode.x);
-;            // printSelectedCategoryMarker(startnode, endnode); 
+
+            //123
+            $("#customAlert").empty();
+            var e = document.getElementById("popupAlertPosition");
+            if (e.style.display == 'none')
+                e.style.display = 'block';
+            document.getElementById("alerttext").innerHTML = "보고 싶은 경로를 선택해주세요";
+            t = $("<a href='javascript:void(0)' id='searchRoute2'><span class='btnTime'>자동차</span></a>");
+            $("#customAlert").append(t);
+            (function (startnode, endnode) {
+                $("#searchRoute2").on("click", function () {
+                    searchRoute2(startnode, endnode);
+                });
+            })(startnode, endnode);
+
+
+            t = $("<a href='javascript:void(0)' id='searchRoute'><span class='btnTime'>대중교통</span></a>");
+            $("#customAlert").append(t);
+            (function (startnode, endnode) {
+                $("#searchRoute").on("click", function () {
+                    searchRoute(startnode, endnode);
+                });
+            })(startnode, endnode);
+                    
+
+         
+
+
 
             //searchRoute(startnode, endnode);
+           
+            moveCamera(startnode.y, startnode.x);
         }
 
         function printSelectedCategoryMarker(startnode, endnode) {  // startnode, endmarker 
@@ -1113,6 +1175,17 @@
 
     
         function searchRoute(startnode, endnode) {
+            $("#customAlert").empty();
+            var e = document.getElementById("popupAlertPosition");
+            if (e.style.display == 'block')
+                e.style.display = 'none';
+
+
+            var loader = document.getElementById('loader');
+            loader.style.display = "block";
+
+
+
             var xhr = new XMLHttpRequest();
             // ajax로 출발-도착지 간 대중 교통 정보 요청 - opt=0 최단거리 
             var url = "https://api.odsay.com/v1/api/searchPubTransPath?OPT=0&SX=" + startnode.x + "&SY=" + startnode.y + "&EX=" + endnode.x + "&EY=" + endnode.y + "&apiKey=" + apikey;
@@ -1126,6 +1199,106 @@
             }
 
         }
+        function searchRoute2(startnode, endnode) {
+            $("#customAlert").empty();
+            var e = document.getElementById("popupAlertPosition");
+            if (e.style.display == 'block')
+                e.style.display = 'none';
+            
+   
+
+            $.ajax({
+                method: "POST",
+                headers: headers,
+                url: "https://api2.sktelecom.com/tmap/routes?version=1&format=xml",//자동차 경로안내 api 요청 url입니다.
+                async: false,
+                data: {
+                    //출발지 위경도 좌표입니다.
+                    startX: startnode.x,
+                    startY: startnode.y,
+                    //목적지 위경도 좌표입니다.
+                    endX: endnode.x,
+                    endY: endnode.y,
+                    //출발지, 경유지, 목적지 좌표계 유형을 지정합니다.
+                    reqCoordType: "WGS84GEO",
+                    //resCoordType: "EPSG3857",
+                    //각도입니다.
+                   // angle: "172",
+                    //경로 탐색 옵션 입니다.
+                    searchOption: 0
+                },
+                //데이터 로드가 성공적으로 완료되었을 때 발생하는 함수입니다.
+                success: function (response) {
+                    prtcl = response;
+
+                    // 결과 출력
+                    var innerHtml = "";
+                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String	
+                    xmlDoc = $.parseXML(prtclString),
+                        $xml = $(xmlDoc),
+                        $intRate = $xml.find("Document");
+
+                    var tDistance = "총 거리 : " + ($intRate[0].getElementsByTagName("tmap:totalDistance")[0].childNodes[0].nodeValue / 1000).toFixed(1) + "km";
+                    var tTime = " 총 시간 : " + ($intRate[0].getElementsByTagName("tmap:totalTime")[0].childNodes[0].nodeValue / 60).toFixed(0) + "분";
+                    var tFare = " 총 요금 : " + $intRate[0].getElementsByTagName("tmap:totalFare")[0].childNodes[0].nodeValue + "원";
+                    var taxiFare = " 예상 택시 요금 : " + $intRate[0].getElementsByTagName("tmap:taxiFare")[0].childNodes[0].nodeValue + "원";
+
+                    $("#info").text(tDistance + "  " + tTime +"  " + tFare+ "  " + taxiFare);
+                    var a = document.getElementById('info');
+                    a.style.display = 'block';
+
+   //                 $("#result").text(tDistance + tTime + tFare + taxiFare);
+
+//                    prtcl = new Tmap.Format.KML({ extractStyles: true, extractAttributes: true }).read(prtcl);//데이터(prtcl)를 읽고, 벡터 도형(feature) 목록을 리턴합니다.
+
+                 
+
+                    // 결과 출력
+     
+                    var result = ($intRate[0].getElementsByTagName("coordinates"));
+                    //console.log(result);
+                    //console.log(result);
+                    //console.log(result.length);
+                    // return;
+                    var lineArray = new Array();
+
+                    for (var i = 0; i < result.length; i++) {
+                        var data = result[i].innerHTML.split(' ');
+                        lineArray = null;
+                        lineArray = new Array();
+
+                        // console.log("data length = " + data.length-1);
+                        for (var j = 0; data[j] != ""; j++) {
+                            var latlng = data[j].split(',');
+
+                            if (latlng[1] != undefined && latlng[[0]] != undefined)
+                                lineArray.push(new daum.maps.LatLng(latlng[1], latlng[0]));
+
+                        }
+
+                        polyline[polylineCount++] = new daum.maps.Polyline({
+                            map: map,
+                            path: lineArray,
+                            strokeWeight: 5,
+                            strokeColor: '#CC0033'
+                        });
+
+                    }
+
+
+
+
+	
+                },
+                //요청 실패시 콘솔창에서 에러 내용을 확인할 수 있습니다.
+                error: function (request, status, error) {
+                    console.log("에러 code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                }
+            });
+
+
+        }
+
 
 
         function detailRouteSearch(result, startnode, endnode) {
@@ -1140,17 +1313,20 @@
                 // console.log("subpath.length = " + result["result"]["path"][0].subPath.length); 
                 for (var i = 0; i < result["result"]["path"][0].subPath.length; i++) {
 
-                    if (result["result"]["path"][0].subPath[i].trafficType == 1 || result["result"]["path"][0].subPath[i].trafficType == 2) { // 지하철
+                    if (result["result"]["path"][0].subPath[i].trafficType == 1 || result["result"]["path"][0].subPath[i].trafficType == 2) { // 지하철 or 버스
+
+                        var loader = document.getElementById('loader');
+                        loader.style.display = "block";
+                       // var entire = document.getElementById('entire');
+                          // document.body.style.backgroundColor = 'gray';
+
 
                         drawTransitMarker(0, startRouteMarker, endRouteMarker, result["result"]["path"][0].subPath[i]);
-                        //result["result"]["path"][0].subPath[i].startX, result["result"]["path"][0].subPath[i].startY, result["result"]["path"][0].subPath[i].endX, result["result"]["path"][0].subPath[i].endY, result["result"]["path"][0].subPath[i].startName, result["result"]["path"][0].subPath[i].endName);
-                        // type, 탑승/하차 표시 마커, 탑승 x, 탑승 y, 하차 x, 하차 y, 탑승하는 곳 이름, 하차하는 곳 이름
+                   
+       
                     }
-                    else if (result["result"]["path"][0].subPath[i].trafficType == 3) { // 도보
-                        //alert("도보로 이동");
-                        //drawTransitMarker(1, startRouteMarker, endRouteMarker, result["result"]["path"][0].subPath[i]);
-                    }
-
+                    else if (result["result"]["path"][0].subPath[i].trafficType == 3) {} // 도보
+                       
                 }
 
                 
@@ -1169,59 +1345,57 @@
 
                 document.getElementById("alerttext").innerHTML = "보고 싶은 경로를 선택해주세요";
 
-                var airplaneCount = 0, exbusCount = 0, outbusCount = 0, trainCount = 0;
 
+                airplaneCount = 0, exbusCount = 0, outbusCount = 0, trainCount = 0;
 
-                if (result["result"].airRequest.count != undefined || result["result"].airRequest.count != 0) { // 비행기
-                    var t = $("<a href='javascript:void(0)' onclick='selectNavigateType();'><span class='btnTime'>비행기</span></a>");
+                var t;
+                if (result["result"].airRequest.count != undefined && result["result"].airRequest.count != 0) { // 비행기
+                    //airplaneCount++;
+                    var startSTN = result["result"].airRequest.OBJ[0].startSTN;
+                    var endSTN = result["result"].airRequest.OBJ[0].endSTN;
+                    
+                    t = $("<a href='javascript:void(0)' id = "+startSTN+" class="+endSTN+" onclick='selectNavigateType(0,this.id" + "," +result["result"].airRequest.OBJ[0].SX + "," +result["result"].airRequest.OBJ[0].SY + ",this.className" +"," +result["result"].airRequest.OBJ[0].EX + "," +result["result"].airRequest.OBJ[0].EY+");'><span class='btnTime'>비행기</span></a>");
                     $("#customAlert").append(t);
-                    /*
-                    var xhr = new XMLHttpRequest();
-                    // ajax로 출발-도착지 간 대중 교통 정보 요청 - opt=0 최단거리 
-                    var url = "https://api.odsay.com/v1/api/searchPubTransPath?OPT=0&SX=" + startnode.x + "&SY=" + startnode.y + "&EX=" + endnode.x + "&EY=" + endnode.y + "&apiKey=" + apikey;
-                    xhr.open("GET", url, true);
-                    xhr.send();
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState == 4 && xhr.status == 200) {
-                            //노선그래픽 데이터 호출
-                            detailRouteSearch(JSON.parse(xhr.responseText), startnode, endnode);
-                        }
-                    }
-                    */
+                
+                                        
 
                 }
                 // 고속버스
-                if (result["result"].exBusRequest.count != undefined || result["result"].exBusRequest.count != 0) {
-                    /*
-                    var t = $("<a href='javascript:void(0)' onclick='selectNavigateType();'><span class='btnTime'>고속 버스</span></a>");
+                if (result["result"].exBusRequest.count != undefined && result["result"].exBusRequest.count != 0) {
+                    //exbusCount++;
+                    var startSTN = result["result"].exBusRequest.OBJ[0].startSTN;
+                    var endSTN = result["result"].exBusRequest.OBJ[0].endSTN;
+                    
+                    t = $("<a href='javascript:void(0)' id = "+startSTN+" class="+endSTN+" onclick='selectNavigateType(0,this.id" + "," +result["result"].exBusRequest.OBJ[0].SX + "," +result["result"].exBusRequest.OBJ[0].SY + ",this.className" +"," +result["result"].exBusRequest.OBJ[0].EX + "," +result["result"].exBusRequest.OBJ[0].EY+");'><span class='btnTime'>고속버스</span></a>");
                     $("#customAlert").append(t);
-                    */
 
                     //<a href="javascript:void(0)" onclick="toggleAlert();"><span class="btnTime">OK</span></a>
                 }
 
                 // 시외버스
-                if (result["result"].outBusRequest.count != undefined || result["result"].outBusRequest.count != 0) {
-                    /*
-                    var t = $("<a href='javascript:void(0)' onclick='selectNavigateType();'><span class='btnTime'>시외 버스</span></a>");
+                if (result["result"].outBusRequest.count != undefined && result["result"].outBusRequest.count != 0) {
+                    //outbusCount++;
+                    var startSTN = result["result"].outBusRequest.OBJ[0].startSTN;
+                    var endSTN = result["result"].outBusRequest.OBJ[0].endSTN;
+
+                    t = $("<a href='javascript:void(0)' id = " + startSTN + " class=" + endSTN + " onclick='selectNavigateType(0,this.id" + "," + result["result"].outBusRequest.OBJ[0].SX + "," + result["result"].outBusRequest.OBJ[0].SY + ",this.className" + "," + result["result"].outBusRequest.OBJ[0].EX + "," + result["result"].outBusRequest.OBJ[0].EY + ");'><span class='btnTime'>시외버스</span></a>");
                     $("#customAlert").append(t);
-               */
+
+
                 }
 
                 // 기차
-                if (result["result"].trainRequest.count != undefined || result["result"].trainRequest.count != 0) {
-                    /*
-                    var t = $("<a href='javascript:void(0)' onclick='selectNavigateType();'><span class='btnTime'>기차</span></a>");
+                if (result["result"].trainRequest.count != undefined && result["result"].trainRequest.count != 0) {
+                    var startSTN = result["result"].trainRequest.OBJ[0].startSTN;
+                    var endSTN = result["result"].trainRequest.OBJ[0].endSTN;
+
+                    t = $("<a href='javascript:void(0)' id = " + startSTN + " class=" + endSTN + " onclick='selectNavigateType(0,this.id" + "," + result["result"].trainRequest.OBJ[0].SX + "," + result["result"].trainRequest.OBJ[0].SY + ",this.className" + "," + result["result"].trainRequest.OBJ[0].EX + "," + result["result"].trainRequest.OBJ[0].EY + ");'><span class='btnTime'>기차</span></a>");
                     $("#customAlert").append(t);
-                */
+
                 }
-                /*
-                var t = $("<a href='javascript:void(0)' onclick='selectNavigateType();'><span class='btnTime'>취소</span></a>");
-                $("#customAlert").append(t);
-                */
 
 
-
+                console.log(t);
 
 
             }
@@ -1233,6 +1407,11 @@
 
 
             WalkingMarker(startRouteMarker, endRouteMarker);
+
+            var loader = document.getElementById('loader');
+            loader.style.display = "none";
+
+
 
         }
 
@@ -1262,11 +1441,15 @@
                 if (object.trafficType == 1) { // subway
                     var content = startname + '역 에서 ' + object.passStopList.stations[1].stationName + '역 방향 ' + object.lane[0].name + ' 열차 승차 후 ' + endname + '역 에서 하차\n';
                     content += '소요 시간= ' + object.sectionTime + ' 분';
+
+             
                 }
 
                 else if (object.trafficType == 2) { // bus
                     var content = startname + '에서 ' + object.lane[0].busNo + '번 승차 후 ' + endname + '에서 하차\n';
                     content += '소요 시간 = ' + object.sectionTime + '분';
+
+         
 
                 }
 
@@ -1287,12 +1470,18 @@
                         //alert(routeCount);
                         /* flag이용해 infowindow on/off 클릭이벤트 조절 */
                         if (checkOpenRouteinfowindow == 0 || checkOpenRouteinfowindow == undefined) {
-                            routeinfowindow.open(map, routeMarker);
+                            //routeinfowindow.open(map, routeMarker);
                             checkOpenRouteinfowindow = 1;
+                            $("#info").text(content);
+                            var a = document.getElementById("info");
+                            a.style.display = "block";
                         }
                         else {
                             routeinfowindow.setMap(null);
                             checkOpenRouteinfowindow = 0;
+                         
+                            var a = document.getElementById("info");
+                            a.style.display = "none";
                         }
 
                     });
@@ -1473,12 +1662,15 @@
                 }
             }
         }
+        
+
+
         addCategoryClickEvent();
     </script>
 
 
     <!-- #include virtual="/_include/connect_close.inc" -->
-    <textarea id="output"></textarea>
+    <!-- <textarea id="output"></textarea> -->
 	
 </body>
 <!-- post action start -->
