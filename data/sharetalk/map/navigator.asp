@@ -693,18 +693,18 @@
                     center3words = data;
 
                     var content = '<div style="padding:5px;">' + center3words + '</div>';
-/*
+
                     centerMarker = new daum.maps.Marker({
                         map: map,
                         position: centerLatlng
                     });
-                    */
+/*                    
                     centerMarker = new google.maps.Marker({
                         map: map,
                         position: centerLatlng
                     });
 
-
+*/
                     (function (center3words, centerLatlng) {
                         daum.maps.event.addListener(centerMarker,'click', function () {
 
