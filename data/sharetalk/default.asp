@@ -22,8 +22,8 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>What3Words Home</title>
-		<link rel="stylesheet" href="/_include/style.css?ver=1" type="text/css">
-		<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+		<link rel="stylesheet" href="/_css/style.css" type="text/css">
+		<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 		<script async type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
 		<script async src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
 		<script async src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
@@ -55,7 +55,7 @@
 		<!-- 로그인 안되어있을 시 로그인 창 띄우기 -->
 		<% if Session("member_no") < "1" then %>
 		<div class="login">
-			<p width="150px;"><input type="text" style="width:150px;height:20px;" placeholder="이메일" id="member_email"></p>&nbsp&nbsp
+			<p width="150px;"><input type="email" style="width:150px;height:20px;" placeholder="이메일" id="member_email"></p>&nbsp&nbsp
 			<p width="100px;"><input type="password" style="width:50px;height:20px;" placeholder="비밀번호" id="member_pwd" onkeypress="if(event.keyCode==13){LoginConfirm(null);}"></p>&nbsp;&nbsp;
 			<p style="cursor:pointer;" onclick="LoginConfirm(null);">로그인</p>
 		</div>
@@ -66,12 +66,15 @@
 		<div align="center" id="firebaseui-auth-contanier">
 			<image src="/images/glogin.png" onclick=GoogleLogin(); style="cursor:pointer;width:120px;height:40px;">
 		</div><p></p>
-		<script type="text/javascript" src="/_script/login.js?ver=5"></script>
+		<script type="text/javascript" src="/_script/login.js"></script>
+		<% else %>
+		<script type="text/javascript" src="/_script/community.js"></script>
 		<% end if %>
 		<div id="map"></div>
-		<script async type="text/javascript" src="/_script/map.js"></script>	
-		<script async src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script>
+		<script type="text/javascript" src="/_script/map.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
+		<script type="text/javascript">
 			var map;
 			var bounds = {
 				north: <%= lon2 %>,
@@ -81,8 +84,16 @@
 			};
 			var uluru = {lat: <%= lat_value %>, lng: <%= lon_value %> };
 			var zoom_level = <%= zoom_level %>;
-		</script>		
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
-		<script async type="text/javascript" src="/_script/community.js"></script>
+			<% if Session("member_no") then %>
+					setTimeout(function(){
+						var data = new Array();
+						data[0] = <%=Session("member_no")%>;
+						data[1] = my_position;
+						setRoute(data);
+					}, 5000);
+			<% else %>
+			getKey();
+			<% end if %>
+		</script>
 	</body>
 </html>

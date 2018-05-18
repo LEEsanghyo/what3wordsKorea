@@ -1,7 +1,6 @@
 var lat, lng;
 var marker;
 var marker_flag=0;
-var xhr;
 var map;
 var center_marker;
 var test3word;
@@ -21,33 +20,31 @@ function original_search(){
 				lat=location.lat();
 				lng=location.lng();
 				var strsql = "/map/range_find_ajax.asp?x_center=" + lat + "&y_center=" + lng;
-				xhr = new XMLHttpRequest();
-				xhr.onreadystatechange = return_original_search;
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function(){
+					if (this.readyState == 4 && this.status == 200) {
+						var data = this.responseText;
+						if(data != ''){
+							if(marker_flag != 0) marker.setMap(null);
+							marker_flag++;
+							move_camera(lat, lng);
+							marker = new google.maps.Marker({
+								position: {
+									lat: lat,
+									lng: lng
+								},
+								map: map
+							});
+							setRoute(data);
+						}
+						xhr = null;
+					}
+				}
 				xhr.open("Get", strsql);
 				xhr.send(null);
 			}
 		}
 	)
-}
-
-function return_original_search(){
-	if (xhr.readyState == 4) {
-		var data = xhr.responseText;
-		if(data != ''){
-			if(marker_flag != 0) marker.setMap(null);
-			marker_flag++;
-			move_camera(lat, lng);
-			marker = new google.maps.Marker({
-				position: {
-					lat: lat,
-					lng: lng
-				},
-				map: map
-			});
-			var test3word = document.getElementById("test3word");
-			test3word.value = data;
-		}
-	}
 }
 
 function move_camera(lat, lng){
@@ -87,8 +84,14 @@ function initMap() {
 			});
 			count++;
 			var strsql = "/map/range_find_ajax.asp?x_center=" + x_center + "&y_center=" + y_center;
-			xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = setMarker;
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function(){
+				if (this.readyState == 4 && this.status == 200) {
+					var data = xhr.responseText;
+					if(data != '')	test3word.value = data;
+					xhr = null;
+				}
+			}
 			xhr.open("Get", strsql);
 			xhr.send(null);
 		}
@@ -102,11 +105,7 @@ function initMap() {
 }
 
 function setMarker(){
-	if (xhr.readyState == 4) {
-		var data = xhr.responseText;
-		if(data != '')
-		test3word.value = data;
-	}
+	
 }
 
 function getLocation(){	   // 내 위치
@@ -121,8 +120,15 @@ function getLocation(){	   // 내 위치
 				},
 				map: map
 			});
-			xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = my_position;
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function(){
+				if(this.readyState ==4 && this.status == 200){
+					var data = xhr.responseText;
+					if(data!='')	my_position = data;
+					navigator.geolocation.watchPosition(getLocation, location_error ,{maximumAge:2000})
+					xhr = null;
+				}
+			}
 			xhr.open("Get", strsql);
 			xhr.send(null);
 			}, function(error) {
@@ -137,15 +143,8 @@ function getLocation(){	   // 내 위치
 	}
 }
 
-function my_position(){
-	if(xhr.readyState ==4){
-		var data=xhr.responseText;
-		if(data!=''){
-			my_position = document.getElementById("my_position");
-			my_position.value =data;
-		}
-		navigator.geolocation.watchPosition(getLocation, location_error ,{maximumAge:2000})
-	}
+function my_position_set(){
+	
 }
 
 function location_error(){
@@ -218,35 +217,34 @@ function search_nearby_sql(no){
 	var strsql = "/map/search_nearby_sql_ajax.asp?min_lat="+ min_lat+"&max_lat="+max_lat +"&min_lng="+min_lng  +"&max_lng="+max_lng;
 	console.log(strsql);
 	xhr=new XMLHttpRequest();
-	xhr.onreadystatechange=return_search_nearby_sql;
+	xhr.onreadystatechange = function(){
+		if(this.readyState == 4 && this.status == 200){
+			var data = xhr.responseText;
+			if(data != '') {
+				var data_arr = data.split("/");
+				for(var i = 0; i<data_arr.length/7;i++){
+					switch(parseInt(data_arr[5+(7*i)])){
+						case 1:
+						markersArray_restaurant[i] =  new google.maps.Marker({
+							position: {
+								lat: parseFloat(data_arr[4+(7*i)]),
+								lng: parseFloat(data_arr[3+(7*i)])
+							},
+							map: map,
+							title:data_arr[6+(7*i)],
+							icon:"http://maps.google.com/mapfiles/kml/pal2/icon32.png"
+						});
+						break;
+						case 2: break;	 // lodging
+					} //switch
+				} //for
+				into_marker(data_arr);
+			}  // if
+			xhr = null;
+		}
+	}
 	xhr.open("Get",strsql);
 	xhr.send(null);
-}
-
-function return_search_nearby_sql(){
-	if(xhr.readyState==4){
-		var data = xhr.responseText;
-		if(data != '') {
-			var data_arr = data.split("/");
-			for(var i = 0; i<data_arr.length/7;i++){
-				switch(parseInt(data_arr[5+(7*i)])){
-					case 1:
-					markersArray_restaurant[i] =  new google.maps.Marker({
-						position: {
-							lat: parseFloat(data_arr[4+(7*i)]),
-							lng: parseFloat(data_arr[3+(7*i)])
-						},
-						map: map,
-						title:data_arr[6+(7*i)],
-						icon:"http://maps.google.com/mapfiles/kml/pal2/icon32.png"
-					});
-					break;
-					case 2: break;	 // lodging
-				} //switch
-			} //for
-			into_marker(data_arr);
-		}  // if
-	}
 }
 
 function into_marker(data_arr){
@@ -328,18 +326,13 @@ function search_nearby(url, no){
 function test_ajax(strsql){
 	var xhr2 = new XMLHttpRequest();
 	xhr2.onreadystatechange=function(){
-		if(xhr2.readyState==4){
+		if(this.readyState == 4 && this.status == 200){
 			var data = xhr2.responseText;
+			xhr2 = null;
 		}
 	}
 	xhr2.open("POST",strsql);
 	xhr2.send(null);
-}
-
-function return_test(){
-	if(xhr2.readyState==4){
-		var data = xhr3.responseText;
-	}
 }
 
 function add_marker_event(json){

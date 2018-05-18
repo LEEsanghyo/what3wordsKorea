@@ -13,8 +13,8 @@ function setInterestText(interest){
     for (i=0; i<index.length; i++){
         if (index[i]!="")   name[i] = names[index[i]-1];
     }
-    if (opener!=null)   opener.document.getElementById("member_interest").innerHTML = name;
-    else document.getElementById("member_interest").innerHTML = name;
+    if (opener!=null)   opener.document.getElementById("member_interest").value = name;
+    else document.getElementById("member_interest").value = name;
 
 }
 
@@ -50,6 +50,7 @@ function ChangeProfile() {
     xhr.onreadystatechange = ChangeProfileSet;
     xhr.open("Get", strurl);
     xhr.send(null);
+    xhr = null;
 }
 
 function ChangeProfileSet() {
@@ -57,11 +58,7 @@ function ChangeProfileSet() {
         var data = xhr.responseText;
         alert(data);
 
-        var pdesc = document.getElementById("profile_desc").value;
-        document.getElementById("profile_desc_box").innerHTML = pdesc;
-
-        var mname = document.getElementById("member_name").value;
-        document.getElementById("member_box").innerHTML = mname;
+        location.href("");
     }
 }
 

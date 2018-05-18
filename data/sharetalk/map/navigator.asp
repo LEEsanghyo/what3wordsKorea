@@ -13,6 +13,7 @@
     <title>Whar3Words</title>
 
     <link rel="stylesheet" href="/_css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../_include/navigator.css" />
     
     <style>
@@ -73,28 +74,28 @@
             padding: 15px;
             border-radius: 0px 0px 10px 10px;
         }
-		
-		#popupBoxOnePosition{
-			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-			background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
-		}
-		#popupBoxDelete{
-			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-			background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
-		}
-		#popupBoxTwoPosition{
-			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-			background-color: rgba(0,0,0,0.7); display: none;
-		}#popupBoxThreePosition{
-			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-			background-color: rgba(0,0,0,0.7); display: none;
-		}
-		.popupBoxWrapper{
-			width: 300px; margin: 0px; text-align: left;position:absolute;top:50px;left:30px;border-radius:0px;
-		}
-		.popupBoxContent{
-			background-color: #FFF; padding: 0px;border-radius:2px;
-		}
+        
+        #popupBoxOnePosition{
+            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+            background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
+        }
+        #popupBoxDelete{
+            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+            background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
+        }
+        #popupBoxTwoPosition{
+            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+            background-color: rgba(0,0,0,0.7); display: none;
+        }#popupBoxThreePosition{
+            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+            background-color: rgba(0,0,0,0.7); display: none;
+        }
+        .popupBoxWrapper{
+            width: 300px; margin: 0px; text-align: left;position:absolute;top:50px;left:30px;border-radius:0px;
+        }
+        .popupBoxContent{
+            background-color: #FFF; padding: 0px;border-radius:2px;
+        }
 
         .loader {
             position: absolute;
@@ -139,7 +140,23 @@
             background: #f6f6f6;
             bottom:0;
             width:100%;
-            text-align:center;            
+            text-align:left;            
+        }
+
+        #myPositionButton{
+            position:absolute;
+            z-index:3;
+            right:0;
+            top:50%;
+            border-radius:50%;
+
+        }
+        #callCategoryButton {
+            position: absolute;
+            z-index: 3;
+            right: 0;
+            top: 60%;
+            border-radius: 50%;
         }
 
     </style>
@@ -150,15 +167,15 @@
     <script type="text/javascript" src="../_script/navigator.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	<script>
-		function toggle_visibility(id) {
-			var e = document.getElementById(id);
-			if (e.style.display == 'block')
-				e.style.display = 'none';
-			else
-				e.style.display = 'block';
-		}
-	</script>
+    <script>
+        function toggle_visibility(id) {
+            var e = document.getElementById(id);
+            if (e.style.display == 'block')
+                e.style.display = 'none';
+            else
+                e.style.display = 'block';
+        }
+    </script>
     
 
 
@@ -170,45 +187,45 @@
     <!-- #include virtual="/_include/top_menulist.asp" -->
 
     <div id="entire">
-	<div style="margin:90px 0 10px 0;" >
-		<table width=100%>
-			<tr>
-				<td width=50%>
-					<div style="margin:5px">
-						<input type="hidden" id="my_position" class="form-control" disabled>
-					</div>
-					</td>
-				<td width=50%>
-					<div style="margin:5px">
-						<input type="hidden" class="form-control" id="destination3Words" disabled>
-					</div>
-				</td>
-			</tr>
-		<!--    <tr>
-				<td width=100% colspan="2">
-					<div style="margin:5px">
-						<textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
-					</div>
-				</td>
-			</tr> -->
-		</table>
-		<table width=100%>
-			<tr>
-				<td>
-					<div style="clear:both;height:10px"></div>
-					<div id="route"></div><input type="button" style="float: right" value="경로 저장" />
-				</td>
-			</tr>
-		</table>
-	</div>
-    <div style="margin-top: 50px" class="container-fluid">
+    <div style="margin:90px 0 10px 0;" >
+        <table width=100%>
+            <tr>
+                <td width=50%>
+                    <div style="margin:5px">
+                        <input type="hidden" id="my_position" class="form-control" disabled>
+                    </div>
+                    </td>
+                <td width=50%>
+                    <div style="margin:5px">
+                        <input type="hidden" class="form-control" id="destination3Words" disabled>
+                    </div>
+                </td>
+            </tr>
+        <!--    <tr>
+                <td width=100% colspan="2">
+                    <div style="margin:5px">
+                        <textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
+                    </div>
+                </td>
+            </tr> -->
+        </table>
+        <table width=100%>
+            <tr>
+                <td>
+                    <div style="clear:both;height:10px"></div>
+                    <div id="route"></div><input type="button" style="float: right" value="경로 저장" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="margin-top: 5px" class="container-fluid">
         <div class="row">
-			
-			<div style="clear:both;height:5px"></div>
+            
+            <div style="clear:both;height:5px"></div>
             <div class="col-lg-12" id="map" style="box-shadow: rgba(0, 0, 0, 0.498039) 0px 0px 1px 0px, rgba(0, 0, 0, 0.14902) 0px 1px 10px 0px;">
 
 
-                <ul id="category" class="category">
+                <ul id="category" class="category" style="display:none;">
                     <li id="FD6" data-order="0">
                         <span class=""></span>
                         음식점
@@ -233,10 +250,15 @@
                         <span class=""></span>
                         지하철역
                     </li>
-                    <li>
-                        <input type="button" value="내 위치" onclick="backToMyPosition()" style="z-index: 3" />
-                    </li>
+
                 </ul>
+                <button type="button" id="myPositionButton" onclick="backToMyPosition()">
+                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> 
+                </button>
+                <button type="button" id="callCategoryButton" onclick="callCategory()">
+                    <span class ="glyphicon glyphicon-option-horizontal"></span>
+
+                </button>
 
                 <div id="info" style="display:none"> </div>
             </div>
@@ -494,7 +516,7 @@
                     obj[objcnt] = document.createElement('input');
                     obj[objcnt].type = "button";
                     // obj.onclick = showRoute(node, node.next);
-					obj[objcnt].style = "padding:0 5px;margin:0 5px;";
+                    obj[objcnt].style = "padding:0 5px;margin:0 5px;";
                     obj[objcnt].value = "->";
 
                     (function (str, strcnt, obj, inode) {
@@ -584,7 +606,15 @@
                 success:function(response) {
                     document.getElementById("output").value = response.data;
                 }
-             })
+             });
+        }
+        function callCategory() {
+            var a = document.getElementById("category");
+            if (a.style.display == 'block') a.style.display = 'none';
+            else if (a.style.display == 'none') a.style.display = 'block';
+
+
+
         }
 
         function initMap() {
@@ -603,8 +633,8 @@
             setTile(); // 화면 선으로 분할 
 
             // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성
-            var zoomControl = new daum.maps.ZoomControl();
-            map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
+          //  var zoomControl = new daum.maps.ZoomControl();
+           // map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
 
             // zoom 변할 때 마다, 화면 분할 함수 호출
             daum.maps.event.addListener(map, 'zoom_changed', function () {
@@ -818,7 +848,18 @@
 
         function backToMyPosition() {  // 내 위치로 복귀
             //alert(coords);
-            if (coords == undefined) { alert("GPS에 연결할 수 없습니다"); return; }
+            if (coords == undefined) {
+                
+               
+                var e = document.getElementById("popupAlertPosition");
+                
+                    e.style.display = 'block';
+
+                document.getElementById("alerttext").innerHTML = "GPS에 연결할 수 없습니다.";
+                t = $("<a href='javascript:void(0)' onclick='closePopUp();'><span class='btnTime'>OK</span></a>");
+                $("#customAlert").append(t);
+                return;
+            }
             else moveCamera(position.coords.latitude, position.coords.longitude);
         }
 
@@ -943,8 +984,8 @@
 
         // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
         function addMarker(position, order) {
-            var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-                imageSize = new daum.maps.Size(27, 28),  // 마커 이미지의 크기
+            var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png'; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+            var imageSize = new daum.maps.Size(27, 28),  // 마커 이미지의 크기
                 imgOptions = {
                     spriteSize: new daum.maps.Size(72, 208), // 스프라이트 이미지의 크기
                     spriteOrigin: new daum.maps.Point(46, (order * 36)), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
@@ -1236,7 +1277,7 @@
 
                     // 결과 출력
                     var innerHtml = "";
-                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String	
+                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String  
                     xmlDoc = $.parseXML(prtclString),
                         $xml = $(xmlDoc),
                         $intRate = $xml.find("Document");
@@ -1291,7 +1332,7 @@
 
 
 
-	
+    
                 },
                 //요청 실패시 콘솔창에서 에러 내용을 확인할 수 있습니다.
                 error: function (request, status, error) {
@@ -1433,27 +1474,29 @@
                     map: map,
                 });
 
+            
                 endRouteMarker[endRouteCount] = new daum.maps.Marker({  // 하차 지점 마커
-                    position: new daum.maps.LatLng(endy, endx),
-                    map: map
+                    position: new daum.maps.LatLng(endy, endx)
+                    
                 });
-
+                
 
                 //console.log("rc= " + routeCount);
 
-                if (object.trafficType == 1) { // subway
-                    var content = startname + '역 에서 ' + object.passStopList.stations[1].stationName + '역 방향 ' + object.lane[0].name + ' 열차 승차 후 ' + endname + '역 에서 하차\n';
-                    content += '소요 시간= ' + object.sectionTime + ' 분';
+            if (object.trafficType == 1) { // subway
+                var content = "<p><b>" + startname + "</b>에서 " + "<b>" + object.passStopList.stations[1].stationName + "</b>역 방향</p>";
+                content += "<p><b>" + object.lane[0].name + "</b>열차 승차 후 <b>" + endname + "</b>역에서 하차</p>";
+                content += "소요시간  " + object.sectionTime + "분";
 
              
                 }
 
-                else if (object.trafficType == 2) { // bus
-                    var content = startname + '에서 ' + object.lane[0].busNo + '번 승차 후 ' + endname + '에서 하차\n';
-                    content += '소요 시간 = ' + object.sectionTime + '분';
+            else if (object.trafficType == 2) { // bus
+                var content = "<p><b>" + startname + "</b>에서 <b>" + object.lane[0].busNo + "번</b> 승차 후 <b>" + endname + "</b>에서 하차</p>";
+                content += "소요시간  " + object.sectionTime + "분";
 
-         
 
+       
                 }
 
 
@@ -1475,7 +1518,7 @@
                         if (checkOpenRouteinfowindow == 0 || checkOpenRouteinfowindow == undefined) {
                             //routeinfowindow.open(map, routeMarker);
                             checkOpenRouteinfowindow = 1;
-                            $("#info").text(content);
+                            $("#info").html(content);
                             var a = document.getElementById("info");
                             a.style.display = "block";
                         }
@@ -1576,7 +1619,7 @@
                     
                     // 결과 출력
                     var innerHtml = "";
-                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String	
+                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String  
                     xmlDoc = $.parseXML(prtclString),
                         $xml = $(xmlDoc),
                         $intRate = $xml.find("Document");
@@ -1639,7 +1682,7 @@
             xhr.onreadystatechange = function () {
                  if (xhr.readyState == 4 && xhr.status == 200) {
                     var resultJsonData = JSON.parse(xhr.responseText); console.log(resultJsonData);
-                    drawPolyLine(resultJsonData);		// 노선그래픽데이터 지도위 표시
+                    drawPolyLine(resultJsonData);       // 노선그래픽데이터 지도위 표시
                 }
             }
         }
@@ -1665,6 +1708,36 @@
                 }
             }
         }
+
+        <%  route = request("route")
+            if route <> "" then %>
+            
+            $.ajax({
+                url: 'search_ajax.asp',
+                type: 'get',
+                data: 'word=<%=route%>',
+                success: function (data) {
+                    var dataArray = data.split(',');
+                    var othernode = new Node(dataArray[2], dataArray[0], dataArray[1]);
+                    moveCamera(dataArray[0], dataArray[1]);
+                }
+            });
+
+            var myroute = getRoute(<%=Session("member_no")%>);
+            $.ajax({
+                url: 'search_ajax.asp',
+                type: 'get',
+                data: 'word=' + myroute,
+                success: function (data) {
+                    var dataArray = data.split(',');
+                    var othernode = new Node(dataArray[2], dataArray[0], dataArray[1]);
+                    moveCamera(dataArray[0], dataArray[1]);
+                }
+            });
+
+            sendParameterToSearchRoute(mynode, othernode);
+
+        <% end if %>
         
 
 
@@ -1674,12 +1747,12 @@
 
     <!-- #include virtual="/_include/connect_close.inc" -->
     <!-- <textarea id="output"></textarea> -->
-	
+    
 </body>
 <!-- post action start -->
-		<div id="popupBoxOnePosition">
-			<div class="popupBoxWrapper">
-				<div class="popupBoxContent">
+        <div id="popupBoxOnePosition">
+            <div class="popupBoxWrapper">
+                <div class="popupBoxContent">
                     <table width="100%" border="0">
                     <tr style = "height:40px;text-align:left;border-bottom:solid 1px #CCCCCC">
                         <td width="40px"></td>
@@ -1716,9 +1789,9 @@
                         </td>
                     </tr>
                     </table>
-				</div>
-			</div>
-		</div>
+                </div>
+            </div>
+        </div>
     <!-- post action end -->
 
 </html>
