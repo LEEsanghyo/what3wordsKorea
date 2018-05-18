@@ -693,13 +693,16 @@
                     center3words = data;
 
                     var content = '<div style="padding:5px;">' + center3words + '</div>';
-
+/*
                     centerMarker = new daum.maps.Marker({
                         map: map,
                         position: centerLatlng
                     });
-                    
-          
+                    */
+                    centerMarker = new google.maps.Marker({
+                        map: map,
+                        position: centerLatlng
+                    });
 
 
                     (function (center3words, centerLatlng) {
@@ -1336,7 +1339,7 @@
             else if (result["result"]["searchType"] == 1) { // 도시간 직통 -> 상세 경로 루트 좌표가 안나옴 (출발지 - 역) - 직선 - (역 - 도착지)
                 //console.log(result["result"]);
 
-                /*
+
                 var e = document.getElementById("popupAlertPosition");
                 if (e.style.display == 'block')
                     e.style.display = 'none';
@@ -1344,12 +1347,10 @@
                     e.style.display = 'block';
 
                 document.getElementById("alerttext").innerHTML = "보고 싶은 경로를 선택해주세요";
-*/
 
 
                 airplaneCount = 0, exbusCount = 0, outbusCount = 0, trainCount = 0;
 
-<<<<<<< HEAD
                 var t;
                 if (result["result"].airRequest.count != undefined && result["result"].airRequest.count != 0) { // 비행기
                     //airplaneCount++;
@@ -1360,48 +1361,6 @@
                     $("#customAlert").append(t);
                 
                                         
-=======
-                if (result["result"].airRequest.count != undefined || result["result"].airRequest.count != 0) { // 비행기
-    //                var t = $("<a href='javascript:void(0)' onclick='selectNavigateType();'><span class='btnTime'>비행기</span></a>");
-  //                  $("#customAlert").append(t);
-
-                    var firstNode = new node(startMarker.getTitle(), startMarker.getPosition().getLng(), startMarker.getPosition().getLat());
-                    var firstStationNode = new node(result["result"].airRequest.OBJ[0].startSTN, result["result"].airRequest.OBJ[0].SX, result["result"].airRequest.OBJ[0].SY);
-                    var finalNode = new node(endMarker.getTitle(), endMarker.getPosition().getLng(), endMarker.getPosition().getLat());
-                    var finalStationNode = new node(result["result"].airRequest.OBJ[0].endSTN, result["result"].airRequest.OBJ[0].EX, result["result"].airRequest.OBJ[0].EY);    
-
-                    var path = [
-                        new daum.maps.LatLng(result["result"].airRequest.OBJ[0].SY, result["result"].airRequest.OBJ[0].SX),
-                        new daum.maps.LatLng(result["result"].airRequest.OBJ[0].EY, result["result"].airRequest.OBJ[0].EX),
-                    ]
-
-                    searchRoute(firstNode, firstStationNode);
-                    searchRoute(finalStationNode, finalNode);
-
-
-
-                    polyline[polylineCount++] = new daum.maps.Polyline({
-                        map: map,
-                        path: path,
-                        strokeWeight: 5,
-                        strokeColor: '#CC0033'
-                    });
-
-
-                    /*
-                    var xhr = new XMLHttpRequest();
-                    // ajax로 출발-도착지 간 대중 교통 정보 요청 - opt=0 최단거리 
-                    var url = "https://api.odsay.com/v1/api/searchPubTransPath?OPT=0&SX=" + startnode.x + "&SY=" + startnode.y + "&EX=" + endnode.x + "&EY=" + endnode.y + "&apiKey=" + apikey;
-                    xhr.open("GET", url, true);
-                    xhr.send();
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState == 4 && xhr.status == 200) {
-                            //노선그래픽 데이터 호출
-                            detailRouteSearch(JSON.parse(xhr.responseText), startnode, endnode);
-                        }
-                    }
-                    */
->>>>>>> ac7e25d3a03af57dab94c1bb213e61a07db7da17
 
                 }
                 // 고속버스
