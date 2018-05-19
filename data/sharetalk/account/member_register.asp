@@ -19,7 +19,11 @@
         <meta name="keywords" content="Korean word address">
         <title>한국형 단어 신주소</title>
 		<link rel="stylesheet" href="/_include/style.css" type="text/css">
+<<<<<<< HEAD
+		<script type="text/javascript" src="/_script/login.js?ver=10"></script>
+=======
 		<script type="text/javascript" src="/_script/login.js"></script>
+>>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
 		<script type="text/javascript" src="/_script/account.js"></script>
     </head>
     

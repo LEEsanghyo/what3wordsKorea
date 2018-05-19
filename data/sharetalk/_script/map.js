@@ -104,10 +104,6 @@ function initMap() {
 	rectangle.setMap(map);
 }
 
-function setMarker(){
-	
-}
-
 function getLocation(){	   // 내 위치
 	if (navigator.geolocation) { // GPS를 지원하면
 		navigator.geolocation.getCurrentPosition(function(position) {

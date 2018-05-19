@@ -1,5 +1,4 @@
 var keys = new Array();
-var xhr;
 
 // 로그인
 function LoginConfirm(vals) {
@@ -28,14 +27,14 @@ function LoginConfirm(vals) {
 
 	strurl = "/account/login_set.asp?member_email=" + email + "&member_pwd=" + pwd + "&member_uniqid=" + uid;
 	
-	xhr = new XMLHttpRequest();
+	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
 		if (this.readyState == 4 && this.status == 200) {
 			if (this.responseText == "0")
 				callbackfunc(vals);
 			else{
 				if (this.responseText != "")	alert(this.responseText);
-				var siteurl = "default.asp";
+				var siteurl = "/default.asp";
 				window.location.href = siteurl;
 			}
 		}
@@ -109,7 +108,8 @@ function MemberRegister(oflag, uid) {
 	}
 
 	strurl = "/account/member_register_set.asp?member_name=" + mname + "&member_email=" + memail + "&member_age=" + mage + "&member_interest=" + mint + "&member_phone=" + mphone + "&member_pwd=" + mpwd + "&org_flag=" + oflag + "&member_uniqid=" + uid;
-	xhr = new XMLHttpRequest();
+
+	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
 		if (this.readyState == 4 && this.status == 200) {
 			var data = xhr.responseText;
@@ -167,7 +167,7 @@ function GoogleLogin(){
 	})
 }
 
-
+// 버튼 초기화
 function ButtonInit(){
 	var naverLogin = new naver.LoginWithNaverId({
 		clientId: keys[0],
