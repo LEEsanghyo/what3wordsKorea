@@ -2,21 +2,33 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var clients = [];
+
+/* 파일 읽기 / 업로드 */
+// 파일 읽기
+var fs = require('fs');
+
+// 파일 업로드
 var multer = require('multer');
 var storage = multer.diskStorage({
 	destination: function(req, file, cb){
 		cb(null, 'uploads/');
 	},
 	filename: function(req, file, cb){
-		cb(null, file.fieldname + '-' + Date.now() + '.jpg');
+		fs.exist(req.path, function(exists){
+			exists ? fs.rename(req.path, file.fieldname )
+			: null;
+			cb(null, file.fieldname + '-' + Date.now());
+		})
 	}
 });
-var upload = multer({ 
+
+const upload = multer({ 
 	dest: 'uploads/',
-	storage : storage
+	storage : storage,
+	limits : {fileSize : 5*(1024^2) }
 });
 
-app.post('/uploadprof', upload.single('file1'), function(req, res, next){
+app.post('/uploadprof', upload.single('image'), function(req, res, next){
 	console.log(req.file);
 })
 
@@ -25,6 +37,8 @@ http.listen(1337,function(){
     console.log('Server Start at *:1337');
 });
 
+
+/* 채팅 */
 io.on('connection', function(socket){
 	console.log('socket detected');
 	// 1대1 채팅을 위해 세션 정보 저장
