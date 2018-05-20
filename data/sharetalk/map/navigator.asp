@@ -1925,7 +1925,7 @@
             setTimeout(function () {
             mynode = new node(document.getElementById('my_position').value, myPositionMarker.getPosition().getLng(), myPositionMarker.getPosition().getLat());
 
-            othernode = new node('<%=route%>', othercoords.jb, othercoords.ib);
+            othernode = new node('<%=route%>', othercoords.ib, othercoords.jb);
             addRoute(mynode.name, mynode.x, mynode.y);
             addRoute(othernode.name, othernode.x, othernode.y);
 
