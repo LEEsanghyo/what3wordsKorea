@@ -1,27 +1,15 @@
-﻿<!-- #include virtual="/_include/words.asp" -->
-<!-- #include virtual="/_include/connect.inc" -->
+﻿<!-- #include virtual="/_include/connect.inc" -->
+<!-- #include virtual="/_include/words.asp" -->
 <%
     input_user = Request.Cookies("member_name")
     input_userid = Session("member_no")
-
-	'카테고리 리스트 불러오기
-    strSQL = "p_tsm_category_list_read "
-
-    Set rsCategory = Server.CreateObject("ADODB.RecordSet")
-    rsCategory.Open strSQL, DbConn, 3, 1
-
-    if rsCategory.EOF or rsCategory.BOF then
-	   NoDataCategory = True
-    Else
-	   NoDataCategory = False
-    end if
 %>
 <html lang="ko">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>What3Words Home</title>
-		<link rel="stylesheet" href="/_include/style.css" type="text/css">		
+		<link rel="stylesheet" href="/_css/style.css" type="text/css">		
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <!-- Optional theme -->
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">

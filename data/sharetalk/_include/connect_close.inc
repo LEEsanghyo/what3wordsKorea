@@ -1,3 +1,3 @@
 ﻿<%
-  Set DbCon = nothing
+  Set DbConn = nothing
 %>

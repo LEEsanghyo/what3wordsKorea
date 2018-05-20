@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script src="/_script/login.js"></script>
+		<script src="/_script/login.js?Ver=3"></script>
 		<title>NaverLoginSDK</title>
 	</head>
 	<body>
@@ -13,8 +13,8 @@
 		<script type="text/javascript">
 			var naverLogin = new naver.LoginWithNaverId(
 				{
-					clientId: "ePD3yuxPRSuXMeIBH5DA",
-					callbackUrl: "http://tour.abcyo.kr:8090/callback.html",
+					clientId: keys[0],
+					callbackUrl: "http://tour.abcyo.kr/callback.html",
 					isPopup: false,
 					callbackHandle: true,
 					/* callback 페이지가 분리되었을 경우에 callback 페이지에서는 callback처리를 해줄수 있도록 설정합니다. */

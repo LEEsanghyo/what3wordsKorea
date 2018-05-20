@@ -1,24 +1,20 @@
 <%
-	member_no = Session("member_no")
-	Application.lock
-	ID = Application("Clients_ID")
-	Chat = Application("Clients_Chat")
-	response.write UBOUND(ID)
-	for i=0 to UBOUND(ID)-1
-		if ID(i) = member_no then
-			Chat(i) = 0
-			ID(i) = 0
+	Clients_ID = Application("Clients_ID")
+	Clients_Chat = Application("Clients_Chat")
+	Sessions_ID = Application("Session_ID")
+	for i=0 to UBOUND(Sessions_ID) step 1
+		if Sessions_ID(i) = Session.SessionID then
+			Clients_ID(i) = 0
+			Clients_Chat(i) = 0
+			Sessions_ID(i) = ""
 			exit for
 		end if
 	next
-	Application("Clients_ID") = ID
-	Application("Clients_Chat") = Chat
-	Application.unlock
+	Application("Clients_ID") = Clients_ID
+	Application("Clients_Chat") = Clients_Chat
+	Application("Session_ID") = Sessions_ID
 	Response.Cookies("member_email") = ""
 	Response.Cookies("member_name") = ""
-	Session("admin_flag") = ""
-	Session("member_uid") = ""
-	Session("member_no") = ""
 	Session.abandon
 	response.redirect "/"
 %>
