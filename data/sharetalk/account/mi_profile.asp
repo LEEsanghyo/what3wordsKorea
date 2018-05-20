@@ -1,4 +1,4 @@
-<!-- #include virtual="/_include/connect.inc" -->
+﻿﻿<!-- #include virtual="/_include/connect.inc" -->
 <!-- #include virtual="/_include/login_check.inc" -->
 <%
   strSQL = "p_gim_member_read_detail  '" & Session("member_no") & "'"

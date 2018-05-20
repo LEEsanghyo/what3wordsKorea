@@ -16,7 +16,7 @@
 		Clients_ID = Application("Clients_ID")
 
 		Session("admin_flag") = rsgi("admin_flag")
-		Response.Cookies("profile_url") = rsGi("profile_url")
+		Response.Cookies("member_email") = rsGi("member_email")
 		Response.Cookies("member_name") = rsGi("member_name")
 		Response.Cookies("member_email") = rsGi("member_email")
 		Session("member_uid") = member_uid
@@ -27,11 +27,15 @@
 		Clients_ID = Application("Clients_ID")
 		Clients_ID(Application("count")) = member_no
 		Redim Preserve Clients_ID(Application("count")+1)
+		Sessions_ID = Application("Session_ID")
+		Sessions_ID(Application("count")) = Session.SessionID
+		Redim Preserve Sessions_ID(Application("count")+1)
 		Application("Clients_ID") = Clients_ID
 		Clients_Chat = Application("Clients_Chat")
 		Clients_Chat(Application("count")) = 0
 		Redim Preserve Clients_Chat(Application("count")+1)
 		Application("Clients_Chat") = Clients_Chat
+		Application("Session_ID") = Sessions_ID
 		Application("count") = Application("count") + 1
 		Application.unlock
 
