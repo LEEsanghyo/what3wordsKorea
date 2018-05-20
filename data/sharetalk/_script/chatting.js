@@ -1,7 +1,7 @@
 /* 지역 별 채팅방 */
 
 // 나와 상대방의 세션 ID 불러오고, 채팅 서버에 내 ID 저장
-var socket = io.connect('http://localhost:1337');
+var socket = io.connect('http://tour.abcyo.kr:1337');
 var flag = 0;
 
 // 단체 채팅방 입장
@@ -59,17 +59,12 @@ socket.on('end', function(){
 /* 공통 스크립트 */
 // 이미지 클릭 시 상대방과 경로 찾아주기
 function getRoute(id){
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function(){
-        if (this.readyState == 4 && this.status == 200){
-            var data = this.responseText;
-            if (opener != null)  window.opener.location.href('/map/navigator.asp?route=' + data);
-            else    return data;
-            xhr = null;
-        }
-    }
-    xhr.open("GET", "/map/Location.asp?member_no=" + id +"&flag=1");
-    xhr.send(null);
+    var words;
+    $.get("/map/Location.asp?member_no=" + id + "&flag=1", function(data){
+        if (opener != null) window.opener.location.href = '/map/navigator.asp?route=' + data;
+        else   words = data;
+        return words;
+    }, 'text');
 }
 
 // 상대방이 내 위치를 볼 수 있는지 여부

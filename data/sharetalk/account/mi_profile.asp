@@ -1,4 +1,4 @@
-﻿<!-- #include virtual="/_include/login_check.inc" -->
+<!-- #include virtual="/_include/login_check.inc" -->
 <%
   strSQL = "p_gim_member_read_detail  '" & Session("member_no") & "'"
 
@@ -24,7 +24,7 @@
     <meta name="description" content="글공유">
     <meta name="keywords" content="글공유">
     <title>What3Words</title>
-    <link rel="stylesheet" href="/_include/style.css" type="text/css">
+    <link rel="stylesheet" href="/_css/style.css" type="text/css">
     <style type="text/css">
       #profile { 
         width: 120px; height: 120px;
@@ -44,7 +44,7 @@
         <img src="<%=back_url %>" style="width:100%;height:150px" />
       </div>
       <div align="center" style="position: relative; top: -65px;">
-        <img id="profile" src="<%=prof_url %>"/>
+        <img id="profile" src="<%=prof_url %>" data-target="#layerpop" data-toggle="modal"/>
         <p>
           <input id="member_name" type="text" align="center" style="text-align: center; background-color: #FFFFFF; border: none;" value="<%=member_name%>" >
         </p>
@@ -53,7 +53,7 @@
         <table style="width:100%;" border="0" cellpadding="0" cellspacing="0">
           <tr>
             <td width="70%" style="border-bottom:solid  1px #CCCCCC;">
-              관심사 <input style="margin-left: 15px; width:50%;background-color: #FFFFFF;" type="text" id="member_interest" disabled="true"><button style="margin-left: 10px;" onclick="openInterest()">관심사 수정</button>
+              관심사 <input style="margin-left: 15px; width:50%;background-color: #FFFFFF;" type="text" id="member_interest" value="<%=member_interest%>" disabled="true"><button style="margin-left: 10px;" onclick="openInterest()">관심사 수정</button>
             </td>
           </tr>
           <tr>
@@ -70,6 +70,7 @@
         </table>
       </div>
     </div>
+
 <!--
     <div class="content">
       <div style="margin:20px 0;text-align:center;">
@@ -110,13 +111,7 @@
       </div>
 -->
     </div>
-    <script type="text/javascript" src="/_script/account.js"></script>
-    <script>
-      var interest = [<%=member_interest %>];
-      var names = "";
-      for (i=0; i<interest.length; i++) names += interest[i] + ",";
-      setInterestText(names.substring(0,names.length-1));
-    </script>
+    <script type="text/javascript" src="/_script/account.js?ver=3"></script>
   </body>
 </html>
 
@@ -141,3 +136,4 @@
   </div>
 </div>
 <!-- login action end -->
+

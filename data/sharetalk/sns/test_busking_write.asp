@@ -21,7 +21,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>What3Words Home</title>
-		<link rel="stylesheet" href="/_include/style.css" type="text/css">		
+		<link rel="stylesheet" href="/_css/style.css" type="text/css">		
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <!-- Optional theme -->
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">

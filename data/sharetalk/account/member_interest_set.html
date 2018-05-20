@@ -3,10 +3,30 @@
 	<meta charset="utf-8">
 	<head>
 		<title> 여가생활 / 관심사 선택 </title>
+		<script type="text/javascript">
+			var i = 0;
+			var items = new Array();
+			function count(item){
+				if (item.checked == true){
+					items[i] = item.value;
+					i++;
+				}
+				else if (item.checked == false){
+					for (var j=0; j<count; j++){
+						if(items[j] == item.value)	items[j] = null;
+					}
+					i--;
+				}
+				if (i > 2){
+					document.getElementById("title").innerHTML = "보조 관심사를 선택하세요.";
+				}
+			}
+		</script>
 	</head>
 	<body>
 		관심사는 최대 10개까지 선택 가능합니다.
 		<form onsubmit="setInterest(this)">
+			<p id="title" style="text-align: center;"> 주 관심사를 선택하세요. (3개) </p>
 			<p><input type="checkbox" name="int[]" value="1"> 영화 &nbsp;
 			<input type="checkbox" name="int[]" value="2"> 노래부르기 &nbsp;
 			<input type="checkbox" name="int[]" value="3"> 당구 &nbsp;</p>

@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" href="/_css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../_include/navigator.css" />
+    <link rel="stylesheet" href="../_css/navigator.css" />
     
     <style>
         .btnTime {
@@ -74,30 +74,6 @@
             padding: 15px;
             border-radius: 0px 0px 10px 10px;
         }
-<<<<<<< HEAD
-		
-		#popupBoxOnePosition{
-			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-			background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
-		}
-		#popupBoxDelete{
-			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-			background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
-		}
-		#popupBoxTwoPosition{
-			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-			background-color: rgba(0,0,0,0.7); display: none;
-		}#popupBoxThreePosition{
-			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-			background-color: rgba(0,0,0,0.7); display: none;
-		}
-		.popupBoxWrapper{
-			width: 300px; margin: 0px; text-align: left;position:absolute;top:50px;left:30px;border-radius:0px;
-		}
-		.popupBoxContent{
-			background-color: #FFF; padding: 0px;border-radius:2px;
-		}
-=======
         
         #popupBoxOnePosition{
             top: 0; left: 0; position: fixed; width: 100%; height: 120%;
@@ -120,7 +96,6 @@
         .popupBoxContent{
             background-color: #FFF; padding: 0px;border-radius:2px;
         }
->>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
 
         .loader {
             position: absolute;
@@ -168,13 +143,14 @@
             text-align:left;            
         }
 
-        #myPositionButton{
-            position:absolute;
-            z-index:3;
-            right:0;
-            top:50%;
-            border-radius:50%;
-
+        #myPositionButton {
+            position: absolute;
+            z-index: 3;
+            right: 0;
+            top: 50%;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
         }
         #callCategoryButton {
             position: absolute;
@@ -182,7 +158,10 @@
             right: 0;
             top: 60%;
             border-radius: 50%;
-        }
+            width:50px;
+            height:50px;
+            
+            }
 
     </style>
 
@@ -212,39 +191,6 @@
     <!-- #include virtual="/_include/top_menulist.asp" -->
 
     <div id="entire">
-<<<<<<< HEAD
-	<div style="margin:90px 0 10px 0;" >
-		<table width=100%>
-			<tr>
-				<td width=50%>
-					<div style="margin:5px">
-						<input type="hidden" id="my_position" class="form-control" disabled>
-					</div>
-					</td>
-				<td width=50%>
-					<div style="margin:5px">
-						<input type="hidden" class="form-control" id="destination3Words" disabled>
-					</div>
-				</td>
-			</tr>
-		<!--    <tr>
-				<td width=100% colspan="2">
-					<div style="margin:5px">
-						<textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
-					</div>
-				</td>
-			</tr> -->
-		</table>
-		<table width=100%>
-			<tr>
-				<td>
-					<div style="clear:both;height:10px"></div>
-					<div id="route"></div><input type="button" style="float: right" value="경로 저장" />
-				</td>
-			</tr>
-		</table>
-	</div>
-=======
     <div style="margin:90px 0 10px 0;" >
         <table width=100%>
             <tr>
@@ -276,7 +222,6 @@
             </tr>
         </table>
     </div>
->>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
     <div style="margin-top: 5px" class="container-fluid">
         <div class="row">
             
@@ -309,6 +254,11 @@
                         <span class=""></span>
                         지하철역
                     </li>
+                    <li data-order="6">
+                        <span class=""></span>
+                        추천
+                    </li>
+
 
                 </ul>
                 <button type="button" id="myPositionButton" onclick="backToMyPosition()">
@@ -443,6 +393,9 @@
         var ps = new daum.maps.services.Places(map);
 
      //   var tmap = "ff86385d-b74a-429a-b76b-72e1d7ca293a";
+
+        var originNumber = 1;
+
         var headers = {}; 
         headers["appKey"] = encodeURIComponent("2ef43265-0641-4807-aa97-e00e7f22ad19");
 
@@ -485,7 +438,7 @@
          var airplaneCount = 0, exbusCount = 0, outbusCount = 0, trainCount = 0;
 
         var type = -1;
-
+         var loader = document.getElementById('loader');
 
   
         linkedList.prototype.add = function (name, x, y, position) {
@@ -1043,11 +996,14 @@
 
         // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
         function addMarker(position, order) {
-            var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png'; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+            //var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png'; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+            
+            var imageSrc = '../images/' +order +'.png';
+
             var imageSize = new daum.maps.Size(27, 28),  // 마커 이미지의 크기
                 imgOptions = {
-                    spriteSize: new daum.maps.Size(72, 208), // 스프라이트 이미지의 크기
-                    spriteOrigin: new daum.maps.Point(46, (order * 36)), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+                    //spriteSize: new daum.maps.Size(72, 208), // 스프라이트 이미지의 크기
+                   // spriteOrigin: new daum.maps.Point(46, (order * 36)), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
                     offset: new daum.maps.Point(11, 28) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
                 },
                 markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imgOptions),
@@ -1147,8 +1103,10 @@
                 e.style.display = 'none';
 
 
-            var loader = document.getElementById('loader');
-            loader.style.display = "block";
+            
+
+            if (loader.style.display == 'none') loader.style.display = 'block';
+            
            // var entire = document.getElementById('entire');
            // document.body.style.backgroundColor = 'gray';
 
@@ -1160,11 +1118,17 @@
 
             var path = [
                 new daum.maps.LatLng(SY, SX),
-                new daum.maps.LatLng(EY, EX),
+                new daum.maps.LatLng(EY, EX)
             ]
 
             searchRoute(firstNode, firstStationNode);
-            searchRoute(finalStationNode, finalNode);
+            searchRoute(finalStationNode, finalNode); 
+
+         //   setTimeout(function () { searchRoute(finalStationNode, finalNode); }, 300); 
+
+
+            
+            
 
 
             polyline[polylineCount++] = new daum.maps.Polyline({
@@ -1211,7 +1175,8 @@
             walkingPolylineCount = 0;
             placeOverlay.setMap(null);
 
-            
+            originNumber = 0;
+
             $("#info").text("");
             var a = document.getElementById('info');
             a.style.display = 'none';
@@ -1284,8 +1249,8 @@
                 e.style.display = 'none';
 
 
-            var loader = document.getElementById('loader');
-            loader.style.display = "block";
+            if(loader.style.display == 'none') loader.style.display = "block"; 
+            
 
 
 
@@ -1336,21 +1301,18 @@
 
                     // 결과 출력
                     var innerHtml = "";
-<<<<<<< HEAD
-                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String	
-=======
                     var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String  
->>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
                     xmlDoc = $.parseXML(prtclString),
                         $xml = $(xmlDoc),
                         $intRate = $xml.find("Document");
 
-                    var tDistance = "총 거리 : " + ($intRate[0].getElementsByTagName("tmap:totalDistance")[0].childNodes[0].nodeValue / 1000).toFixed(1) + "km";
-                    var tTime = " 총 시간 : " + ($intRate[0].getElementsByTagName("tmap:totalTime")[0].childNodes[0].nodeValue / 60).toFixed(0) + "분";
-                    var tFare = " 총 요금 : " + $intRate[0].getElementsByTagName("tmap:totalFare")[0].childNodes[0].nodeValue + "원";
-                    var taxiFare = " 예상 택시 요금 : " + $intRate[0].getElementsByTagName("tmap:taxiFare")[0].childNodes[0].nodeValue + "원";
 
-                    $("#info").text(tDistance + "  " + tTime +"  " + tFare+ "  " + taxiFare);
+
+                    var content = "<p>총 거리  <b>" + ($intRate[0].getElementsByTagName("tmap:totalDistance")[0].childNodes[0].nodeValue / 1000).toFixed(1) + "</b>km</p>\n";
+                    content += "<p>소요 시간  <b>" + ($intRate[0].getElementsByTagName("tmap:totalTime")[0].childNodes[0].nodeValue / 60).toFixed(0) + "</b>분</p>\n";
+                    content += "<p>예상 택시 요금  <b>"+ $intRate[0].getElementsByTagName("tmap:taxiFare")[0].childNodes[0].nodeValue + "</b>원</p>" ;
+
+                    $("#info").html(content);
                     var a = document.getElementById('info');
                     a.style.display = 'block';
 
@@ -1395,11 +1357,7 @@
 
 
 
-<<<<<<< HEAD
-	
-=======
     
->>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
                 },
                 //요청 실패시 콘솔창에서 에러 내용을 확인할 수 있습니다.
                 error: function (request, status, error) {
@@ -1426,8 +1384,8 @@
 
                     if (result["result"]["path"][0].subPath[i].trafficType == 1 || result["result"]["path"][0].subPath[i].trafficType == 2) { // 지하철 or 버스
 
-                        var loader = document.getElementById('loader');
-                        loader.style.display = "block";
+                        if (loader.style.display == 'none') loader.style.display = 'block';
+                        
                        // var entire = document.getElementById('entire');
                           // document.body.style.backgroundColor = 'gray';
 
@@ -1506,7 +1464,7 @@
                 }
 
 
-                console.log(t);
+                //console.log(t);
 
 
             }
@@ -1519,8 +1477,9 @@
 
             WalkingMarker(startRouteMarker, endRouteMarker);
 
-            var loader = document.getElementById('loader');
-            loader.style.display = "none";
+           // var loader = document.getElementById('loader');
+            if (loader.style.display == 'block') loader.style.display = 'none';
+
 
 
 
@@ -1535,10 +1494,26 @@
                 var endname = object.endName;
                 //console.log("a" + object);
 
-
+                /*
                 startRouteMarker[startRouteCount] = new daum.maps.Marker({  // 탑승 지점 마커
                     position: new daum.maps.LatLng(starty, startx),
                     map: map,
+                });
+                */
+
+            var imageSrc = '../images/marker.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+                imageSize = new daum.maps.Size(36, 37),  // 마커 이미지의 크기
+                imgOptions = {
+                    //spriteSize: new daum.maps.Size(36, 691), // 스프라이트 이미지의 크기
+                    //spriteOrigin: new daum.maps.Point(0, (startRouteCount * 46) + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+                    offset: new daum.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+                }
+          //  alert(startRouteCount);
+            var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imgOptions);
+                startRouteMarker[startRouteCount] = new daum.maps.Marker({
+                    position: new daum.maps.LatLng(starty, startx),
+                    map: map,
+                    image:markerImage
                 });
 
             
@@ -1551,7 +1526,7 @@
                 //console.log("rc= " + routeCount);
 
             if (object.trafficType == 1) { // subway
-                var content = "<p><b>" + startname + "</b>에서 " + "<b>" + object.passStopList.stations[1].stationName + "</b>역 방향</p>";
+                var content = "<p><b>" + startname + "</b>역에서 " + "<b>" + object.passStopList.stations[1].stationName + "</b>역 방향</p>";
                 content += "<p><b>" + object.lane[0].name + "</b>열차 승차 후 <b>" + endname + "</b>역에서 하차</p>";
                 content += "소요시간  " + object.sectionTime + "분";
 
@@ -1561,13 +1536,8 @@
             else if (object.trafficType == 2) { // bus
                 var content = "<p><b>" + startname + "</b>에서 <b>" + object.lane[0].busNo + "번</b> 승차 후 <b>" + endname + "</b>에서 하차</p>";
                 content += "소요시간  " + object.sectionTime + "분";
-<<<<<<< HEAD
 
 
-=======
-
-
->>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
        
                 }
 
@@ -1620,9 +1590,15 @@
                 //  alert(endRouteCount + " " + i);
                 //i가 넘어가서
             // ajax 비동기라서
-            console.log(endRouteCount);
+           // console.log(endRouteCount);
+            loader.style.display = "block";
+            if (loader.style.display == 'none') {
+                alert("A");
+                loader.style.display = "block";
+
+            }
             var t = setInterval(function () { 
-                console.log("i = " + i);
+                //console.log("i = " + i);
                 if (i == endRouteCount) clearInterval(t);
                 
 
@@ -1659,7 +1635,7 @@
         }
 
         function drawWalkingMarker(start, end) {
-            console.log("b");
+           // console.log("b");
             
             $.ajax({
                 method: "POST",
@@ -1696,8 +1672,12 @@
                         $xml = $(xmlDoc),
                         $intRate = $xml.find("Document");
 
-                    var tDistance = "총 거리 : " + ($intRate[0].getElementsByTagName("tmap:totalDistance")[0].childNodes[0].nodeValue / 1000).toFixed(1) + "km,";
-                    var tTime = " 총 시간 : " + ($intRate[0].getElementsByTagName("tmap:totalTime")[0].childNodes[0].nodeValue / 60).toFixed(0) + "분";
+                   // var tDistance = "총 거리 : " + ($intRate[0].getElementsByTagName("tmap:totalDistance")[0].childNodes[0].nodeValue / 1000).toFixed(1) + "km,";
+                   // var tTime = " 총 시간 : " + ($intRate[0].getElementsByTagName("tmap:totalTime")[0].childNodes[0].nodeValue / 60).toFixed(0) + "분";
+
+       
+
+
 
 
                     var result = ($intRate[0].getElementsByTagName("coordinates"));
@@ -1724,8 +1704,8 @@
                             walkingPolyline[walkingPolylineCount++] = new daum.maps.Polyline({
                                 map: map,
                                 path: lineArray,
-                                strokeWeight: 5,
-                                strokeColor: '#006600'
+                                strokeWeight: 7,
+                                strokeColor: '#0066FF'
                             });
 
                     }
@@ -1762,55 +1742,66 @@
         // 노선그래픽 데이터를 이용하여 지도위 폴리라인 그려주는 함수
         function drawPolyLine(data) {
             var lineArray;
+            var color;
             for (var i = 0; i < data.result.lane.length; i++) {
-                // alert("B");
+                
                 for (var j = 0; j < data.result.lane[i].section.length; j++) {
                     lineArray = null;
                     lineArray = new Array();
                     for (var k = 0; k < data.result.lane[i].section[j].graphPos.length; k++) {
                         lineArray.push(new daum.maps.LatLng(data.result.lane[i].section[j].graphPos[k].y, data.result.lane[i].section[j].graphPos[k].x));
                     }
+                   color = matchColor(data.result.lane[i].type);
+                    console.log("호선 : " +data.result.lane[i].type);
+                    
                     polyline[polylineCount++] = new daum.maps.Polyline({
                         map: map,
                         path: lineArray,
-                        strokeWeight: 5,
-                        strokeColor: '#CC0033'
+                        strokeWeight: 6,
+                        strokeColor: color
                     });
 
                 }
             }
         }
+        function matchColor(type) {
+            if (type == 1) {
+                return '#0d3692';
+            }
+            else if (type == 2) {
+                return '#33a23d';
+            }
+            else if (type == 3) {
+                return '#fe5d10';
+            }
+            else if (type == 4) {
+                return '#00a2d1';
+            }
+            else if (type == 5) {
+                return '#8b50a4';
+            }
+            else if (type == 6) {
+                return '#c55c1d';
+            }
+            else if (type == 7) {
+                return '#54640d';
+            }
+            else if (type == 8) {
+                return '#f14c82';
+            }
+            else if (type == 9) {
+                return '#aa9872';
+            }
+            else if (type == 104) { // 경의 중앙
+                return '#73c7a6';
+            }
+            else {
+                return '#ff0000';
+            }
 
-        <%  route = request("route")
-            if route <> "" then %>
-            
-            $.ajax({
-                url: 'search_ajax.asp',
-                type: 'get',
-                data: 'word=<%=route%>',
-                success: function (data) {
-                    var dataArray = data.split(',');
-                    var othernode = new Node(dataArray[2], dataArray[0], dataArray[1]);
-                    moveCamera(dataArray[0], dataArray[1]);
-                }
-            });
 
-            var myroute = getRoute(<%=Session("member_no")%>);
-            $.ajax({
-                url: 'search_ajax.asp',
-                type: 'get',
-                data: 'word=' + myroute,
-                success: function (data) {
-                    var dataArray = data.split(',');
-                    var othernode = new Node(dataArray[2], dataArray[0], dataArray[1]);
-                    moveCamera(dataArray[0], dataArray[1]);
-                }
-            });
 
-            sendParameterToSearchRoute(mynode, othernode);
-
-        <% end if %>
-        
+        }
 
 
         addCategoryClickEvent();

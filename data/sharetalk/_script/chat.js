@@ -50,13 +50,11 @@ io.on('connection', function(socket){
 
 	// 지역 별 채팅방 접속
 	socket.on('joinRoom', function(data){
-		console.log('지역 방에 접속하셨습니다');
 		socket.join(data);
 	});
 
 	// 지역 별 채팅방 메세지 전송
 	socket.on('statechat', function(data){
-		console.log('대화 보냈습니다.');
 		socket.broadcast.to(data[0]).emit('statechat', data);
 	});
 

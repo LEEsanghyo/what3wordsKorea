@@ -1,5 +1,3 @@
-var xhr;
-
 function openInterest(){
     var openWin;
     window.name = "회원가입";
@@ -46,20 +44,17 @@ function ChangeProfile() {
     var minterest = document.getElementById("member_interest").value;
     var strurl = "my_profile_desc_set.asp?profile_desc=" + pdesc + "&member_name=" + mname + "&member_interest=" + minterest;
     
-    xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = ChangeProfileSet;
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200) {
+            var data = xhr.responseText;
+            alert(data);
+            location.href("");
+            xhr = null;
+        }
+    }
     xhr.open("Get", strurl);
     xhr.send(null);
-    xhr = null;
-}
-
-function ChangeProfileSet() {
-    if (xhr.readyState == 4) {
-        var data = xhr.responseText;
-        alert(data);
-
-        location.href("");
-    }
 }
 
 function UploadBack() {

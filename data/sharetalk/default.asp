@@ -68,10 +68,10 @@
 		</div><p></p>
 		<script type="text/javascript" src="/_script/login.js"></script>
 		<% else %>
-		<script type="text/javascript" src="/_script/community.js"></script>
+		<script type="text/javascript" src="/_script/community.js?ver=1"></script>
 		<% end if %>
 		<div id="map"></div>
-		<script type="text/javascript" src="/_script/map.js"></script>
+		<script type="text/javascript" src="/_script/map.js?ver=1"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
 		<script type="text/javascript">

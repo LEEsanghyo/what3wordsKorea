@@ -5,7 +5,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>What3Words Home</title>
-		<link rel="stylesheet" href="/_include/style.css" type="text/css">		
+		<link rel="stylesheet" href="/_css/style.css" type="text/css">		
         <style>
             .info_this_page{
                 margin-top:80px;
