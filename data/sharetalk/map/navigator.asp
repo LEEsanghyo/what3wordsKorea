@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" href="/_css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../_include/navigator.css" />
+    <link rel="stylesheet" href="/_css/navigator.css" />
     
     <style>
         .btnTime {
@@ -74,8 +74,6 @@
             padding: 15px;
             border-radius: 0px 0px 10px 10px;
         }
-<<<<<<< HEAD
-		
 		#popupBoxOnePosition{
 			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
 			background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
@@ -97,30 +95,6 @@
 		.popupBoxContent{
 			background-color: #FFF; padding: 0px;border-radius:2px;
 		}
-=======
-        
-        #popupBoxOnePosition{
-            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-            background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
-        }
-        #popupBoxDelete{
-            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-            background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
-        }
-        #popupBoxTwoPosition{
-            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-            background-color: rgba(0,0,0,0.7); display: none;
-        }#popupBoxThreePosition{
-            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-            background-color: rgba(0,0,0,0.7); display: none;
-        }
-        .popupBoxWrapper{
-            width: 300px; margin: 0px; text-align: left;position:absolute;top:50px;left:30px;border-radius:0px;
-        }
-        .popupBoxContent{
-            background-color: #FFF; padding: 0px;border-radius:2px;
-        }
->>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
 
         .loader {
             position: absolute;
@@ -212,39 +186,6 @@
     <!-- #include virtual="/_include/top_menulist.asp" -->
 
     <div id="entire">
-<<<<<<< HEAD
-	<div style="margin:90px 0 10px 0;" >
-		<table width=100%>
-			<tr>
-				<td width=50%>
-					<div style="margin:5px">
-						<input type="hidden" id="my_position" class="form-control" disabled>
-					</div>
-					</td>
-				<td width=50%>
-					<div style="margin:5px">
-						<input type="hidden" class="form-control" id="destination3Words" disabled>
-					</div>
-				</td>
-			</tr>
-		<!--    <tr>
-				<td width=100% colspan="2">
-					<div style="margin:5px">
-						<textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
-					</div>
-				</td>
-			</tr> -->
-		</table>
-		<table width=100%>
-			<tr>
-				<td>
-					<div style="clear:both;height:10px"></div>
-					<div id="route"></div><input type="button" style="float: right" value="경로 저장" />
-				</td>
-			</tr>
-		</table>
-	</div>
-=======
     <div style="margin:90px 0 10px 0;" >
         <table width=100%>
             <tr>
@@ -276,7 +217,6 @@
             </tr>
         </table>
     </div>
->>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
     <div style="margin-top: 5px" class="container-fluid">
         <div class="row">
             
@@ -1336,11 +1276,7 @@
 
                     // 결과 출력
                     var innerHtml = "";
-<<<<<<< HEAD
-                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String	
-=======
                     var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String  
->>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
                     xmlDoc = $.parseXML(prtclString),
                         $xml = $(xmlDoc),
                         $intRate = $xml.find("Document");
@@ -1391,15 +1327,6 @@
                         });
 
                     }
-
-
-
-
-<<<<<<< HEAD
-	
-=======
-    
->>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
                 },
                 //요청 실패시 콘솔창에서 에러 내용을 확인할 수 있습니다.
                 error: function (request, status, error) {
@@ -1561,14 +1488,6 @@
             else if (object.trafficType == 2) { // bus
                 var content = "<p><b>" + startname + "</b>에서 <b>" + object.lane[0].busNo + "번</b> 승차 후 <b>" + endname + "</b>에서 하차</p>";
                 content += "소요시간  " + object.sectionTime + "분";
-<<<<<<< HEAD
-
-
-=======
-
-
->>>>>>> 671197bfa2757c489ff057bc3cf415b6f5d08297
-       
                 }
 
 

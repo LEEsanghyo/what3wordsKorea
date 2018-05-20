@@ -1,4 +1,5 @@
-﻿<!-- #include virtual="/_include/login_check.inc" -->
+﻿<!-- #include virtual="/_include/connect.inc" -->
+<!-- #include virtual="/_include/login_check.inc" -->
 <%
   strSQL = "p_gim_member_read_detail  '" & Session("member_no") & "'"
 
@@ -174,3 +175,4 @@
   </div>
 </div>
 <!-- login action end -->
+<!-- #include virtual="/_include/connect_close.inc" -->

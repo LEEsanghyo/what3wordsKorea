@@ -1,3 +1,4 @@
+<!-- #include virtual="/_include/connect.inc" -->
 <!-- #include virtual="/_include/words.asp" -->
 <%
     MENU = "HOME"
@@ -15,6 +16,12 @@
     end if
 	
 	set rsCategory = nothing
+	s = Application("Session_ID")
+	i = Application("Clients_ID")
+	c = Application("Clients_Chat")
+	for a=0 to UBOUND(s) step 1
+		response.write Cstr(s(a)) + " " + Cstr(i(a)) + " " + Cstr(c(a))
+	next
 %>
 <!Doctype html>
 <html lang="ko">
@@ -97,3 +104,4 @@
 		</script>
 	</body>
 </html>
+<!-- #include virtual="/_include/connect_close.inc" -->

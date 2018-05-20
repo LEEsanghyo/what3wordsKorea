@@ -2,12 +2,18 @@
 
 Sub Application_OnStart
 	'클라이언트 배열 객체화
-	Dim Clients_ID(0)
-	Dim Clients_Chat(0)
+	Dim Clients_ID()
+	Dim Clients_Chat()
+	Dim Sessions_ID()
+	ReDim Clients_ID(1)
+	ReDim Clients_Chat(1)
+	ReDim Sessions_ID(1)
 	Clients_ID(0) = 0
 	Clients_Chat(0) = 0
+	Sessions_ID(0) = ""
 	Application("Clients_ID") = Clients_ID
 	Application("Clients_Chat") = Clients_Chat
+	Application("Session_ID") = Sessions_ID
 	Application("count") = 0
 	Application("Req_ID") = 0
 	Application("Req_Name") = ""
@@ -30,16 +36,18 @@ Sub Session_OnEnd
 	Application.lock
 	Clients_ID = Application("Clients_ID")
 	Clients_Chat = Application("Clients_Chat")
-	for i=0 to UBOUND(Clients_ID) step 1
-		if Clients_ID(i) = Session("member_no") then
-			Clients_ID(i) = nothing
-			Clients_Chat(i) = nothing
+	Sessions_ID = Application("Session_ID")
+	for i=0 to UBOUND(Sessions_ID) step 1
+		if Sessions_ID(i) = Session.SessionID then
+			Clients_ID(i) = 0
+			Clients_Chat(i) = 0
+			Sessions_ID(i) = ""
 			exit for
 		end if
 	next
 	Application("Clients_ID") = Clients_ID
 	Application("Clients_Chat") = Clients_Chat
+	Application("Session_ID") = Sessions_ID
 	Application.unlock
-	Session.abandon
 End Sub
 </SCRIPT>

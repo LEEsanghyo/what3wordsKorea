@@ -15,15 +15,8 @@
 		member_no = rsGi("member_no")
 		Clients_ID = Application("Clients_ID")
 
-		for i=0 to UBOUND(Clients_ID) step 1
-			if member_no = Clients_ID(i) then
-				response.write "이미 로그인된 사용자입니다."
-				response.end
-			end if
-		next
-
 		Session("admin_flag") = rsgi("admin_flag")
-		Response.Cookies("profile_url") = rsGi("profile_url")
+		Response.Cookies("member_email") = rsGi("member_email")
 		Response.Cookies("member_name") = rsGi("member_name")
 		Session("member_uid") = member_uid
 		Session("member_no") = member_no
@@ -33,11 +26,15 @@
 		Clients_ID = Application("Clients_ID")
 		Clients_ID(Application("count")) = member_no
 		Redim Preserve Clients_ID(Application("count")+1)
+		Sessions_ID = Application("Session_ID")
+		Sessions_ID(Application("count")) = Session.SessionID
+		Redim Preserve Sessions_ID(Application("count")+1)
 		Application("Clients_ID") = Clients_ID
 		Clients_Chat = Application("Clients_Chat")
 		Clients_Chat(Application("count")) = 0
 		Redim Preserve Clients_Chat(Application("count")+1)
 		Application("Clients_Chat") = Clients_Chat
+		Application("Session_ID") = Sessions_ID
 		Application("count") = Application("count") + 1
 		Application.unlock
 

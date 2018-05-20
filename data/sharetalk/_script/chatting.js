@@ -63,7 +63,7 @@ function getRoute(id){
     xhr.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200){
             var data = this.responseText;
-            if (opener != null)  window.opener.location.href('/map/navigator.asp?route=' + data);
+            if (opener != null)  window.open('/map/navigator.asp?route=' + data);
             else    return data;
             xhr = null;
         }
