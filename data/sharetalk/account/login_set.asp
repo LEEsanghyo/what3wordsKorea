@@ -20,7 +20,6 @@
 				response.write "이미 로그인된 사용자입니다."
 				response.end
 			end if
-
 		next
 
 		Session("admin_flag") = rsgi("admin_flag")

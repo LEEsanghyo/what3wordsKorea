@@ -2,29 +2,44 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var clients = [];
+
+/* 파일 읽기 / 업로드 */
+// 파일 읽기
+var fs = require('fs');
+
+// 파일 업로드
 var multer = require('multer');
-var storage = multer.diskStorage({
-	destination: function(req, file, cb){
-		cb(null, 'uploads/');
-	},
-	filename: function(req, file, cb){
-		cb(null, file.fieldname + '-' + Date.now() + '.jpg');
+const path = require('path');
+const upload = multer({
+	storage : multer.diskStorage({
+		destination: function(req, file, cb){
+			cb(null, 'uploads/');
+		},
+		filename: function(req, file, cb){
+			var filepath = new Date().valueOf() + path.extname(file.originalname);
+			cb(null, filepath);
+		}
+	}),
+});
+
+app.post('/uploadprof', upload.single('imgupload'), function(req, res, next){
+	console.log(req.body.img_url);
+	var url = './' + req.body.img_url;
+	if (url != './images/my.png'){
+		fs.unlink(url, function(err){
+			if (err) throw err;
+		});
 	}
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.send('/' + req.file.path.replace("\\", "/"));
 });
-var upload = multer({ 
-	dest: 'uploads/',
-	storage : storage
-});
-
-app.post('/uploadprof', upload.single('file1'), function(req, res, next){
-	console.log(req.file);
-})
-
 
 http.listen(1337,function(){
     console.log('Server Start at *:1337');
 });
 
+
+/* 채팅 */
 io.on('connection', function(socket){
 	console.log('socket detected');
 	// 1대1 채팅을 위해 세션 정보 저장

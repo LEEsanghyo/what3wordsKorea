@@ -123,7 +123,8 @@
                         <% end if %>
                         <tr height="38">
                             <td width="70%" style="border-bottom:solid  1px #CCCCCC;">
-                                <p id="member_interest" style="font-size: 16px;"><%=interest %></p>
+                                <p id="interest_text" style="font-size: 16px;"></p>
+                                <input id="member_interest" type="hidden">
                             </td>
                             <td width="1%" style="border-bottom:solid  1px #CCCCCC;"></td>
                             <td width="30%" style="border-bottom:solid  1px #CCCCCC;">

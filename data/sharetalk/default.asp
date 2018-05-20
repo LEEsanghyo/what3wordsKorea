@@ -55,7 +55,7 @@
 		<!-- 로그인 안되어있을 시 로그인 창 띄우기 -->
 		<% if Session("member_no") < "1" then %>
 		<div class="login">
-			<p width="150px;"><input type="email" style="width:150px;height:20px;" placeholder="이메일" id="member_email"></p>&nbsp&nbsp
+			<p width="150px;"><input type="email" style="width:150px;height:20px;" placeholder="이메일" id="member_email" onkeypress="if(event.keyCode==13){LoginConfirm(null);}"></p>&nbsp&nbsp
 			<p width="100px;"><input type="password" style="width:50px;height:20px;" placeholder="비밀번호" id="member_pwd" onkeypress="if(event.keyCode==13){LoginConfirm(null);}"></p>&nbsp;&nbsp;
 			<p style="cursor:pointer;" onclick="LoginConfirm(null);">로그인</p>
 		</div>
@@ -68,7 +68,7 @@
 		</div><p></p>
 		<script type="text/javascript" src="/_script/login.js"></script>
 		<% else %>
-		<script type="text/javascript" src="/_script/community.js?ver=1"></script>
+		<script type="text/javascript" src="/_script/community.js?ver=3"></script>
 		<% end if %>
 		<div id="map"></div>
 		<script type="text/javascript" src="/_script/map.js?ver=1"></script>

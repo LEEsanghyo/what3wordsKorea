@@ -4,8 +4,9 @@
 
     profile_desc = request("profile_desc")
     member_interest = request("member_interest")
+    profile_url = request("profile_url")
 
-    strSQL = "p_gim_member_profile_desc_set '" & Session("member_no") & "','" & request("member_name") & "','" & member_interest & "','" & profile_desc & "'"
+    strSQL = "p_gim_member_profile_desc_set '" & Session("member_no") & "','" & request("member_name") & "','" & member_interest & "','" & profile_desc & "','" & profile_url & "'"
     
     Set rsData = Server.CreateObject("ADODB.RecordSet")
     rsData.Open strSQL, DbConn

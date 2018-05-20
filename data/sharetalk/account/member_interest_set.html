@@ -23,41 +23,41 @@
 			}
 		</script>
 	</head>
-	<body>
+	<body align="center">
 		관심사는 최대 10개까지 선택 가능합니다.
-		<form onsubmit="setInterest(this)">
+		<form onsubmit="setInterest()">
 			<p id="title" style="text-align: center;"> 주 관심사를 선택하세요. (3개) </p>
-			<p><input type="checkbox" name="int[]" value="1"> 영화 &nbsp;
-			<input type="checkbox" name="int[]" value="2"> 노래부르기 &nbsp;
-			<input type="checkbox" name="int[]" value="3"> 당구 &nbsp;</p>
-			<p><input type="checkbox" name="int[]" value="4"> 요리 &nbsp;
-			<input type="checkbox" name="int[]" value="5"> 클럽 &nbsp;
-			<input type="checkbox" name="int[]" value="6"> 스포츠 관람 &nbsp;</p>
-			<p><input type="checkbox" name="int[]" value="7"> 장기/체스 &nbsp;
-			<input type="checkbox" name="int[]" value="8"> 공연/콘서트 &nbsp;
-			<input type="checkbox" name="int[]" value="9"> 주거 개선 &nbsp;</p>
-			<p><input type="checkbox" name="int[]" value="10"> 드라이브 &nbsp;
-			<input type="checkbox" name="int[]" value="11"> 음주 &nbsp;
-			<input type="checkbox" name="int[]" value="12"> 스파/마사지샵 &nbsp;</p>
-			<p><input type="checkbox" name="int[]" value="13"> 박물관/전시회 &nbsp;
-			<input type="checkbox" name="int[]" value="14"> 수다 &nbsp;
-			<input type="checkbox" name="int[]" value="15"> 봉사활동 &nbsp;</p>
-			<p><input type="checkbox" name="int[]" value="16"> 쇼핑 &nbsp;
-			<input type="checkbox" name="int[]" value="17"> 게임 &nbsp;
-			<input type="checkbox" name="int[]" value="18"> 산책 &nbsp;</p>
-			<p><input type="checkbox" name="int[]" value="19"> 등산 &nbsp;
-			<input type="checkbox" name="int[]" value="20"> 캠핑 &nbsp;
-			<input type="checkbox" name="int[]" value="21"> 음악 감상 &nbsp;</p>
-			<p><input type="checkbox" name="int[]" value="22"> 악기 연주 &nbsp;
-			<input type="checkbox" name="int[]" value="23"> 사진촬영 &nbsp;
-			<input type="checkbox" name="int[]" value="24"> 애완동물 기르기 &nbsp;</p>
-			<p><input type="checkbox" name="int[]" value="25"> 독서 &nbsp;
-			<input type="checkbox" name="int[]" value="26"> 그림그리기 &nbsp;
-			<input type="checkbox" name="int[]" value="27"> 운동 &nbsp;</p>
-			<p><input type="checkbox" name="int[]" value="28"> 먹방 &nbsp;
-			<input type="checkbox" name="int[]" value="29"> 여행 &nbsp;
-			<input type="checkbox" name="int[]" value="30"> 차(Tea) &nbsp;</p>
-			<input type="submit" name="Submit" id="button" value="Submit"/>
+			<p><input type="checkbox" name="int[]" value="1" onchange="count(this);"> 영화 &nbsp;
+			<input type="checkbox" name="int[]" value="2" onchange="count(this);"> 노래부르기 &nbsp;
+			<input type="checkbox" name="int[]" value="3" onchange="count(this);"> 당구 &nbsp;</p>
+			<p><input type="checkbox" name="int[]" value="4" onchange="count(this);"> 요리 &nbsp;
+			<input type="checkbox" name="int[]" value="5" onchange="count(this);"> 클럽 &nbsp;
+			<input type="checkbox" name="int[]" value="6" onchange="count(this);"> 스포츠 관람 &nbsp;</p>
+			<p><input type="checkbox" name="int[]" value="7" onchange="count(this);"> 장기/체스 &nbsp;
+			<input type="checkbox" name="int[]" value="8" onchange="count(this);"> 공연/콘서트 &nbsp;
+			<input type="checkbox" name="int[]" value="9" onchange="count(this);"> 주거 개선 &nbsp;</p>
+			<p><input type="checkbox" name="int[]" value="10" onchange="count(this);"> 드라이브 &nbsp;
+			<input type="checkbox" name="int[]" value="11" onchange="count(this);"> 음주 &nbsp;
+			<input type="checkbox" name="int[]" value="12" onchange="count(this);"> 스파/마사지샵 &nbsp;</p>
+			<p><input type="checkbox" name="int[]" value="13" onchange="count(this);"> 박물관/전시회 &nbsp;
+			<input type="checkbox" name="int[]" value="14" onchange="count(this);"> 수다 &nbsp;
+			<input type="checkbox" name="int[]" value="15" onchange="count(this);"> 봉사활동 &nbsp;</p>
+			<p><input type="checkbox" name="int[]" value="16" onchange="count(this)"> 쇼핑 &nbsp;
+			<input type="checkbox" name="int[]" value="17" onchange="count(this)"> 게임 &nbsp;
+			<input type="checkbox" name="int[]" value="18" onchange="count(this)"> 산책 &nbsp;</p>
+			<p><input type="checkbox" name="int[]" value="19" onchange="count(this)"> 등산 &nbsp;
+			<input type="checkbox" name="int[]" value="20" onchange="count(this)"> 캠핑 &nbsp;
+			<input type="checkbox" name="int[]" value="21" onchange="count(this)"> 음악 감상 &nbsp;</p>
+			<p><input type="checkbox" name="int[]" value="22" onchange="count(this)"> 악기 연주 &nbsp;
+			<input type="checkbox" name="int[]" value="23" onchange="count(this)"> 사진촬영 &nbsp;
+			<input type="checkbox" name="int[]" value="24" onchange="count(this)"> 애완동물 기르기 &nbsp;</p>
+			<p><input type="checkbox" name="int[]" value="25" onchange="count(this)"> 독서 &nbsp;
+			<input type="checkbox" name="int[]" value="26" onchange="count(this)"> 그림그리기 &nbsp;
+			<input type="checkbox" name="int[]" value="27" onchange="count(this)"> 운동 &nbsp;</p>
+			<p><input type="checkbox" name="int[]" value="28" onchange="count(this)"> 먹방 &nbsp;
+			<input type="checkbox" name="int[]" value="29" onchange="count(this)"> 여행 &nbsp;
+			<input type="checkbox" name="int[]" value="30" onchange="count(this)"> 차(Tea) &nbsp;</p>
+			<input type="submit" name="Submit" id="button" value="Submit"/> <button onclick="window.close()">취소</button>
 		</form>
 		<script type="text/javascript" src="/_script/account.js?ver=1"></script>
 	</body>

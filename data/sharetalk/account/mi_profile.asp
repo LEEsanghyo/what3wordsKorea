@@ -20,6 +20,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/_css/modal.css?ver=1">
     <meta name="author" content="S A Bokhari">
     <meta name="description" content="글공유">
     <meta name="keywords" content="글공유">
@@ -41,10 +42,12 @@
     <!-- #include virtual="/_include/top_menulist.asp" -->
     <div class="content" style="margin-top:70px;">
       <div style="margin:5px;border: solid 0px #DDDDDD; position: relative;">
-        <img src="<%=back_url %>" style="width:100%;height:150px" />
+        <input type="hidden" id="back_url">
+        <img id="back" src="<%=back_url %>" style="width:100%;height:150px" onclick="document.getElementById('id01').style.display='block'"/>
       </div>
       <div align="center" style="position: relative; top: -65px;">
-        <img id="profile" src="<%=prof_url %>" data-target="#layerpop" data-toggle="modal"/>
+        <input type="hidden" id="profile_url">
+        <img id="profile" src="<%=prof_url %>" onclick="document.getElementById('id01').style.display='block'"/>
         <p>
           <input id="member_name" type="text" align="center" style="text-align: center; background-color: #FFFFFF; border: none;" value="<%=member_name%>" >
         </p>
@@ -53,7 +56,8 @@
         <table style="width:100%;" border="0" cellpadding="0" cellspacing="0">
           <tr>
             <td width="70%" style="border-bottom:solid  1px #CCCCCC;">
-              관심사 <input style="margin-left: 15px; width:50%;background-color: #FFFFFF;" type="text" id="member_interest" value="<%=member_interest%>" disabled="true"><button style="margin-left: 10px;" onclick="openInterest()">관심사 수정</button>
+              관심사 <text style="margin-left: 15px; width:50%;background-color: #FFFFFF;" id="interest_text" disabled></text>
+                <input type="hidden" id="member_interest"><button style="margin-left: 10px;" onclick="openInterest()">관심사 수정</button>
             </td>
           </tr>
           <tr>
@@ -111,7 +115,42 @@
       </div>
 -->
     </div>
-    <script type="text/javascript" src="/_script/account.js?ver=3"></script>
+    <div id="id01" class="w3-modal">
+      <div class="w3-modal-content">
+        <div class="w3-container">
+            <form id="upload" method="POST" enctype="multipart/form-data">
+              <input type="file" name="imgupload" id="file" style="display:none" accept=".jpg,.png,.bmp,.jpeg,.gif" onchange="upload()">
+              <p onclick="eventOccur(document.getElementById('file'), 'click')">이미지 선택</p>
+            </form>
+            <p>이미지 삭제</p>
+            <p onclick="document.getElementById('id01').style.display='none'">취소</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="/_script/account.js?ver=1"></script>
+    <script type="text/javascript">
+      var purl = '<%=prof_url%>';
+      var interest = [<%=member_interest%>];
+      setInterestText(interest);
+
+      function eventOccur(evEle, evType){
+        if (evEle.fireEvent) {
+          evEle.fireEvent('on' + evType);
+        } else {
+          //MouseEvents가 포인트 그냥 Events는 안됨~ ??
+          var mouseEvent = document.createEvent('MouseEvents');
+          /* API문서 initEvent(type,bubbles,cancelable) */
+          mouseEvent.initEvent(evType, true, false);
+          var transCheck = evEle.dispatchEvent(mouseEvent);
+          if (!transCheck) {
+          //만약 이벤트에 실패했다면
+          console.log("클릭 이벤트 발생 실패!");
+          }
+        }
+        document.getElementById('id01').style.display='none';
+      }
+    </script>
   </body>
 </html>
 
