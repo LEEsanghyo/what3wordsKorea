@@ -84,7 +84,7 @@ function upload(){
       else  alert("오류가 발생했습니다.");
       xhr = null;
     };
-    xhr.open('POST', 'http://localhost:1337/uploadprof');
+    xhr.open('POST', 'http://tour.abcyo.kr:1337/uploadprof');
     xhr.send(data);
 }
 
