@@ -29,7 +29,7 @@ Sub Application_OnEnd
 End sub
 
 Sub Session_OnStart
-	Session.Timeout = 30
+	Session.Timeout = 240
 End Sub
 
 Sub Session_OnEnd

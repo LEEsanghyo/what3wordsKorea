@@ -8,7 +8,8 @@
                                            request("latitude") & "','" & _ 
                                            request("longitude") & "','" & _ 
                                            request("address") & "','" & _ 
-                                           request.Cookies("member_email") & "'" 
+                                           request.Cookies("member_email") & "','" & _ 
+                                           request("insta_link") & "'" 
       'response.Write "step2: " & strSQL
       'response.end
     

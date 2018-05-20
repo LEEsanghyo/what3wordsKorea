@@ -109,25 +109,34 @@
                 height:100%;
                 border-top:5px solid rgba(128,128,128,0.7);
                 border-bottom:5px solid rgba(128,128,128,0.7);
+                margin-bottom:30px;
+            }
+            #date_box{
+                margin:5px;
+                height:5%;
+                text-align:left;
+                font-size:20pt;
+                font-style:italic;
             }
             #personal_box{
                 margin-top:5px;
                 padding:5px;
+                height:100%;
             }
             #from_box1{
                 margin:5px;
-                height:40px;
+                height:5%;
                 text-align:left;
             }
            #from_box2{
                 margin:5px;
-                height:40px;
+                height:5%;
                 text-align:left;
             }
             #tag_box{
                 margin:5px;
                 padding:5px;
-                height:40px;
+                height:5%;
             }
             #image_box{
                 margin:5px;
@@ -139,6 +148,13 @@
                 height:25%;
                 padding:5px;
                 border:5px solid rgba(128,128,128,0.5); 
+            }
+            #link_box{
+                text-align:center;
+                margin:5px;
+                padding:5px;
+                height:5%;
+                cursor:pointer;
             }
             #go_to_box{
                 text-align:center;
@@ -958,6 +974,11 @@
 
             }
 
+            function open_insta_link(elem) {
+                link = elem.getAttribute("insta_link");
+                window.open(link);
+            }
+
             $(document).ready(function (){
                 $("#myBtn1").click(function () {
                     $("#popupAlertPosition_busking").modal();
@@ -1007,26 +1028,12 @@
             <div class="col-sm-4" id="insta_box">
                 <%
                 Do While Not rsSns.EOF
+                    if StrComp(rsSns("sns_from_place"), "what3words")=0 then
                 %>
                 <div class="row" id="board_box">
                     <div class="row" id="personal_box">
                         <div class="row" id="from_box1">
-                            <%
-                                from_sns = rsSns("sns_from_place")
-                                if StrComp(from_sns, "instagram")=0 then
-                            %>
-                          <img id="from_img1" src="images/instagram.png" alt="" />
-                            <%
-                                elseif StrComp(from_sns, "facebook")=0 then
-                            %>
-                          <img id="from_img2" src="images/facebook.jpg" alt="" />
-                            <%
-                                else
-                            %>
                           <img id="from_img3" src="images/what3words.png" alt="" />
-                            <%
-                                end if
-                            %>
                         </div>
                         <div class="row" id="image_box">
                            <img id="user_img" src="<%=rsSns("sns_file_upload_area_real") %>" alt="" style="cursor:pointer" />
@@ -1066,8 +1073,33 @@
                         </div>
                     </div>
                 </div>
-                <hr />
                 <%
+                    else
+                %>
+                <div class="row" id="board_box">
+                    <div class="row" id="personal_box">
+                        <div class="row" id="from_box1">
+                          <img id="from_img1" src="images/instagram.png" alt="" />
+                        </div>
+                        <div id="from_box1" class="row" id="date_box">
+                            <p><%=rsSns("sns_date") %></p>
+                        </div>
+                        <div class="row" id="image_box">
+                           <img id="user_img" src="<%=rsSns("sns_file_upload_area_real") %>" alt="" style="cursor:pointer" />
+                        </div>
+                        <div class="row" id="tag_box">
+                            <p><%=rsSns("sns_profile") %></p>
+                        </div>
+                        <div class="row" id="content_box">
+                            <%=rsSns("sns_content_input_area") %>
+                        </div>
+                        <div class="row" id="link_box">
+                            <button class="btn btn-warning" onclick="open_insta_link(this);"  insta_link = "<%=rsSns("sns_insta_link") %>">인스타그램 연결</button>
+                        </div>
+                    </div>
+                </div>
+                <%
+                    end if
                     num = num  + 1
                     rsSns.MoveNext
                     Loop

@@ -1,11 +1,11 @@
 ﻿<!-- #include virtual="/_include/connect.inc" -->
 <!-- #include virtual="/_include/words.asp" -->
 <html lang="ko">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>What3Words Home</title>
-		<link rel="stylesheet" href="/_css/style.css" type="text/css">		
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>What3Words Home</title>
+        <link rel="stylesheet" href="/_css/style.css" type="text/css">      
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <!-- Optional theme -->
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
@@ -78,11 +78,11 @@
             }
             .geo_address_row
         </style>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
-		<script src="/_script/login.js"></script>
-		<script type="text/javascript">
-		    var lat_r ="";
+        <script src="/_script/login.js"></script>
+        <script type="text/javascript">
+            var lat_r ="";
             var log_r = "";
             function geoFind() {
                 //Geolocation API에 액세스할 수 있는지를 확인
@@ -101,65 +101,66 @@
                 }
             }
 
-		    function write_upload() {
-		        var content_input_area = document.getElementById("content_input_area").value;
-		        var file_path = document.getElementById("file_upload_area").value;
-		        var file_upload_area = file_path.split("\\");
-		        var file_upload_area_real = "images/" + file_upload_area[2];
-		        var latitude = lat_r;
-		        var longitude = log_r;
+            function write_upload() {
+                var content_input_area = document.getElementById("content_input_area").value;
+                var file_path = document.getElementById("file_upload_area").value;
+                var file_upload_area = file_path.split("\\");
+                var file_upload_area_real = "images/" + file_upload_area[2];
+                var latitude = lat_r;
+                var longitude = log_r;
 
-		        if (latitude.length < 2) {
-		            alert("please wait for location");
-		            return false;
-		        }
+                if (latitude.length < 2) {
+                    alert("please wait for location");
+                    return false;
+                }
 
-		        if (content_input_area == "") {
-		            alert("content is empty");
-		            return false;
-		        }
-		        else if (file_upload_area_real == "") {
-		            alert("upload is empty");
-		            return false;
-		        }
-		        else if (latitude == "") {
-		            alert("lat is empty");
-		            return false;
-		        }
-		        else if (longitude == "") {
-		            alert("lat is empty");
-		            return false;
-		        }
-		        else {
-		            var content = content_input_area.replace(/\n/g, '<br/>');
+                if (content_input_area == "") {
+                    alert("content is empty");
+                    return false;
+                }
+                else if (file_upload_area_real == "") {
+                    alert("upload is empty");
+                    return false;
+                }
+                else if (latitude == "") {
+                    alert("lat is empty");
+                    return false;
+                }
+                else if (longitude == "") {
+                    alert("lat is empty");
+                    return false;
+                }
+                else {
+                    var content = content_input_area.replace(/\n/g, '<br/>');
                     var from_place = "what3words";
-                    var address = "from_what3words"
-		            alert(from_place);
-		            alert(content);
-		            alert(file_upload_area_real);
-		            alert(latitude);
-		            alert(longitude);
-                    var strurl = "test_send_write.asp?from_place=" + from_place + "&file_upload_area_real=" + file_upload_area_real + "&content_input_area=" + content + "&latitude=" + latitude + "&longitude=" + longitude + "&address=" + address;
+                    var address = "from_what3words";
+                    var insta_link = "from_what3words";
+                    alert(from_place);
+                    alert(content);
+                    alert(file_upload_area_real);
+                    alert(latitude);
+                    alert(longitude);
+                    var strurl = "test_send_write.asp?from_place=" + from_place + "&file_upload_area_real=" + file_upload_area_real + "&content_input_area=" + content + "&latitude=" + latitude + "&longitude=" + longitude + "&address=" + address + "&insta_link=" + insta_link;
 
-		            xhr = new XMLHttpRequest();
-		            xhr.onreadystatechange = SendContent;
-		            xhr.open("Get", strurl);
-		            alert(strurl);
-		            xhr.send(null);
-		            location.href = "test_page_insta.asp";
-		            return true;
-		            
-		        }
-		    }
+                    xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = SendContent;
+                    xhr.open("Get", strurl);
+                    alert(strurl);
+                    xhr.send(null);
+                    location.href = "test_page_insta.asp";
+                    return true;
+                    
+                }
+            }
 
-		    function SendContent() {
-		        if (xhr.readyState == 4) {
-		            var data = xhr.responseText;
-		            document.getElementById("result_msg").innerHTML = data;
-		        }
-		    }
-		    function BacktoDefault() {
-		        location.href = "test_page_insta.asp";
+            function SendContent() {
+                if (xhr.readyState == 4) {
+                    var data = xhr.responseText;
+                    document.getElementById("result_msg").innerHTML = data;
+                }
+            }
+            function BacktoDefault() {
+                location.href = "test_page_insta.asp";
             }
             function geoCode() {
                 var latitude_x = document.getElementById("latitude");
@@ -180,7 +181,7 @@
 
                     alert("주소 : " + faddr + "\n\n위도: " + faddr_lat + "\n\n경도: " + faddr_lng);
 
-		            $('#latitude').html(faddr_lat);       // 위도
+                    $('#latitude').html(faddr_lat);       // 위도
                     $('#longitude').html(faddr_lng);   // 경도
                     lat_r = faddr_lat;
                     log_r = faddr_lng;
@@ -189,15 +190,15 @@
                 
 
             }
-		</script>
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
-	</head>
+        </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
+    </head>
 
-	<body>
-		<% top_menu = "HOME" %>
-		
-		<!-- #include virtual="/_include/top_menu.asp" -->
-		<!-- #include virtual="/_include/top_menulist.asp" -->
+    <body>
+        <% top_menu = "HOME" %>
+        
+        <!-- #include virtual="/_include/top_menu.asp" -->
+        <!-- #include virtual="/_include/top_menulist.asp" -->
         <div id="under_the_nav">
             <div id="write_box">
                 <div class="content_box row">
@@ -252,37 +253,7 @@
             </div>
         </div>
         <div id="result_msg">
-
         </div>
-		
-		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
-		
-		<script type="text/javascript">
-			var naverLogin = new naver.LoginWithNaverId(
-				{
-					clientId: "ePD3yuxPRSuXMeIBH5DA",
-					callbackUrl: "http://tour.abcyo.kr/callback.html",
-					isPopup: true,
-					callbackHandle: true,
-					loginButton: {color: "green", type: 1, height: 30} /* 로그인 버튼의 타입을 지정 */
-					/* callback 페이지가 분리되었을 경우에 callback 페이지에서는 callback처리를 해줄수 있도록 설정합니다. */
-				}
-			);
-		
-			/* (3) 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
-			naverLogin.init();
-			
-			naverLogin.getLoginStatus(function (status) {
-				if (status){
-					var email = naverLogin.user.getEmail();
-					var name = naverLogin.user.getNickName();
-					var uniqId = navrLogin.user.getId();
-					var age = naverLogin.user.getAge();
-				} else {
-					console.log("AccessToken이 올바르지 않습니다.");
-				}
-			});
-		</script>
-	</body>
+    </body>
 </html>
 <!-- #include virtual="/_include/connect_close.inc" -->

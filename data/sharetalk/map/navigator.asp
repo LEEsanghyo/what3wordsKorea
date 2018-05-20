@@ -1,7 +1,8 @@
 <!-- #include virtual="/_include/connect.inc" -->
+<!-- #include virtual="/_include/login_check.inc" -->
 <%
     Server.ScriptTimeout = 600
-
+    response.charset = "UTF-8"
 %>
 
 <!doctype html>
@@ -14,7 +15,7 @@
 
     <link rel="stylesheet" href="/_css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/_css/navigator.css" />
+    <link rel="stylesheet" href="../_css/navigator.css" />
     
     <style>
         .btnTime {
@@ -73,28 +74,30 @@
             background-color: #FFF;
             padding: 15px;
             border-radius: 0px 0px 10px 10px;
-        }        
-        #popupBoxOnePosition{
-            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-            background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
         }
-        #popupBoxDelete{
-            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-            background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
-        }
-        #popupBoxTwoPosition{
-            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-            background-color: rgba(0,0,0,0.7); display: none;
-        }#popupBoxThreePosition{
-            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-            background-color: rgba(0,0,0,0.7); display: none;
-        }
-        .popupBoxWrapper{
-            width: 300px; margin: 0px; text-align: left;position:absolute;top:50px;left:30px;border-radius:0px;
-        }
-        .popupBoxContent{
-            background-color: #FFF; padding: 0px;border-radius:2px;
-        }
+		
+		#popupBoxOnePosition{
+			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+			background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
+		}
+		#popupBoxDelete{
+			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+			background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
+		}
+		#popupBoxTwoPosition{
+			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+			background-color: rgba(0,0,0,0.7); display: none;
+		}#popupBoxThreePosition{
+			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+			background-color: rgba(0,0,0,0.7); display: none;
+		}
+		.popupBoxWrapper{
+			width: 300px; margin: 0px; text-align: left;position:absolute;top:50px;left:30px;border-radius:0px;
+		}
+		.popupBoxContent{
+			background-color: #FFF; padding: 0px;border-radius:2px;
+		}
+
         .loader {
             position: absolute;
             left: 50%;
@@ -169,6 +172,8 @@
     <script type="text/javascript" src="../_script/navigator.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/_script/chatting.js"></script>
+	<script type="text/javascript" src="/_script/community.js"></script>
 	<script>
 		function toggle_visibility(id) {
 			var e = document.getElementById(id);
@@ -336,6 +341,7 @@
 
 
     <script type="text/javascript">
+    	var othercoords;
         var map;  // 지도 변수 
         var myPosition; // gps로 따오는 내 위치
         var myPositionMarker; // gps로 따오는 내 위치에 찍는 마커
@@ -437,6 +443,10 @@
 
         var type = -1;
          var loader = document.getElementById('loader');
+
+        var list_set = [], tude_set =[], word3_set =[];
+
+
 
   
         linkedList.prototype.add = function (name, x, y, position) {
@@ -610,11 +620,16 @@
 
         function serach() {
              $.ajax({
-                url : 'http://192.168.0.14:8000/test',
+                url : 'http://192.168.43.121:8000/test',
                 data : { "member_no": <%=Session("member_no")%>},
                 type : 'post',
-                success:function(response) {
-                    document.getElementById("output").value = response.data;
+                 success: function (response) {
+                     list_set = response.list_set;
+                     tude_set = response.tude_set;
+                     word3_set = response.word3_set;
+                     console.log(list_set);
+                     console.log(tude_set);
+                     console.log(word3_set);
                 }
              });
         }
@@ -628,7 +643,7 @@
         }
 
         function initMap() {
-            //serach()
+            serach();
             var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
             var options = { //지도를 생성할 때 필요한 기본 옵션
                 center: new daum.maps.LatLng(37.561143, 126.985856), //지도의 중심좌표.
@@ -796,8 +811,8 @@
             if (level <= 7) { // ZOOM-LEVLE 7 = 1km
                 daum.maps.Tileset.add('TILE_NUMBER',
                     new daum.maps.Tileset({
-                        width: 125,
-                        height: 100,
+                        width: 50,
+                        height: 50,
                         getTile: function (x, y, z) {
                             var div = document.createElement('div');
                             // div.innerHTML = x + ', ' + y + ', ' + z; 
@@ -880,7 +895,7 @@
             if (destinationMarker != null) destinationMarker.setMap(null);
             var Option = $("#selectOption option:selected").val();
             if (Option == 1) originalSearch();
-            else if (Option == 2) threeWordsSearch();
+            else if (Option == 2) threeWordsSearch(null);
         }
 
         function originalSearch() {   // 1.주소로 검색
@@ -914,21 +929,22 @@
                 });
         }
 
-        function threeWordsSearch() { // 2. 3words로 검색
-            var threeWords = document.getElementById('addressSpace').value;
+        function threeWordsSearch(threeWords) { // 2. 3words로 검색
+            if (threeWords == "undefined" || threeWords == null)  threeWords = document.getElementById('addressSpace').value;
             $.ajax({
                 url: 'search_ajax.asp',
                 type: 'get',
                 data: 'word=' + threeWords,
                 success: function (data) {
                     var dataArray = data.split(',');
-                    var coords = new daum.maps.LatLng(dataArray[0], dataArray[1]);
+                    var coords = new daum.maps.LatLng(dataArray[1], dataArray[0]);
+                    othercoords = coords;
                     destinationMarker = new daum.maps.Marker({
                         map: map,
                         position: coords
                     });
                     // console.log(data);
-                    moveCamera(dataArray[0], dataArray[1]);
+                    moveCamera(dataArray[1], dataArray[0]);
                 }
             });
             autoGpsFlag = 1;
@@ -1191,7 +1207,7 @@
             //123
             $("#customAlert").empty();
             var e = document.getElementById("popupAlertPosition");
-            if (e.style.display == 'none')
+            if (e.style.display == 'none' || e.style.display == '')
                 e.style.display = 'block';
             document.getElementById("alerttext").innerHTML = "보고 싶은 경로를 선택해주세요";
             t = $("<a href='javascript:void(0)' id='searchRoute2'><span class='btnTime'>자동차</span></a>");
@@ -1354,6 +1370,11 @@
                         });
 
                     }
+
+
+
+
+	
                 },
                 //요청 실패시 콘솔창에서 에러 내용을 확인할 수 있습니다.
                 error: function (request, status, error) {
@@ -1532,6 +1553,9 @@
             else if (object.trafficType == 2) { // bus
                 var content = "<p><b>" + startname + "</b>에서 <b>" + object.lane[0].busNo + "번</b> 승차 후 <b>" + endname + "</b>에서 하차</p>";
                 content += "소요시간  " + object.sectionTime + "분";
+
+
+       
                 }
 
 
@@ -1799,14 +1823,34 @@
             else {
                 return '#ff0000';
             }
-
+;
+;
 
 
         }
-
+        <%  route = request("route")
+            if route <> "" then %>
+            var othercoords;
+            threeWordsSearch('<%=route%>');
+            setTimeout(function(){
+            	mynode = new node(document.getElementById('my_position').value, myPositionMarker.getPosition().getLng(), myPositionMarker.getPosition().getLat());
+            	
+            	othernode = new node('<%=route%>', othercoords.jb, othercoords.ib);
+            	
+            	
+            	addRoute(document.getElementById('my_position').value, myPositionMarker.getPosition().getLng(), myPositionMarker.getPosition().getLat());
+            	addRoute('<%=route%>', othercoords.jb, othercoords.ib);
+            	
+            	sendParameterToSearchRoute(mynode, othernode);
+        	}
+            , 3000);
+        <% end if %>
 
         addCategoryClickEvent();
+
     </script>
+
+
     <!-- #include virtual="/_include/connect_close.inc" -->
     <!-- <textarea id="output"></textarea> -->
 	
@@ -1855,4 +1899,5 @@
 			</div>
 		</div>
     <!-- post action end -->
+
 </html>
