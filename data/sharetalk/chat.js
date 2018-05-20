@@ -9,29 +9,30 @@ var fs = require('fs');
 
 // 파일 업로드
 var multer = require('multer');
-var storage = multer.diskStorage({
-	destination: function(req, file, cb){
-		cb(null, 'uploads/');
-	},
-	filename: function(req, file, cb){
-		fs.exist(req.path, function(exists){
-			exists ? fs.rename(req.path, file.fieldname )
-			: null;
-			cb(null, file.fieldname + '-' + Date.now());
-		})
+const path = require('path');
+const upload = multer({
+	storage : multer.diskStorage({
+		destination: function(req, file, cb){
+			cb(null, 'uploads/');
+		},
+		filename: function(req, file, cb){
+			var filepath = new Date().valueOf() + path.extname(file.originalname);
+			cb(null, filepath);
+		}
+	}),
+});
+
+app.post('/uploadprof', upload.single('imgupload'), function(req, res, next){
+	console.log(req.body.img_url);
+	var url = './' + req.body.img_url;
+	if (url != './images/my.png'){
+		fs.unlink(url, function(err){
+			if (err) throw err;
+		});
 	}
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.send('/' + req.file.path.replace("\\", "/"));
 });
-
-const upload = multer({ 
-	dest: 'uploads/',
-	storage : storage,
-	limits : {fileSize : 5*(1024^2) }
-});
-
-app.post('/uploadprof', upload.single('image'), function(req, res, next){
-	console.log(req.file);
-})
-
 
 http.listen(1337,function(){
     console.log('Server Start at *:1337');
