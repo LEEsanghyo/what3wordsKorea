@@ -17,7 +17,7 @@
         <meta name="author" content="S A Bokhari">
         <meta name="description" content="한국형 신주소">
         <meta name="keywords" content="Korean word address">
-        <title>한국형 단어 신주소</title>
+        <title>What3Words</title>
 		<link rel="stylesheet" href="/_include/style.css" type="text/css">
 		<script type="text/javascript" src="/_script/login.js"></script>
 		<script type="text/javascript" src="/_script/account.js"></script>

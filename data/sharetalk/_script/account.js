@@ -1,6 +1,5 @@
 var i = 0;
 var items = new Array();
-
 function openInterest(){
     var openWin;
     window.name = "회원가입";
