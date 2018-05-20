@@ -137,6 +137,8 @@
                 margin:5px;
                 padding:5px;
                 height:5%;
+                font-style:italic;
+                color:#25529c;
             }
             #image_box{
                 margin:5px;
@@ -152,8 +154,7 @@
             #link_box{
                 text-align:center;
                 margin:5px;
-                padding:5px;
-                height:5%;
+                height:3%;
                 cursor:pointer;
             }
             #go_to_box{
@@ -257,6 +258,7 @@
             var content_array = [];
             var like_array = [];
             var heart_amount_array = [];
+            var insta_profile_array = [];
 
             var d_user_profile_busking = [];
             var d_title_busking = [];
@@ -427,6 +429,7 @@
                         like_array[num2] = <%=rsSns("sns_like_number") %>;
                         heart_amount_array[num2] = <%=rsSns("sns_like_average") %>;
                         content_array[num2] = "<%=rsSns("sns_content_input_area") %>";
+                        insta_profile_array[num2] = "<%=rsSns("sns_profile")%>";
                         num2 = num2 + 1;
                         <%
                         rsSns.MoveNext
@@ -449,20 +452,22 @@
                 
                 if (define_done == 0) {
                     <%
-                    Do While NOT rsSns.EOF
+                        Do While NOT rsSns.EOF
                     %>
-                    latitude_array[num2] = <%=rsSns("sns_latitude") %>;
-                    long1 =  <%=rsSns("sns_longitude") %>;
-                    long1 = long1.toString();
-                    long2 = long1.split(".");
-                    long3 = long2[1].substring(0, 6);
-
+                    latitude_array[num2] = "<%=rsSns("sns_latitude") %>";
+                    long1 = "<%=rsSns("sns_longitude") %>";
+                    if (long1 != 'from_insta') { 
+                        long1 = long1.toString();
+                        long2 = long1.split(".");
+                        long3 = long2[1].substring(0, 6);
+                    }
                     longitude_array[num2] = long2[0] + "." + long3;
                     image_link = "<%=rsSns("sns_file_upload_area_real") %>";
                     icon_image_array[num2] = image_link;
                     like_array[num2] = <%=rsSns("sns_like_number") %>;
                     heart_amount_array[num2] = <%=rsSns("sns_like_average") %>;
                     content_array[num2] = "<%=rsSns("sns_content_input_area") %>";
+                    insta_profile_array[num2] = "<%=rsSns("sns_profile")%>";
                     num2 = num2 + 1;
                     <%
                     rsSns.MoveNext
@@ -695,7 +700,7 @@
                     center: marker_selected
                 });
 
-                var myIcon = new google.maps.MarkerImage(upload_image_link, null, null, null, new google.maps.Size(45, 45));
+                var myIcon = new google.maps.MarkerImage(upload_image_link, null, null, null, new google.maps.Size(35, 35));
 
                 var marker_set = new google.maps.Marker({
                     position: marker_selected,
@@ -708,6 +713,55 @@
                 marker_set.addListener('click', function () {
                     SetContent(sno_click_num);
                 });
+            }
+
+            function go_to_place_insta(elem) {
+                if (define_done == 0) {
+                    get_all_data_sub();
+                }
+
+                insta_marker = elem.getAttribute("insta_marker");
+                insta_img = elem.getAttribute("insta_img");
+                sno_click_num = elem.getAttribute("sno_click_num");
+
+                var geocoder;
+           
+                geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ "address": insta_marker }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        var faddr_lat = results[0].geometry.location.lat();
+                        var faddr_lng = results[0].geometry.location.lng();
+                    } else {
+                        var faddr_lat = "";
+                        var faddr_lng = "";
+                    }
+
+                    lat_r = faddr_lat;
+                    log_r = faddr_lng;
+
+                    var marker_selected = { lat: parseFloat(faddr_lat), lng: parseFloat(faddr_lng) };
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 12,
+                        center: marker_selected
+                     });             
+
+                    var myIcon = new google.maps.MarkerImage(insta_img, null, null, null, new google.maps.Size(35, 35));
+
+                    var marker_set = new google.maps.Marker({
+                        position: marker_selected,
+                        map: map,
+                        icon: myIcon,
+                        animation: google.maps.Animation.BOUNCE,
+                        title: "test"
+                    });
+
+                    marker_set.addListener('click', function () {
+                        SetContent_insta(sno_click_num);
+                    });
+
+                    return;
+                });
+
             }
 
             function go_to_place_daily(num) {
@@ -827,6 +881,29 @@
                 score = score.toString();
                 score = score.substring(0,3);
                 document.getElementById("popup_like_box_" + num).innerHTML = score;
+                document.getElementById("popup_content_box_" + num).innerHTML = content_array[num-1];
+
+                //$('#popup_image_box_' + num).html(icon_image_array[num]);       // 위도
+                //$('#popup_score_box_' + num).html(parseFloat(parseFloat(heart_amount_array[num]) / parseFloat(like_array[num])));   // 경도
+                //$('#popup_like_box_' + num).html(like_array[num]);   // 경도
+                //$('#popup_content_box_' + num).html(content_array[num]);   // 경도
+
+                $(document).ready(function () {
+                    $("#popupAlertPosition_" + num).modal();
+                });
+
+            }
+
+            function SetContent_insta(num) {
+
+                if (define_done_daily == 0) {
+                    get_all_busking_data();
+                    get_all_foodtruck_data();
+                    get_all_volunteer_data();
+                }
+
+                document.getElementById("popup_image_box_" + num).src = icon_image_array[num - 1];
+                document.getElementById("popup_profile_box_" + num).innerHTML = insta_profile_array[num - 1];
                 document.getElementById("popup_content_box_" + num).innerHTML = content_array[num-1];
 
                 //$('#popup_image_box_' + num).html(icon_image_array[num]);       // 위도
@@ -1073,6 +1150,7 @@
                         </div>
                     </div>
                 </div>
+                <hr />
                 <%
                     else
                 %>
@@ -1081,23 +1159,31 @@
                         <div class="row" id="from_box1">
                           <img id="from_img1" src="images/instagram.png" alt="" />
                         </div>
-                        <div id="from_box1" class="row" id="date_box">
-                            <p><%=rsSns("sns_date") %></p>
-                        </div>
                         <div class="row" id="image_box">
                            <img id="user_img" src="<%=rsSns("sns_file_upload_area_real") %>" alt="" style="cursor:pointer" />
                         </div>
                         <div class="row" id="tag_box">
-                            <p><%=rsSns("sns_profile") %></p>
+                            <div class="col-xs-6" style="font-size:70%; text-align: center;">
+                                [USER PROFILE] <%=rsSns("sns_profile") %>
+                            </div>
+                            <div class="col-xs-6" style="font-size:70%; color:#25529c; text-align:center">
+                                <%=rsSns("sns_date") %>
+                            </div>
                         </div>
-                        <div class="row" id="content_box">
+                        <div class="row" id="content_box" style="margin-top:1%;">
                             <%=rsSns("sns_content_input_area") %>
                         </div>
                         <div class="row" id="link_box">
-                            <button class="btn btn-warning" onclick="open_insta_link(this);"  insta_link = "<%=rsSns("sns_insta_link") %>">인스타그램 연결</button>
+                            <div class="col-xs-6">
+                            <button class="btn btn-warning" onclick="go_to_place_insta(this);" insta_marker = "<%=rsSns("sns_address")%>" sno_click_num ="<%=rsSns("sns_box_number") %>" insta_img = "<%=rsSns("sns_file_upload_area_real")%>">위치로 가기</button>
+                            </div>
+                            <div class="col-xs-6">
+                            <button class="btn btn-info" onclick="open_insta_link(this);" insta_link = "<%=rsSns("sns_insta_link") %>">인스타그램 연결</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <hr />
                 <%
                     end if
                     num = num  + 1
@@ -1264,6 +1350,7 @@
         <%
             num = 0
             Do While NOT rsSns.EOF
+            if StrComp(rsSns("sns_from_place"), "what3words")=0 then
         %>
        <div class="modal fade" id="popupAlertPosition_<%=rsSns("sns_box_number") %>" role="dialog" style=" position: fixed; font-size:70%; height: 90%; overflow-x:hidden; overflow-y:scroll; margin-top:70px; border-radius: 10px; display: none; padding:2%; align-content:center;">
             <div class="modal-dialog">
@@ -1309,6 +1396,43 @@
         </div>
         <!-- 팝업 창 -->
         <%
+            else
+        %>
+       <div class="modal fade" id="popupAlertPosition_<%=rsSns("sns_box_number") %>" role="dialog" style=" position: fixed; font-size:70%; height: 90%; overflow-x:hidden; overflow-y:scroll; margin-top:70px; border-radius: 10px; display: none; padding:2%; align-content:center;">
+            <div class="modal-dialog">
+                <div class="modal-body">
+                    <div class="container-fluid" style="width:90%;">
+                        <div class="row" style="font-size:15pt; font-style:italic;">
+                            USER CONTENT INFO
+                        </div>
+                        <div class="row">
+                            <img id="popup_image_box_<%=rsSns("sns_box_number") %>" src="" alt="" style="width:100%; object-fit:contain;" />
+                        </div>
+                        <div class="row" style="border-bottom:3px white solid;">
+                            <div class="col-xs-6" style="font-size:8pt; font-style:italic; text-align:center">
+                                <p>[USER PROFILE]</p>
+                            </div>
+                            <div class="col-xs-6" style="text-align:center;">
+                                <p id="popup_profile_box_<%=rsSns("sns_box_number") %>"></p>
+                            </div>
+                        </div>
+                        <hr style="border:2px solid gray;">
+                        <div class="row" style="height:20%; border-right:2px solid white; border-left:2px solid white; border-bottom:2px solid white;">
+                            <span id="popup_content_box_<%=rsSns("sns_box_number") %>" ></span>
+                        </div>
+                        <hr style="border:2px solid gray;">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button type="button" class="btn btn-danger btn-lg btn-block" id="exit_content"  data-dismiss="modal" sno_exit_num="<%=rsSns("sns_box_number") %>" style="font-size:8pt; font-style:oblique;">창 닫기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%
+            end if
             num = num + 1
             rsSns.MoveNext
             Loop
