@@ -1,3 +1,4 @@
+<!-- #include virtual="/_include/connect.inc" -->
 <!-- #include virtual="/_include/words.asp" -->
 <%
     MENU = "HOME"
@@ -68,7 +69,7 @@
 		</div><p></p>
 		<script type="text/javascript" src="/_script/login.js"></script>
 		<% else %>
-		<script type="text/javascript" src="/_script/community.js?ver=3"></script>
+		<script type="text/javascript" src="/_script/community.js"></script>
 		<% end if %>
 		<div id="map"></div>
 		<script type="text/javascript" src="/_script/map.js?ver=1"></script>
@@ -97,3 +98,4 @@
 		</script>
 	</body>
 </html>
+<!-- #include virtual="/_include/connect_close.inc" -->

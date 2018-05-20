@@ -15,16 +15,10 @@
 		member_no = rsGi("member_no")
 		Clients_ID = Application("Clients_ID")
 
-		for i=0 to UBOUND(Clients_ID) step 1
-			if member_no = Clients_ID(i) then
-				response.write "이미 로그인된 사용자입니다."
-				response.end
-			end if
-		next
-
 		Session("admin_flag") = rsgi("admin_flag")
 		Response.Cookies("profile_url") = rsGi("profile_url")
 		Response.Cookies("member_name") = rsGi("member_name")
+		Response.Cookies("member_email") = rsGi("member_email")
 		Session("member_uid") = member_uid
 		Session("member_no") = member_no
 

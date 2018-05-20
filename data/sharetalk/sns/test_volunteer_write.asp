@@ -1,20 +1,8 @@
-﻿<!-- #include virtual="/_include/words.asp" -->
-<!-- #include virtual="/_include/connect.inc" -->
+﻿<!-- #include virtual="/_include/connect.inc" -->
+<!-- #include virtual="/_include/words.asp" -->
 <%
     input_user = Request.Cookies("member_name")
     input_userid = Session("member_no")
-
-	'카테고리 리스트 불러오기
-    strSQL = "p_tsm_category_list_read "
-
-    Set rsCategory = Server.CreateObject("ADODB.RecordSet")
-    rsCategory.Open strSQL, DbConn, 3, 1
-
-    if rsCategory.EOF or rsCategory.BOF then
-	   NoDataCategory = True
-    Else
-	   NoDataCategory = False
-    end if
 %>
 <html lang="ko">
 	<head>
@@ -104,18 +92,6 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
 		<script src="/_script/login.js"></script>
-		<script type="text/javascript" src="/_script/map.js"></script>
-		<script>
-			var map;
-			var bounds = {
-				north: <%= lon2 %>,
-				south: <%= lon1 %>,
-				east: <%= lat2 %>,
-				west: <%= lat1 %>
-			};
-			var uluru = {lat: <%= lat_value %>, lng: <%= lon_value %> };
-			var zoom_level = <%= zoom_level %>;
-		</script>
 		<script type="text/javascript">
 		    var lat_r ="";
             var log_r = "";

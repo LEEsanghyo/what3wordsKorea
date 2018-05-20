@@ -1,18 +1,5 @@
-﻿<!-- #include virtual="/_include/words.asp" -->
-<!-- #include virtual="/_include/connect.inc" -->
-<%
-	'카테고리 리스트 불러오기
-    strSQL = "p_tsm_category_list_read "
-
-    Set rsCategory = Server.CreateObject("ADODB.RecordSet")
-    rsCategory.Open strSQL, DbConn, 3, 1
-
-    if rsCategory.EOF or rsCategory.BOF then
-	   NoDataCategory = True
-    Else
-	   NoDataCategory = False
-    end if
-%>
+﻿<!-- #include virtual="/_include/connect.inc" -->
+<!-- #include virtual="/_include/words.asp" -->
 <html lang="ko">
 	<head>
 		<meta charset="UTF-8">
@@ -94,18 +81,6 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
 		<script src="/_script/login.js"></script>
-		<script type="text/javascript" src="/_script/map.js"></script>
-		<script>
-			var map;
-			var bounds = {
-				north: <%= lon2 %>,
-				south: <%= lon1 %>,
-				east: <%= lat2 %>,
-				west: <%= lat1 %>
-			};
-			var uluru = {lat: <%= lat_value %>, lng: <%= lon_value %> };
-			var zoom_level = <%= zoom_level %>;
-		</script>
 		<script type="text/javascript">
 		    var lat_r ="";
             var log_r = "";
@@ -130,7 +105,7 @@
 		        var content_input_area = document.getElementById("content_input_area").value;
 		        var file_path = document.getElementById("file_upload_area").value;
 		        var file_upload_area = file_path.split("\\");
-		        var file_upload_area_real = "/images/" + file_upload_area[2];
+		        var file_upload_area_real = "images/" + file_upload_area[2];
 		        var latitude = lat_r;
 		        var longitude = log_r;
 
@@ -157,13 +132,14 @@
 		        }
 		        else {
 		            var content = content_input_area.replace(/\n/g, '<br/>');
-		            var from_place = "what3words";
+                    var from_place = "what3words";
+                    var address = "from_what3words"
 		            alert(from_place);
 		            alert(content);
 		            alert(file_upload_area_real);
 		            alert(latitude);
 		            alert(longitude);
-		            var strurl = "test_send_write.asp?from_place=" + from_place +  "&file_upload_area_real=" +  file_upload_area_real +"&content_input_area=" + content + "&latitude=" + latitude + "&longitude=" + longitude;
+                    var strurl = "test_send_write.asp?from_place=" + from_place + "&file_upload_area_real=" + file_upload_area_real + "&content_input_area=" + content + "&latitude=" + latitude + "&longitude=" + longitude + "&address=" + address;
 
 		            xhr = new XMLHttpRequest();
 		            xhr.onreadystatechange = SendContent;

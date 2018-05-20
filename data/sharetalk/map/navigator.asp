@@ -74,28 +74,28 @@
             padding: 15px;
             border-radius: 0px 0px 10px 10px;
         }
-        
-        #popupBoxOnePosition{
-            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-            background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
-        }
-        #popupBoxDelete{
-            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-            background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
-        }
-        #popupBoxTwoPosition{
-            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-            background-color: rgba(0,0,0,0.7); display: none;
-        }#popupBoxThreePosition{
-            top: 0; left: 0; position: fixed; width: 100%; height: 120%;
-            background-color: rgba(0,0,0,0.7); display: none;
-        }
-        .popupBoxWrapper{
-            width: 300px; margin: 0px; text-align: left;position:absolute;top:50px;left:30px;border-radius:0px;
-        }
-        .popupBoxContent{
-            background-color: #FFF; padding: 0px;border-radius:2px;
-        }
+		
+		#popupBoxOnePosition{
+			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+			background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
+		}
+		#popupBoxDelete{
+			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+			background-color: rgba(0,0,0,0.7); display: none;border-radius:0px;
+		}
+		#popupBoxTwoPosition{
+			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+			background-color: rgba(0,0,0,0.7); display: none;
+		}#popupBoxThreePosition{
+			top: 0; left: 0; position: fixed; width: 100%; height: 120%;
+			background-color: rgba(0,0,0,0.7); display: none;
+		}
+		.popupBoxWrapper{
+			width: 300px; margin: 0px; text-align: left;position:absolute;top:50px;left:30px;border-radius:0px;
+		}
+		.popupBoxContent{
+			background-color: #FFF; padding: 0px;border-radius:2px;
+		}
 
         .loader {
             position: absolute;
@@ -171,15 +171,15 @@
     <script type="text/javascript" src="../_script/navigator.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script>
-        function toggle_visibility(id) {
-            var e = document.getElementById(id);
-            if (e.style.display == 'block')
-                e.style.display = 'none';
-            else
-                e.style.display = 'block';
-        }
-    </script>
+	<script>
+		function toggle_visibility(id) {
+			var e = document.getElementById(id);
+			if (e.style.display == 'block')
+				e.style.display = 'none';
+			else
+				e.style.display = 'block';
+		}
+	</script>
     
 
 
@@ -191,41 +191,41 @@
     <!-- #include virtual="/_include/top_menulist.asp" -->
 
     <div id="entire">
-    <div style="margin:90px 0 10px 0;" >
-        <table width=100%>
-            <tr>
-                <td width=50%>
-                    <div style="margin:5px">
-                        <input type="hidden" id="my_position" class="form-control" disabled>
-                    </div>
-                    </td>
-                <td width=50%>
-                    <div style="margin:5px">
-                        <input type="hidden" class="form-control" id="destination3Words" disabled>
-                    </div>
-                </td>
-            </tr>
-        <!--    <tr>
-                <td width=100% colspan="2">
-                    <div style="margin:5px">
-                        <textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
-                    </div>
-                </td>
-            </tr> -->
-        </table>
-        <table width=100%>
-            <tr>
-                <td>
-                    <div style="clear:both;height:10px"></div>
-                    <div id="route"></div><input type="button" style="float: right" value="경로 저장" />
-                </td>
-            </tr>
-        </table>
-    </div>
+	<div style="margin:90px 0 10px 0;" >
+		<table width=100%>
+			<tr>
+				<td width=50%>
+					<div style="margin:5px">
+						<input type="hidden" id="my_position" class="form-control" disabled>
+					</div>
+					</td>
+				<td width=50%>
+					<div style="margin:5px">
+						<input type="hidden" class="form-control" id="destination3Words" disabled>
+					</div>
+				</td>
+			</tr>
+		<!--    <tr>
+				<td width=100% colspan="2">
+					<div style="margin:5px">
+						<textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
+					</div>
+				</td>
+			</tr> -->
+		</table>
+		<table width=100%>
+			<tr>
+				<td>
+					<div style="clear:both;height:10px"></div>
+					<div id="route"></div><input type="button" style="float: right" value="경로 저장" />
+				</td>
+			</tr>
+		</table>
+	</div>
     <div style="margin-top: 5px" class="container-fluid">
         <div class="row">
-            
-            <div style="clear:both;height:5px"></div>
+			
+			<div style="clear:both;height:5px"></div>
             <div class="col-lg-12" id="map" style="box-shadow: rgba(0, 0, 0, 0.498039) 0px 0px 1px 0px, rgba(0, 0, 0, 0.14902) 0px 1px 10px 0px;">
 
 
@@ -528,7 +528,7 @@
                     obj[objcnt] = document.createElement('input');
                     obj[objcnt].type = "button";
                     // obj.onclick = showRoute(node, node.next);
-                    obj[objcnt].style = "padding:0 5px;margin:0 5px;";
+					obj[objcnt].style = "padding:0 5px;margin:0 5px;";
                     obj[objcnt].value = "->";
 
                     (function (str, strcnt, obj, inode) {
@@ -630,7 +630,7 @@
         }
 
         function initMap() {
-            serach()
+            //serach()
             var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
             var options = { //지도를 생성할 때 필요한 기본 옵션
                 center: new daum.maps.LatLng(37.561143, 126.985856), //지도의 중심좌표.
@@ -652,6 +652,9 @@
             daum.maps.event.addListener(map, 'zoom_changed', function () {
                 setTile();
                 if (centerMarker != null) centerMarker.setMap(null);
+                var bounds = map.getBounds();
+             //   alert(bounds.getNorthEast().getLat() - bounds.getSouthWest().getLat());
+             //   alert(bounds.getNorthEast().getLng() - bounds.getSouthWest().getLng());
             });
 
             daum.maps.event.addListener(map, 'idle', searchPlaces);
@@ -1301,7 +1304,7 @@
 
                     // 결과 출력
                     var innerHtml = "";
-                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String  
+                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String	
                     xmlDoc = $.parseXML(prtclString),
                         $xml = $(xmlDoc),
                         $intRate = $xml.find("Document");
@@ -1357,7 +1360,7 @@
 
 
 
-    
+	
                 },
                 //요청 실패시 콘솔창에서 에러 내용을 확인할 수 있습니다.
                 error: function (request, status, error) {
@@ -1478,8 +1481,8 @@
             WalkingMarker(startRouteMarker, endRouteMarker);
 
            // var loader = document.getElementById('loader');
-            if (loader.style.display == 'block') loader.style.display = 'none';
 
+          
 
 
 
@@ -1591,9 +1594,10 @@
                 //i가 넘어가서
             // ajax 비동기라서
            // console.log(endRouteCount);
+            //alert(loader.style.display);
             loader.style.display = "block";
             if (loader.style.display == 'none') {
-                alert("A");
+                //alert("A");
                 loader.style.display = "block";
 
             }
@@ -1667,7 +1671,7 @@
                     
                     // 결과 출력
                     var innerHtml = "";
-                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String  
+                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String	
                     xmlDoc = $.parseXML(prtclString),
                         $xml = $(xmlDoc),
                         $intRate = $xml.find("Document");
@@ -1677,7 +1681,7 @@
 
        
 
-
+                    loader.style.display = 'block';
 
 
                     var result = ($intRate[0].getElementsByTagName("coordinates"));
@@ -1693,28 +1697,35 @@
                         lineArray = new Array();
              
                        // console.log("data length = " + data.length-1);
-                        for (var j = 0; data[j] != ""; j++) {                      
+                        for (var j = 0; data[j] != ""; j++) {
                             var latlng = data[j].split(',');
-                          
+
                             if (latlng[1] != undefined && latlng[[0]] != undefined)
                                 lineArray.push(new daum.maps.LatLng(latlng[1], latlng[0]));
-                
-                        }
 
-                            walkingPolyline[walkingPolylineCount++] = new daum.maps.Polyline({
-                                map: map,
-                                path: lineArray,
-                                strokeWeight: 7,
+                        }
+                        loader.style.display = 'block';
+
+                        walkingPolyline[walkingPolylineCount++] = new daum.maps.Polyline({
+                            map: map,
+                            path: lineArray,
+                            strokeWeight: 7,
                                 strokeColor: '#0066FF'
-                            });
+                        });
 
                     }
-                                    
+                    if (loader.style.display == 'block') {
+                        loader.style.display = 'none';
+                    }
+
                 },
                 //요청 실패시 콘솔창에서 에러 내용을 확인할 수 있습니다.
                 error: function (request, status, error) {
                     console.log(request);
                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    if (loader.style.display == 'block') {
+                        loader.style.display = 'none';
+                    }
                 }
             });
             
@@ -1734,7 +1745,7 @@
             xhr.onreadystatechange = function () {
                  if (xhr.readyState == 4 && xhr.status == 200) {
                     var resultJsonData = JSON.parse(xhr.responseText); console.log(resultJsonData);
-                    drawPolyLine(resultJsonData);       // 노선그래픽데이터 지도위 표시
+                    drawPolyLine(resultJsonData);		// 노선그래픽데이터 지도위 표시
                 }
             }
         }
@@ -1810,12 +1821,12 @@
 
     <!-- #include virtual="/_include/connect_close.inc" -->
     <!-- <textarea id="output"></textarea> -->
-    
+	
 </body>
 <!-- post action start -->
-        <div id="popupBoxOnePosition">
-            <div class="popupBoxWrapper">
-                <div class="popupBoxContent">
+		<div id="popupBoxOnePosition">
+			<div class="popupBoxWrapper">
+				<div class="popupBoxContent">
                     <table width="100%" border="0">
                     <tr style = "height:40px;text-align:left;border-bottom:solid 1px #CCCCCC">
                         <td width="40px"></td>
@@ -1852,9 +1863,8 @@
                         </td>
                     </tr>
                     </table>
-                </div>
-            </div>
-        </div>
+				</div>
+			</div>
+		</div>
     <!-- post action end -->
-
 </html>

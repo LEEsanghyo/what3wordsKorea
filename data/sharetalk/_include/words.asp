@@ -1,4 +1,3 @@
-<!-- #include virtual="/_include/connect.inc" -->
 <%
 	Server.ScriptTimeout=3600
 	'서버 session time = 1시간
@@ -87,4 +86,3 @@
 	Set rsCategory = Server.CreateObject("ADODB.RecordSet")
 	rsCategory.Open strSQL, DbConn
 %>
-<!-- #include virtual="/_include/connect_close.inc" -->
