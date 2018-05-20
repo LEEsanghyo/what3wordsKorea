@@ -1921,20 +1921,16 @@
         <% route = request("route")
         if route <> "" then %>
             var othercoords;
-        threeWordsSearch('<%=route%>');
-        setTimeout(function () {
+            threeWordsSearch('<%=route%>');
+            setTimeout(function () {
             mynode = new node(document.getElementById('my_position').value, myPositionMarker.getPosition().getLng(), myPositionMarker.getPosition().getLat());
 
             othernode = new node('<%=route%>', othercoords.jb, othercoords.ib);
-
-
-            addRoute(document.getElementById('my_position').value, myPositionMarker.getPosition().getLng(), myPositionMarker.getPosition().getLat());
-            addRoute('<%=route%>', othercoords.jb, othercoords.ib);
+            addRoute(mynode.name, mynode.x, mynode.y);
+            addRoute(othernode.name, othernode.x, othernode.y);
 
             sendParameterToSearchRoute(mynode, othernode);
-        }
-            , 3000);
-
+            }, 3000);
         <% end if %>
 
             addCategoryClickEvent();
