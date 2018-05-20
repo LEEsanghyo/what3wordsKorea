@@ -934,6 +934,7 @@
         function describeSearchType() {
             if (destinationMarker != null) destinationMarker.setMap(null);
             var Option = $("#selectOption option:selected").val();
+            
             if (Option == 1) originalSearch();
             else if (Option == 2) threeWordsSearch(null);
         }
@@ -946,6 +947,7 @@
                 function (results, status) {
                     if (results != "") {
                         var location = results[0].geometry.location;
+                       // alert(location.lat());
                         var coords = new daum.maps.LatLng(location.lat(), location.lng());
                         destinationMarker = new daum.maps.Marker({
                             map: map,
@@ -971,13 +973,17 @@
 
         function threeWordsSearch(threeWords) { // 2. 3words로 검색
             if (threeWords == "undefined" || threeWords == null) threeWords = document.getElementById('addressSpace').value;
+           // alert(threeWords);
+     
             $.ajax({
                 url: 'search_ajax.asp',
                 type: 'get',
                 data: 'word=' + threeWords,
                 success: function (data) {
+                    
                     var dataArray = data.split(',');
-                    var coords = new daum.maps.LatLng(dataArray[1], dataArray[0]);
+                    
+                    var coords = new daum.maps.LatLng(dataArray[0], dataArray[1]);
 
                     othercoords = coords;
 
@@ -986,7 +992,7 @@
                         position: coords
                     });
                     // console.log(data);
-                    moveCamera(dataArray[1], dataArray[0]);
+                    moveCamera(dataArray[0], dataArray[1]);
                 }
             });
             autoGpsFlag = 1;
