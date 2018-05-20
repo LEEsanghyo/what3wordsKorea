@@ -6,7 +6,10 @@
                                            request("file_upload_area_real") & "','" & _ 
                                            request("content_input_area") & "','" & _ 
                                            request("latitude") & "','" & _ 
-                                           request("longitude") & "'" 
+                                           request("longitude") & "','" & _ 
+                                           request("address") & "','" & _ 
+                                           request.Cookies("member_email") & "','" & _ 
+                                           request("insta_link") & "'" 
       'response.Write "step2: " & strSQL
       'response.end
     

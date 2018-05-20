@@ -16,12 +16,6 @@
     end if
 	
 	set rsCategory = nothing
-	s = Application("Session_ID")
-	i = Application("Clients_ID")
-	c = Application("Clients_Chat")
-	for a=0 to UBOUND(s) step 1
-		response.write Cstr(s(a)) + " " + Cstr(i(a)) + " " + Cstr(c(a))
-	next
 %>
 <!Doctype html>
 <html lang="ko">
@@ -31,9 +25,9 @@
 		<title>What3Words Home</title>
 		<link rel="stylesheet" href="/_css/style.css" type="text/css">
 		<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-		<script async type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
-		<script async src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
-		<script async src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
+		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
 	</head>
 
 	<body>
@@ -75,7 +69,7 @@
 		</div><p></p>
 		<script type="text/javascript" src="/_script/login.js"></script>
 		<% else %>
-		<script type="text/javascript" src="/_script/community.js?ver=3"></script>
+		<script type="text/javascript" src="/_script/community.js"></script>
 		<% end if %>
 		<div id="map"></div>
 		<script type="text/javascript" src="/_script/map.js?ver=1"></script>
@@ -97,7 +91,7 @@
 						data[0] = <%=Session("member_no")%>;
 						data[1] = my_position;
 						setRoute(data);
-					}, 5000);
+					}, 3000);
 			<% else %>
 			getKey();
 			<% end if %>

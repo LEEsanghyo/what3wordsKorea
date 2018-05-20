@@ -18,6 +18,7 @@
 		Session("admin_flag") = rsgi("admin_flag")
 		Response.Cookies("member_email") = rsGi("member_email")
 		Response.Cookies("member_name") = rsGi("member_name")
+		Response.Cookies("member_email") = rsGi("member_email")
 		Session("member_uid") = member_uid
 		Session("member_no") = member_no
 

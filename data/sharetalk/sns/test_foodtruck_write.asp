@@ -1,20 +1,8 @@
-﻿<!-- #include virtual="/_include/words.asp" -->
-<!-- #include virtual="/_include/connect.inc" -->
+﻿<!-- #include virtual="/_include/connect.inc" -->
+<!-- #include virtual="/_include/words.asp" -->
 <%
     input_user = Request.Cookies("member_name")
     input_userid = Session("member_no")
-
-	'카테고리 리스트 불러오기
-    strSQL = "p_tsm_category_list_read "
-
-    Set rsCategory = Server.CreateObject("ADODB.RecordSet")
-    rsCategory.Open strSQL, DbConn, 3, 1
-
-    if rsCategory.EOF or rsCategory.BOF then
-	   NoDataCategory = True
-    Else
-	   NoDataCategory = False
-    end if
 %>
 <html lang="ko">
 	<head>
