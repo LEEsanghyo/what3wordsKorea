@@ -75,46 +75,6 @@
         </table>
       </div>
     </div>
-
-<!--
-    <div class="content">
-      <div style="margin:20px 0;text-align:center;">
-        <table width="100%;" border="0">
-          <tr>
-            <td  align="center">
-              <FORM NAME="FormBack" id="FormBack" METHOD="post" ACTION="http://localhost:1337/uploadback" ENCTYPE="multipart/form-data"> 
-              <INPUT TYPE="file" NAME="file1" >
-              <input type="button" onclick="UploadBack();" value="저장" />
-              </FORM>
-            </td>
-          </tr>
-        </table>
-      </div>
-
-
-      <div style="text-align:center;">
-        <table style="width:100%">
-          <tr height="4px;"><td class="bbcDate" style="width:100%;height:3px;background:#EEEEEE"></td></tr>
-        </table>
-      </div>
-      <div style="margin:20px 0;text-align:center;">
-        <table width="100%;" border="0">
-          <tr><td>
-            <img src="<%=prof_url %>" style="width:100px;height:100px" />
-          </td></tr>
-          </table>
-          <table width="100%;" border="0">
-            <tr>
-              <td  align="center">
-                <FORM NAME="FormLogo" id="FormLogo" METHOD="post" ACTION="http://localhost:1337/uploadprof" ENCTYPE="multipart/form-data"> 
-                <INPUT TYPE="file" NAME="file1" >
-                <input type="submit" value="저장" />
-                </FORM>
-              </td>
-            </tr>
-        </table>
-      </div>
--->
     </div>
     <div id="id01" class="w3-modal">
       <div class="w3-modal-content">
@@ -123,7 +83,7 @@
               <input type="file" name="imgupload" id="file" style="display:none" accept=".jpg,.png,.bmp,.jpeg,.gif" onchange="upload()">
               <p onclick="eventOccur(document.getElementById('file'), 'click')">이미지 선택</p>
             </form>
-            <p>이미지 삭제</p>
+            <p onclick="deleteImg();document.getElementById('id01').style.display='none'">이미지 삭제</p>
             <p onclick="document.getElementById('id01').style.display='none'">취소</p>
           </div>
         </div>
@@ -133,6 +93,8 @@
     <script type="text/javascript">
       var purl = '<%=prof_url%>';
       var interest = [<%=member_interest%>];
+      document.getElementById('member_interest').value = interest;
+      document.getElementById('profile_url').value = purl;
       setInterestText(interest);
 
       function eventOccur(evEle, evType){

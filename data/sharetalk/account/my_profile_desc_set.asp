@@ -16,6 +16,7 @@
     if message <> "" then
     	response.write message
     else
+        response.Cookies("profile_url") = this.responseText
     	response.write "변경되었습니다."
     end if 
     
