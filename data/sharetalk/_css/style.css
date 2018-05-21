@@ -1,8 +1,9 @@
 * { padding: 0; margin: 0; }
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 html, body {
 	max-width: 100%;
 	overflow-x: hidden;
-	font-family: Arial, 맑은 고딕, 돋움; background:#FFFFFF;
+	font-family: 'Jeju Gothic'; background:#FFFFFF;
 	padding:0px;margin:0px;
 }
 a { text-decoration: none; color: #000000; }
@@ -77,13 +78,6 @@ nav li:last-child a { border-bottom: none; }
 	color:#0cc738;
 	//	  background: #0cc738;
 	border-radius: 2px;
-}
-.login {
-	margin:0px;
-	padding:0px;
-	display:flex;
-	justify-content:center;
-	height:60px;
 }
 .content {
 	width: 100%;

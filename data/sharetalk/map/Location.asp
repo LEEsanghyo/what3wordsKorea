@@ -18,4 +18,4 @@
 	end if
 	Set rs = nothing
 %>
-<!-- #include virtual="/_include/connect_close.inc" -->
+<!-- #include virtual="/_include/connect_close.inc" -->	

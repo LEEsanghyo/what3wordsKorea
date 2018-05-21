@@ -128,19 +128,30 @@ function MemberRegister(oflag, uid) {
 }
 
 // 카카오톡 로그인
-function kLogin(res){
-	var properties = JSON.stringify(res.properties);
-	var mage;
-	if (properties.birthday != undefined) mage = properties.birthday;
-	var vals = {
-		memail : res.kaccount_email,
-		verified : res.kaccount_email_verified,
-		mid : res.id,
-		mname : res.properties.nickname,
-		mage : mage
-	}
-	if (vals.verified == false)	return 0;
-	else	LoginConfirm(vals);
+function kLogin(){
+	Kakao.Auth.login({
+		success: function(authObj) {
+			alert(JSON.stringify(authObj));
+			var properties = JSON.stringify(authObj.properties);
+			var mage;
+
+			if (properties.birthday != undefined) mage = properties.birthday;
+			var vals = {
+				memail : res.kaccount_email,
+				verified : res.kaccount_email_verified,
+				mid : res.id,
+				mname : res.properties.nickname,
+				mage : mage
+			}
+
+			if (vals.verified == false)	return 0;
+			else	LoginConfirm(vals);
+		},
+		
+		fail: function(err) {
+		alert(JSON.stringify(err));
+		}
+	});
 }
 
 function GoogleLogin(){
@@ -175,32 +186,12 @@ function ButtonInit(){
 		isPopup: false,
 		callbackHandle: true,
 		/* callback 페이지가 분리되었을 경우에 callback 페이지에서는 callback처리를 해줄수 있도록 설정합니다. */
-		loginButton: {color: "green", type: 2, height: 40}
+		loginButton: {color: "green", type: 1, height: 50}
 	});
 	naverLogin.init();
 
 	// 사용할 앱의 JavaScript 키를 설정해 주세요.
 	Kakao.init(keys[1]);
-	// 카카오 로그인 버튼을 생성합니다.
-	Kakao.Auth.createLoginButton({
-		container: '#kakao-login-btn',
-		success: function(authObj) {
-			Kakao.API.request({
-				url: '/v1/user/me',
-				success: function(res) {
-					var info = JSON.parse(JSON.stringify(res));
-					kLogin(info);
-				},
-				fail: function(error) {
-					alert(JSON.stringify(error));
-				}
-			});
-		},
-		fail: function(err) {
-			alert(JSON.stringify(err));
-		},
-		size : 'small'
-	});
 
 	// Initialize Firebase
 	var config = {
@@ -225,3 +216,4 @@ function getKey(){
 	xhr.open("GET", "/_include/key.asp");
 	xhr.send(null);
 }
+getKey();
