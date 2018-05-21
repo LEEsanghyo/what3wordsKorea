@@ -28,6 +28,23 @@
 		<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js?callback=setLoginBtn" charset="utf-8"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
+		<style type="text/css">
+			@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+			.login {
+				margin:auto;
+				width:200px;
+				height:20px;
+				border: none;
+				border-bottom:skyblue solid 0.2px;
+				background-color: none;
+			}
+			.lbutton{
+				margin: 0px 15px 0px 15px;
+				color: #6666CC;
+				font-family:'Jeju Gothic', sans-serif;
+				font-size:20px;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -54,47 +71,23 @@
 		</div>
 
 		<!-- 로그인 안되어있을 시 로그인 창 띄우기 -->
-		<% if Session("member_no") < "1" then %>
-		<div class="login">
-			<p width="150px;"><input type="email" style="width:150px;height:20px;" placeholder="이메일" id="member_email" onkeypress="if(event.keyCode==13){LoginConfirm(null);}"></p>&nbsp&nbsp
-			<p width="100px;"><input type="password" style="width:50px;height:20px;" placeholder="비밀번호" id="member_pwd" onkeypress="if(event.keyCode==13){LoginConfirm(null);}"></p>&nbsp;&nbsp;
-			<p style="cursor:pointer;" onclick="LoginConfirm(null);">로그인</p>
+		<% if Session("member_no") then
+			response.redirect "/map/navigator.asp"
+		else %>
+		<div style="margin:auto;width:30%">
+			<h1 style="color:#148CFF">What3Words</h1>
+			<p><input class="login" type="email" placeholder="이메일" id="member_email" onkeypress="if(event.keyCode==13){LoginConfirm(null);}"></p>
+			<p><input class="login" type="password" placeholder="비밀번호" id="member_pwd" onkeypress="if(event.keyCode==13){LoginConfirm(null);}"></p>
+			<p><a class="lbutton" onclick="LoginConfirm(null);">로그인</a><a class="lbutton" href="/account/member_register.asp">회원가입</a></p>
 		</div>
 
 		<!-- 네이버 / 카카오 / 구글 로그인 -->
-		<div align="center" id="naverIdLogin"></div><p></p>
-		<div align="center" id="kakao-login-btn"></div><p></p>
-		<div align="center" id="firebaseui-auth-contanier">
-			<image src="/images/glogin.png" onclick=GoogleLogin(); style="cursor:pointer;width:120px;height:40px;">
-		</div><p></p>
-		<script type="text/javascript" src="/_script/login.js"></script>
-		<% else %>
-		<script type="text/javascript" src="/_script/community.js"></script>
+		<p><a align="center" id="naverIdLogin"></a>
+		<image align="center" id="kakao-login-btn" src="/images/kl.png" style="margin:-40px 20px 0px 20px;cursor:pointer;width:50px;height:50px" onclick="kLogin()">
+		<image align="center" id="firebaseui-auth-contanier" src="/images/glogin.png" style="margin-top:-40px;cursor:pointer;width:50px;height:50px;" onclick="GoogleLogin()">
+		</p>
+		<script type="text/javascript" src="/_script/login.js?ver=1"></script>
 		<% end if %>
-		<div id="map"></div>
-		<script type="text/javascript" src="/_script/map.js?ver=1"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
-		<script type="text/javascript">
-			var map;
-			var bounds = {
-				north: <%= lon2 %>,
-				south: <%= lon1 %>,
-				east: <%= lat2 %>,
-				west: <%= lat1 %>
-			};
-			var uluru = {lat: <%= lat_value %>, lng: <%= lon_value %> };
-			var zoom_level = <%= zoom_level %>;
-			<% if Session("member_no") then %>
-					setTimeout(function(){
-						var data = new Array();
-						data[0] = <%=Session("member_no")%>;
-						data[1] = my_position;
-						setRoute(data);
-					}, 3000);
-			<% else %>
-			getKey();
-			<% end if %>
 		</script>
 	</body>
 </html>
