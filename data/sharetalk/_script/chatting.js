@@ -1,7 +1,7 @@
 /* 지역 별 채팅방 */
 
 // 나와 상대방의 세션 ID 불러오고, 채팅 서버에 내 ID 저장
-var socket = io.connect('http://localhost:1337');
+var socket = io.connect('http://tour.abcyo.kr:1337');
 var flag = 0;
 
 // 단체 채팅방 입장

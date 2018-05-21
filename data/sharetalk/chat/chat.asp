@@ -41,7 +41,7 @@
         <input id="o" onkeypress="if(event.keyCode==13){<% if other then %> sendOne(); <% else %> sendRoom(); <% end if %>}" autocomplete="off" />
         <button onclick="<% if other then %> sendOne(); <% else %> sendRoom(); <% end if %>">보내기</button>
         </div>
-        <script type="text/javascript" src="http://localhost:1337/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="http://tour.abcyo.kr:1337/socket.io/socket.io.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.js"></script>
         <script type="text/javascript" src="/_script/chatting.js?ver=2" onload="<% if other then %>sendSession();<% else %>joinRoom(<%=roomid%>);<% end if %>"></script>
     </body>
