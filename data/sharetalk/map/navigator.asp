@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" href="/_css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../_css/navigator.css" />
+    <link rel="stylesheet" href="../_css/navigator.css?ver=1" />
     
     <style>
         .btnTime {
@@ -209,18 +209,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-	<script type="text/javascript" src="/_script/chatting.js"></script>
-	<script type="text/javascript" src="/_script/community.js"></script>
+    <script type="text/javascript" src="/_script/chatting.js"></script>
+    <script type="text/javascript" src="/_script/community.js"></script>
 
-	<script>
-		function toggle_visibility(id) {
-			var e = document.getElementById(id);
-			if (e.style.display == 'block')
-				e.style.display = 'none';
-			else
-				e.style.display = 'block';
-		}
-	</script>
+    <script>
+        function toggle_visibility(id) {
+            var e = document.getElementById(id);
+            if (e.style.display == 'block')
+                e.style.display = 'none';
+            else
+                e.style.display = 'block';
+        }
+    </script>
     
 
 
@@ -232,42 +232,42 @@
     <!-- #include virtual="/_include/top_menulist.asp" -->
 
     <div id="entire">
-	<div style="margin:90px 0 10px 0;" >
-		<table width=100%>
-			<tr>
-				<td width=50%>
-					<div style="margin:5px">
-						<input type="hidden" id="my_position" class="form-control" disabled>
-					</div>
-					</td>
-				<td width=50%>
-					<div style="margin:5px">
-						<input type="hidden" class="form-control" id="destination3Words" disabled>
-					</div>
-				</td>
-			</tr>
-		<!--    <tr>
-				<td width=100% colspan="2">
-					<div style="margin:5px">
-						<textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
-					</div>
-				</td>
-			</tr> -->
-		</table>
-		<table width=100%>
-			<tr>
-				<td>
-					<div style="clear:both;height:10px"></div>
-					<div id="route"></div><input type="button" style="float: right" value="경로 저장" />
-				</td>
-			</tr>
-		</table>
-	</div>
+    <div style="margin:90px 0 10px 0;" >
+        <table width=100%>
+            <tr>
+                <td width=50%>
+                    <div style="margin:5px">
+                        <input type="hidden" id="my_position" class="form-control" disabled>
+                    </div>
+                    </td>
+                <td width=50%>
+                    <div style="margin:5px">
+                        <input type="hidden" class="form-control" id="destination3Words" disabled>
+                    </div>
+                </td>
+            </tr>
+        <!--    <tr>
+                <td width=100% colspan="2">
+                    <div style="margin:5px">
+                        <textarea class="form-control" style="overflow-y: hidden; overflow-x: hidden" disabled></textarea>
+                    </div>
+                </td>
+            </tr> -->
+        </table>
+        <table width=100%>
+            <tr>
+                <td>
+                    <div style="clear:both;height:10px"></div>
+                        <div id="route"></div><!--<input type="button" style="float: right" value="경로 저장" />-->
+                </td>
+            </tr>
+        </table>
+    </div>
     <div style="margin-top: 5px" class="container-fluid">
         <div class="row">
-			
-			<div style="clear:both;height:5px"></div>
-            <div class="col-lg-12" id="map" style="box-shadow: rgba(0, 0, 0, 0.498039) 0px 0px 1px 0px, rgba(0, 0, 0, 0.14902) 0px 1px 10px 0px;">
+            
+            <div style="clear:both;height:5px"></div>
+            <div class="col-lg-12 col-xs-12" id="map" style="box-shadow: rgba(0, 0, 0, 0.498039) 0px 0px 1px 0px, rgba(0, 0, 0, 0.14902) 0px 1px 10px 0px;">
 
 
                 <ul id="category" class="category" style="display:none;">
@@ -314,7 +314,7 @@
 
                 <div id="info" style="display:none"> </div>
             </div>
-
+           <!-- <div class="col-lg-11 col-xs-11"></div> -->
         </div>
 
         <div class="row">
@@ -1406,7 +1406,7 @@
 
                     // 결과 출력
                     var innerHtml = "";
-                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String	
+                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String  
                     xmlDoc = $.parseXML(prtclString),
                         $xml = $(xmlDoc),
                         $intRate = $xml.find("Document");
@@ -1773,7 +1773,7 @@
 
                     // 결과 출력
                     var innerHtml = "";
-                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String	
+                    var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String  
                     xmlDoc = $.parseXML(prtclString),
                         $xml = $(xmlDoc),
                         $intRate = $xml.find("Document");
@@ -1847,7 +1847,7 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var resultJsonData = JSON.parse(xhr.responseText); console.log(resultJsonData);
-                    drawPolyLine(resultJsonData);		// 노선그래픽데이터 지도위 표시
+                    drawPolyLine(resultJsonData);       // 노선그래픽데이터 지도위 표시
                 }
             }
         }
@@ -1925,7 +1925,7 @@
             setTimeout(function () {
             mynode = new node(document.getElementById('my_position').value, myPositionMarker.getPosition().getLng(), myPositionMarker.getPosition().getLat());
 
-            othernode = new node('<%=route%>', othercoords.jb, othercoords.ib);
+            othernode = new node('<%=route%>', othercoords.ib, othercoords.jb);
             addRoute(mynode.name, mynode.x, mynode.y);
             addRoute(othernode.name, othernode.x, othernode.y);
 
@@ -1940,12 +1940,12 @@
 
     <!-- #include virtual="/_include/connect_close.inc" -->
     <!-- <textarea id="output"></textarea> -->
-	
+    
 </body>
 <!-- post action start -->
-		<div id="popupBoxOnePosition">
-			<div class="popupBoxWrapper">
-				<div class="popupBoxContent">
+        <div id="popupBoxOnePosition">
+            <div class="popupBoxWrapper">
+                <div class="popupBoxContent">
                     <table width="100%" border="0">
                     <tr style = "height:40px;text-align:left;border-bottom:solid 1px #CCCCCC">
                         <td width="40px"></td>
@@ -1982,9 +1982,9 @@
                         </td>
                     </tr>
                     </table>
-				</div>
-			</div>
-		</div>
+                </div>
+            </div>
+        </div>
     <!-- post action end -->
 
 </html>

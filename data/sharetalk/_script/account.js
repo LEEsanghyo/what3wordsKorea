@@ -77,7 +77,6 @@ function upload(){
     data.append('img_url', purl);
     xhr.onload = function(){
       if (this.status == 200 || this.status == 201){
-        alert(this.responseText);
         document.getElementById('profile_url').value = this.responseText;
         document.getElementById('profile').src = this.responseText;
       }
@@ -86,6 +85,11 @@ function upload(){
     };
     xhr.open('POST', 'http://tour.abcyo.kr:1337/uploadprof');
     xhr.send(data);
+}
+
+function deleteImg(){
+	document.getElementById('profile_url').value = '/images/my.png'
+	document.getElementById('profile').src = '/images/my.png'
 }
 
 function toggle_visibility(id) {
