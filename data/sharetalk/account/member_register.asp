@@ -1,4 +1,4 @@
-﻿<%
+<%
 	email = request("member_email")
 	nickname = request("member_nickname")
 	uniqId = request("member_uniqID")
@@ -77,8 +77,8 @@
                             </td>
                         </tr>
                         <% else %>
-                        <input type="hidden" id = "member_pwd" value = "">
-                        <input type="hidden" id = "member_pwd2" value = "">
+                        <input type="hidden" id = "member_pwd">
+                        <input type="hidden" id = "member_pwd2">
                         <% end if %>
                         <tr height="38">
                             <td style="border-bottom:solid  1px #CCCCCC;">

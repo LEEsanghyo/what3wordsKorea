@@ -253,15 +253,6 @@ span td a {
 	font-family:Arial, 맑은 고딕, 돋움;
 }
 
-/* Google Fonts */
-@import url(http://fonts.googleapis.com/css?family=Open+Sans);
-
-/* set global font to Open Sans */
-body {
-  font-family: 'Open Sans', 'sans-serif';
-  background-image: url(http://benague.ca/files/pw_pattern.png);
-}
-
 /* css for title */
 h1 {
   color: #55acee;
@@ -371,4 +362,52 @@ p {
   text-align: center;
   color: #55acee;
   padding-top: 20px;
+}
+
+#profile { 
+	width: 120px; height: 120px;
+	object-fit: cover;
+	object-position: top;
+	border-radius: 50%;
+}
+
+.login {
+	margin:auto;
+	width:200px;
+	height:20px;
+    border: 3px solid rgba(248, 88, 91, 0.7);
+    border-radius: 2px;
+	background-color: none;
+	font-style: italic;
+}
+.lbutton{
+	font-family:'Jeju Gothic', sans-serif;
+	font-size:15px;
+    background-color: rgba(248, 88, 91, 0.9);
+    border: none;
+    color:#fff;
+    padding:7px;
+    margin-right:5px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.main{
+	background:none;
+	height:100%;
+	width: 100%;
+}
+.default{
+	height:100%;
+	width:100%;
+	background: url("/what3words_logo_real.png") no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: 100% 100%;	
+}
+.loginbox{
+	position: relative;
+	top: 40%;
 }

@@ -20,19 +20,24 @@ const upload = multer({
 			cb(null, filepath);
 		}
 	}),
+	limits: { filesize: 10*1024*1024 }
 });
 
-app.post('/uploadprof', upload.single('imgupload'), function(req, res, next){
+function resFile(req, res, next){
 	console.log(req.body.img_url);
 	var url = './' + req.body.img_url;
 	if (url != './images/my.png'){
 		fs.unlink(url, function(err){
-			if (err) throw err;
+			if (err) console.log('No File');
 		});
 	}
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.send('/' + req.file.path.replace("\\", "/"));
-});
+}
+
+app.post('/uploadprof', upload.single('profupload'), resFile);
+app.post('/uploadback', upload.single('backupload'), resFile);
+app.post('/uploadsns', upload.single('snsupload'), resFile);
 
 http.listen(1337,function(){
     console.log('Server Start at *:1337');
