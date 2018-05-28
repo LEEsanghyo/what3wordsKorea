@@ -1,14 +1,24 @@
 <!-- #include virtual="/_include/connect.inc" -->
 <%
+	response.charset = "UTF-8"
 	article_number = 0
-	article_number = CInt(request("article_number"))
-	code = CInt(request("code"))
+	article_number = request("article_number")
+	code = request("code")
 	ID = Application("Clients_ID")
 	Chat = Application("Clients_Chat")
 	Accept = 0
 	Accept = request("Accept")
 	req_id = request("id") 
 	reqInfo = ""
+
+	function clearVar()
+		Application.lock
+		Application("Clients_Chat") = Chat
+		Application("Req_ID") = 0
+		Application("Req_Name") = ""
+		Application("individual_id") = ""
+		Application.unlock
+	End function
 
 	'채팅 신청 시
 	if article_number <> 0 then
@@ -24,7 +34,7 @@
 		else
 			for i=0 to UBOUND(ID) step 1
 				'해당 전역변수의 세션에 채팅 플래그 1로 설정
-				if cstr(ID(i)) = cstr(result) then
+				if ID(i) = result then
 					Chat(i) = 1
 					Application.lock
 					Application("Clients_Chat") = Chat
@@ -39,13 +49,13 @@
 	elseif Accept = 0 then
 		for i=0 to UBOUND(ID) step 1
 			'내 세션에 새 채팅 신청이 있는지 확인
-			if cstr(ID(i)) = cstr(Session("member_no")) then
+			if ID(i) = Session("member_no") then
 				if Chat(i) = 1 then
 					Chat(i) = 0
 					req_id = Application("Req_ID")
 					Req_name = Application("Req_Name")
-					ReqInfo = "새 채팅," + Req_name + "," + req_id
-					response.write reqInfo
+					ReqInfo = Req_name + "," + Cstr(req_id)
+					response.write "새 채팅," + reqInfo
 					clearVar()
 				elseif Chat(i) = 2 then
 					Chat(i) = 0
@@ -80,16 +90,6 @@
 			end if
 		next
 	end if
-
-	function clearVar()
-		Application.lock
-		Application("Clients_Chat") = Chat
-		Application("Req_ID") = 0
-		Application("Req_Name") = ""
-		Application("individual_id") = ""
-		Application.unlock
-	End function
-
 	Set rs = nothing
 %>
 <!-- #include virtual="/_include/connect_close.inc" -->

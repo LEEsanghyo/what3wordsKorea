@@ -1,7 +1,7 @@
 ﻿<!-- #include virtual="/_include/connect.inc" -->
-<!-- #include virtual="/_include/words.asp" -->
+<!-- #include virtual="/_include/login_check.inc" -->
 <%
-        '================== [  카테고리 리스트 불러오기  ] ===================
+    '================== [  카테고리 리스트 불러오기  ] ===================
     '카테고리 리스트 불러오기
     strSQL = "p_tsm_category_list_read "
 
@@ -72,44 +72,47 @@
     num3 = 0
     num4 = 0
 %>
+<!doctype html>
 <html lang="ko">
     <head>
         <meta charset="UTF-8">
+        <meta name="author" content="SANG-HYO-LEE" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>What3Words Home</title>
-        <link rel="stylesheet" href="/_css/style.css" type="text/css">      
-        <style>
+ 
+        <link rel="stylesheet" href="../_css/style.css" type="text/css">   
+        <link rel="stylesheet" href="../_css/sns_style.css" type="text/css">
+        <link rel="stylesheet" href="../_font/font_folder.css" type="text/css">
+        <style type="text/css">
             #buttons_box{
                 margin-top:70px;
                 padding:1%;
                 height:10px;
                 text-align:center;
+                font-family: Typo, sans-serif;
+                margin-right:1px;
             }
             #under_the_nav{
-                margin-top:1%;
                 padding-left:5%;
                 padding-right:5%;
                 padding-top:1%;
-            }
-            #map_box{
-                font-size:20px;
-                text-align:center;
-                height:90%;
-                display:inline-block;
+                height:600px;
+                font-family: THESusu, sans-serif;
             }
             #map{
-              height:100%;
+                margin-top:20px;
+                border:10px solid rgba(248, 89, 100, 0.7);
+                height:600px;
             }
             #insta_box{
-                height:100%;
+                height:600px;
                 overflow-x:hidden;
                 overflow-y:scroll;
             }
             #board_box{
-                height:100%;
-                border-top:5px solid rgba(128,128,128,0.7);
-                border-bottom:5px solid rgba(128,128,128,0.7);
-                margin-bottom:30px;
+                height:85%;
+                border:5px solid rgba(128,128,128,0.7);
+                border-radius: 10px;
             }
             #date_box{
                 margin:5px;
@@ -126,9 +129,9 @@
             #from_box1{
                 margin:5px;
                 height:5%;
-                text-align:left;
+                text-align: left;
             }
-           #from_box2{
+            #from_box2{
                 margin:5px;
                 height:5%;
                 text-align:left;
@@ -144,6 +147,7 @@
                 margin:5px;
                 padding:5px;
                 height:50%;
+                object-fit:contain;
             }
             #content_box{
                 margin:5px;
@@ -168,22 +172,10 @@
                 height:100%;   
                 object-fit:contain;
             }
-            #from_img1 {
+            #from_img {
                 width: 100%;
                 height: 100%;
                 object-fit: contain;
-                cursor:pointer;
-            }
-            #from_img2{
-                width:100%;
-                height:100%;
-                object-fit:contain;
-                cursor:pointer;
-            }
-            #from_img3{
-                width:100%;
-                height:100%;
-                object-fit:contain;
                 cursor:pointer;
             }
             .popup_content_viewer{
@@ -193,8 +185,9 @@
             }
             @media screen and (min-width:200px){
                 #map{
+                    border:10px solid rgba(237, 64, 61, 0.9);
+                    border-radius: 10px;
                     height:60%;
-                    border:10px ridge #25529c;
                 }
                 body::-webkit-scrollbar{
                     display:none;
@@ -209,7 +202,7 @@
                     display:none;
                 }
                 #board_box{
-                    height:90%;
+                    height:80%;
                     border-top:5px solid rgba(128,128,128,0.7);
                     border-bottom:5px solid rgba(128,128,128,0.7);
                 }
@@ -231,25 +224,12 @@
                 background:rgb(255,255,255);
             }
         </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="/_css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-        <script src="/_script/login.js"></script>
-        <script type="text/javascript" src="/_script/map.js"></script>
-        <script>
-            var map;
-            var bounds = {
-                north: <%= lon2 %>,
-                south: <%= lon1 %>,
-                east: <%= lat2 %>,
-                west: <%= lat1 %>
-            };
-            var uluru = {lat: <%= lat_value %>, lng: <%= lon_value %> };
-            var zoom_level = <%= zoom_level %>;
-        </script>       
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
-        
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc"></script>
         <script type="text/javascript">
 
             var latitude_array = [];
@@ -301,6 +281,7 @@
             var open_window_volunteer_content;
             var modal_define = 0;
             var marker_define = 0;
+            var map;
 
             var busking_image = "images/busking.jpg";
             var foodtruck_image = "images/foodtruck.jpg";
@@ -330,7 +311,20 @@
                 image_number = 5;
                 img_change(elem);   
             }
+			function initialize() {
+             var Y_point = 37.6388235; // Y 좌표
+             var X_point = 127.0647555; // X 좌표
+			 var zoomLevel = 17; // 첫 로딩시 보일 지도의 확대 레벨
 
+			 var myLatlng = new google.maps.LatLng(Y_point, X_point);
+			 var mapOptions = {
+			 zoom: zoomLevel,
+			 center: myLatlng,
+			 mapTypeId: google.maps.MapTypeId.ROADMAP
+			 }
+
+			 var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+ 			}
             function img_change(elem) {
 
                 var strurl = "";
@@ -415,29 +409,53 @@
                 
                 if (define_done == 0) {
                         <%
-                        Do While NOT rsSns.EOF
+                        Do While NOT rsSns.EOF or rsSns.BOF
                         %>
-                        latitude_array[num2] = <%=rsSns("sns_latitude") %>;
-                        long1 =  <%=rsSns("sns_longitude") %>;
+                 
+                        long1 = "<%=rsSns("sns_longitude") %>";
+
+                    if (long1 != 'from_insta') {
+
+                        latitude_array[num2] = "<%=rsSns("sns_latitude") %>";
                         long1 = long1.toString();
                         long2 = long1.split(".");
                         long3 = long2[1].substring(0, 6);
-
                         longitude_array[num2] = long2[0] + "." + long3;
-                        image_link = "<%=rsSns("sns_file_upload_area_real") %>";
-                        icon_image_array[num2] = image_link;
-                        like_array[num2] = <%=rsSns("sns_like_number") %>;
-                        heart_amount_array[num2] = <%=rsSns("sns_like_average") %>;
-                        content_array[num2] = "<%=rsSns("sns_content_input_area") %>";
-                        insta_profile_array[num2] = "<%=rsSns("sns_profile")%>";
-                        num2 = num2 + 1;
-                        <%
-                        rsSns.MoveNext
-                        Loop
-                        rsSns.MoveFirst
-                        %>
 
-                        define_done = 1;
+                    } else {
+
+                            var geocoder;
+
+                            geocoder = new google.maps.Geocoder();
+                            geocoder.geocode({ "address": "<%=rsSns("sns_address")%>" }, function (results, status) {
+                                if (status == google.maps.GeocoderStatus.OK) {
+                                    var faddr_lat = results[0].geometry.location.lat();
+                                    var faddr_lng = results[0].geometry.location.lng();
+                                } else {
+                                    var faddr_lat = "";
+                                    var faddr_lng = "";
+                                }
+                                latitude_array[num2] = faddr_lat.toString();
+                                longitude_array[num2] = faddr_lng.toString();
+
+                            }
+                        )
+                    }
+
+	                image_link = "<%=rsSns("sns_file_upload_area_real") %>";
+	                icon_image_array[num2] = image_link;
+	                like_array[num2] = <%=rsSns("sns_like_number") %>;
+	                heart_amount_array[num2] = <%=rsSns("sns_like_average") %>;
+	                content_array[num2] = "<%=rsSns("sns_content_input_area") %>";
+	                insta_profile_array[num2] = "<%=rsSns("sns_profile") %>";
+	                num2 = num2 + 1;
+	                <%
+	                rsSns.MoveNext
+	                Loop
+	                rsSns.MoveFirst
+	                %>
+
+	                define_done = 1;
                 }
                 start_place_all();
             }
@@ -454,20 +472,42 @@
                     <%
                         Do While NOT rsSns.EOF
                     %>
-                    latitude_array[num2] = "<%=rsSns("sns_latitude") %>";
                     long1 = "<%=rsSns("sns_longitude") %>";
-                    if (long1 != 'from_insta') { 
+
+                    if (long1 != 'from_insta') {
+
+                        latitude_array[num2] = "<%=rsSns("sns_latitude") %>";
                         long1 = long1.toString();
                         long2 = long1.split(".");
                         long3 = long2[1].substring(0, 6);
+                        longitude_array[num2] = long2[0] + "." + long3;
+
+                    } else {
+
+                            var geocoder;
+
+                            geocoder = new google.maps.Geocoder();
+                            geocoder.geocode({ "address": "<%=rsSns("sns_address") %>" }, function (results, status) {
+                                if (status == google.maps.GeocoderStatus.OK) {
+                                    var faddr_lat = results[0].geometry.location.lat();
+                                    var faddr_lng = results[0].geometry.location.lng();
+                                } else {
+                                    var faddr_lat = "";
+                                    var faddr_lng = "";
+                                }
+                                latitude_array[num2] = faddr_lat.toString();
+                                longitude_array[num2] = faddr_lng.toString();
+
+                            }
+                        )
                     }
-                    longitude_array[num2] = long2[0] + "." + long3;
+                    
                     image_link = "<%=rsSns("sns_file_upload_area_real") %>";
                     icon_image_array[num2] = image_link;
                     like_array[num2] = <%=rsSns("sns_like_number") %>;
                     heart_amount_array[num2] = <%=rsSns("sns_like_average") %>;
                     content_array[num2] = "<%=rsSns("sns_content_input_area") %>";
-                    insta_profile_array[num2] = "<%=rsSns("sns_profile")%>";
+                    insta_profile_array[num2] = "<%=rsSns("sns_profile") %>";
                     num2 = num2 + 1;
                     <%
                     rsSns.MoveNext
@@ -709,7 +749,7 @@
                     animation: google.maps.Animation.BOUNCE,
                     title: "test"
                 });
-
+                
                 marker_set.addListener('click', function () {
                     SetContent(sno_click_num);
                 });
@@ -744,7 +784,7 @@
                         zoom: 12,
                         center: marker_selected
                      });             
-
+                  	location.href="#map";
                     var myIcon = new google.maps.MarkerImage(insta_img, null, null, null, new google.maps.Size(35, 35));
 
                     var marker_set = new google.maps.Marker({
@@ -758,10 +798,9 @@
                     marker_set.addListener('click', function () {
                         SetContent_insta(sno_click_num);
                     });
-
+                	
                     return;
                 });
-
             }
 
             function go_to_place_daily(num) {
@@ -892,6 +931,8 @@
                     $("#popupAlertPosition_" + num).modal();
                 });
 
+                document.getElementById("brand").focus();
+
             }
 
             function SetContent_insta(num) {
@@ -914,6 +955,8 @@
                 $(document).ready(function () {
                     $("#popupAlertPosition_" + num).modal();
                 });
+
+                document.getElementById("brand").focus();
 
             }
 
@@ -1076,7 +1119,7 @@
         </script>
     </head>
 
-    <body>
+    <body onload="initialize();">
 
         <% top_menu = "HOME" %>
         
@@ -1084,23 +1127,22 @@
         <!-- #include virtual="/_include/top_menulist.asp" -->
         <div class="row" id="buttons_box">
             <div class="col-xs-3" >
-                <button type="button" onclick="get_all_data()" class="btn btn-primary btn-lg btn-block" style="font-size:6pt;">SNS</button>
+                <button type="button" onclick="get_all_data()" class="btn btn-lg btn-block" style="font-size:6pt; background-color: rgba(250, 100, 100, 0.9); box-shadow: 3px 3px #888888;">SNS</button>
             </div>
             <div class="col-xs-3">
-                <button type="button" id="myBtn1" class="btn btn-primary btn-lg btn-block" onclick="busking_popup_open();" style="font-size:6pt;">버스킹</button>
+                <button type="button" id="myBtn1" class="btn btn-lg btn-block" onclick="busking_popup_open();" style="font-size:6pt; background-color: rgba(250, 100, 100, 0.9); box-shadow: 3px 3px #888888;">버스킹</button>
             </div>
             <div class="col-xs-3">
-                <button type="button" id="myBtn2" class="btn btn-primary btn-lg btn-block" onclick="foodtruck_popup_open();" style="font-size:6pt;">푸드트럭</button>
+                <button type="button" id="myBtn2" class="btn btn-lg btn-block" onclick="foodtruck_popup_open();" style="font-size:6pt; background-color: rgba(250, 100, 100, 0.9); box-shadow: 3px 3px #888888;">푸드트럭</button><br>
             </div>
             <div class="col-xs-3">
-                <button type="button" id="myBtn3" class="btn btn-primary btn-lg btn-block" onclick="volunteer_popup_open();" style="font-size:6pt;">봉사활동</button>
+                <button type="button" id="myBtn3" class="btn btn-lg btn-block" onclick="volunteer_popup_open();" style="font-size:6pt; background-color: rgba(250, 100, 100, 0.9); box-shadow: 3px 3px #888888;">봉사활동</button>
             </div>
         </div>
         <hr />
 
         <div class="row" id="under_the_nav">
             <div class="col-sm-8" id="map">
-                map_box
             </div>
             <div class="col-sm-4" id="insta_box">
                 <%
@@ -1110,7 +1152,7 @@
                 <div class="row" id="board_box">
                     <div class="row" id="personal_box">
                         <div class="row" id="from_box1">
-                          <img id="from_img3" src="images/what3words.png" alt="" />
+                            <img id="from_img" src="images/what3words.png" alt="" />
                         </div>
                         <div class="row" id="image_box">
                            <img id="user_img" src="<%=rsSns("sns_file_upload_area_real") %>" alt="" style="cursor:pointer" />
@@ -1146,18 +1188,18 @@
                             <%=rsSns("sns_content_input_area") %>
                         </div>
                         <div class="row" id="go_to_box">
-                            <button type="button" class="btn btn-warning" onclick="go_to_place(this);" sno ="<%=num %>" id="snsbox_<%=num %>" sno_click_num ="<%=rsSns("sns_box_number") %>" latno="<%=rsSns("sns_latitude")%>" lonno="<%=rsSns("sns_longitude")%>" sno_image ="<%=rsSns("sns_file_upload_area_real") %>" >위치로 가기</button>
+                            <button type="button" class="btn btn-warning" onclick="go_to_place(this);" sno ="<%=num %>" id="snsbox_<%=num %>" sno_click_num ="<%=rsSns("sns_box_number") %>" latno="<%=rsSns("sns_latitude")%>" lonno="<%=rsSns("sns_longitude")%>" sno_image ="<%=rsSns("sns_file_upload_area_real") %>"  >위치로 가기</button>
                         </div>
                     </div>
                 </div>
-                <hr />
+                <hr style="border:solid 2px rgba(248, 89, 100, 0.7);"/>
                 <%
                     else
                 %>
                 <div class="row" id="board_box">
                     <div class="row" id="personal_box">
                         <div class="row" id="from_box1">
-                          <img id="from_img1" src="images/instagram.png" alt="" />
+                          <img id="from_img" src="images/instagram.png" alt="" />
                         </div>
                         <div class="row" id="image_box">
                            <img id="user_img" src="<%=rsSns("sns_file_upload_area_real") %>" alt="" style="cursor:pointer" />
@@ -1183,7 +1225,7 @@
                         </div>
                     </div>
                 </div>
-                <hr />
+                <hr style="border:solid 2px rgba(248, 89, 100, 0.7);"/>
                 <%
                     end if
                     num = num  + 1
@@ -1381,7 +1423,7 @@
                         <hr style="border:2px solid gray;">
                         <div class="row">
                             <div class="col-xs-4">
-                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message" onclick="reqChat(<%=rsSns("sns_box_number") %>, 1)" style="font-size:8pt; font-style:oblique;">채팅 신청</button>
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message" onclick="reqChat(<%=rsSns("sns_box_number") %>, 0)" style="font-size:8pt; font-style:oblique;">채팅 신청</button>
                             </div>
                             <div class="col-xs-4">
                                 <button type="button" class="btn btn-info btn-lg btn-block" id="user_profile" onclick="discover_user();" style="font-size:8pt; font-style:oblique;">회원 정보</button>
@@ -1470,7 +1512,7 @@
                         <hr style="border: 3px solid rgba(128, 128, 128, 0.3);" />
                         <div class="row">
                             <div class="col-xs-6">
-                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message2" onclick="reqChat(<%=rsSns_busking("article_number") %>, 2)">채팅 신청</button>
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message2" onclick="reqChat(<%=rsSns_busking("article_number") %>, 1)">채팅 신청</button>
                             </div>
                             <div class="col-xs-6">
                                 <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal" id="exit_content2" onclick="exit_content_busking(this)" sno_exit_num_2="<%=rsSns_busking("article_number") %>">창 닫기</button>
@@ -1518,7 +1560,7 @@
                         <hr style="border: 3px solid rgba(128, 128, 128, 0.3);" />
                         <div class="row">
                             <div class="col-xs-6">
-                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message3" onclick="reqChat(<%=rsSns_foodtruck("article_number") %>, 3);">채팅 신청</button>
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message3" onclick="reqChat(<%=rsSns_foodtruck("article_number") %>, 2);">채팅 신청</button>
                             </div>
                             <div class="col-xs-6">
                                 <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal" id="exit_content3" onclick="exit_content_foodtruck(this)" sno_exit_num_2="<%=rsSns_foodtruck("article_number") %>">창 닫기</button>
@@ -1566,7 +1608,7 @@
                         <hr style="border: 3px solid rgba(128, 128, 128, 0.3);" />
                         <div class="row">
                             <div class="col-xs-6">
-                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message4" onclick="reqChat(<%=rsSns_volunteer("article_number") %>, 4);">채팅 신청</button>
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="send_message4" onclick="reqChat(<%=rsSns_volunteer("article_number") %>, 3);">채팅 신청</button>
                             </div>
                             <div class="col-xs-6">
                                 <button type="button" class="btn btn-danger btn-lg btn-block" data-dismiss="modal" id="exit_content4" onclick="exit_content_volunteer(this)" sno_exit_num_4="<%=rsSns_volunteer("article_number") %>">창 닫기</button>
@@ -1582,7 +1624,7 @@
             rsSns_volunteer.MoveFirst
         %>
         <!-- 팝업창 Volunteer -->
-        <script type="text/javascript">
+        <script>
             function return_number_of_write() {
                 return <%=num %>;
             }
@@ -1600,6 +1642,7 @@
             }
 
         </script>
+        <script type="text/javascript" src="/_script/community.js?ver=1"></script>
     </body>
 </html>
 <!-- #include virtual="/_include/connect_close.inc" -->

@@ -35,9 +35,9 @@
                     </td>
   					<td width="17%">
                           <% if MENU = "CHAT" then %>
-                          <a href="/chat/chat_state.html" target="_top" onclick="window.open(this.href, 'W3W Chatting','width=300,height=400,scrollbars=0,status=no');return false;"><img src="/images/topicon_chat.png" border="0" style="height:25px;" /></a>
+                          <a href="/chat/chat_state.html" target="_top" onclick="window.open(this.href, 'W3W Chatting','width=10%,height=20%,scrollbars=0,status=no');return false;"><img src="/images/topicon_chat.png" border="0" style="height:25px;" /></a>
                           <% else %>
-                          <a href="/chat/chat_state.html" target="_top" onclick="window.open(this.href, 'W3W Chatting','width=300,400=600,scrollbars=0,status=no');return false;"><img src="/images/topicon_chat.png" border="0" style="height:25px;opacity:0.5;" /></a>
+                          <a href="/chat/chat_state.html" target="_top" onclick="window.open(this.href, 'W3W Chatting','width=10%,height=20%,scrollbars=0,status=no');return false;"><img src="/images/topicon_chat.png" border="0" style="height:25px;opacity:0.5;" /></a>
                           <% end if %>
                     </td>
 					<% end if %>

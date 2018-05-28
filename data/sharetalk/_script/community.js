@@ -18,12 +18,16 @@ function Community(){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200){
+            if (this.responseText == "채팅") alert(this.responseText);
             var data = this.responseText.split(',');
-            if (data[0] == "새 채팅")  PopupChatReq(data);
+            if (data[0] == "새 채팅"){
+                alert("채팅 신청이 도착했습니다.");
+                PopupChatReq(data);
+            }
             else if (data[0] == "채팅 시작"){
                 var id = [data[1],data[2]];
                 window.name = "w3w";
-                openWin = window.open("/chat/ichat.asp?otherid=" + data[1], "1대1 채팅", "width=500, height=600, resizable=no, scrollbars = no");
+                openWin = window.open("/chat/chat.asp?otherid=" + data[1], "1대1 채팅", "width=500, height=600, resizable=no, scrollbars = no");
             }
             else if (this.responseText != "")   alert(this.responseText);
             xhr = null;
@@ -62,7 +66,7 @@ function resChat(accept, id){
         if (this.readyState == 4 && this.status == 200){
             var data = this.responseText.split(',');
             if (data[0] == "수락"){
-                location.href("/chat/ichat.asp?otherid=" + data[1]);
+                location.replace("/chat/chat.asp?otherid=" + data[1]);
             }
             else if (this.responseText == "거절") window.close();
             xhr = null;

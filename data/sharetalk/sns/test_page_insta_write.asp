@@ -1,92 +1,133 @@
 ﻿<!-- #include virtual="/_include/connect.inc" -->
-<!-- #include virtual="/_include/words.asp" -->
+<!-- #include virtual="/_include/login_check.inc" -->
+<%
+    input_user = Request.Cookies("member_name")
+    input_userid = Session("member_no")
+%>
 <html lang="ko">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>What3Words Home</title>
-        <link rel="stylesheet" href="/_css/style.css" type="text/css">      
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        <style>
-            #under_the_nav{
-                width:100%;
-                height:100%;
-                display:flex;
-                flex-flow: row nowrap;
-                justify-content: space-between;
-                margin-top:70px;
+        <link rel="stylesheet" href="/_css/style.css" type="text/css"> 
+        <link rel="stylesheet" href="../_font/font_folder.css" type="text/css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="/_css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <style>  
+            .info_box_1{
+                margin-top:80px;
+                text-align: center;
             }
-            #write_box{
-                width:100%;
-                height:100%;
-                margin-left:10%;
-                margin-right:10%;
-                margin-bottom:50%;
-                padding:2%;
-                border:1px red solid;
+            .info_box_2{
+                margin-top:10px;
+                text-align: center;
+                font-family: misaeng, sans-serif;
             }
-            .content_box{
-                text-align:center;
-            }
-            .content_zone{
-
+            .content_info{
+                background-color:rgba(248, 89, 100, 0.7);
+                font-family: Typo, sans-serif;
             }
             .content_input{
-
+                text-align:center;
+                margin:20px;
+                font-family: THESusu, sans-serif;
             }
             #content_input_area{
                 width:100%;
-                min-height:200px;
+                min-height:180px;
+                border:5px solid rgba(128,128,128,0.7);
+                border-radius: 5px;
+            }
+            .file_info{
+                background-color:rgba(248, 89, 100, 0.7);
+                font-family: Typo, sans-serif;
+            }
+            .file_upload{
+                text-align:center;
+                margin:20px;
+                border:5px solid rgba(128,128,128, 0.7);
+                border-radius: 5px;            
+            }
+            .file_upload_box{
+                width:100%;              
             }
             .file_upload_box{
                 text-align:center;
             }
-            .file_zone{
-
-            }
-            .file_upload{
-
-            }
             #file_upload_area{
                 width:100%;
             }
-            .location_box{
-                text-align:center;
-            }
-            .location_zone{
+            .location_info_1{
+                background-color:rgba(248, 89, 100, 0.7);    
+                font-family: Typo, sans-serif;
 
             }
+            .location_info_2{
+                text-align:left;
+                margin-left:35px;
+                margin-right:35px;
+                background-color:rgba(240, 237, 199, 0.7);   
+                font-family: Typo, sans-serif;
+
+            }
+            .address_input_box{
+                margin:20px;
+            }
+            .address_button_box{
+                margin-right:20px;
+                margin-left:20px;
+            }
+            .my_location_info{
+                margin-top:15px;
+                background-color:rgba(100, 200, 100, 0.8);
+            }
             .lat_input{
-                width:100%;
+                text-align:left;
+                margin-left:80px;
+                margin-right:80px;
+                margin-top:5px;
+                background-color:rgba(100, 200, 100, 0.5);
             }
             .log_input{
-                width:100%;
-            }
-            #latitude{
-                width:100%;
-            }
-            #logitude{
-                width:100%;
+                text-align:left;
+                margin-left:80px;
+                margin-right:80px;
+                margin-top:5px;
+                background-color:rgba(100, 200, 100, 0.5);
             }
             .button_box{
                 text-align:center;
+                margin:20px;
             }
-            .geo_address_row
+            #map{
+                border:10px solid rgba(100, 200, 100, 0.5);
+                border-radius: 10px;
+                width:100%;
+                height:50%;
+            }
         </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
-        <script src="/_script/login.js"></script>
         <script type="text/javascript">
             var lat_r ="";
             var log_r = "";
+            var map;
+            function initialize() {
+             var Y_point = 37.6388235; // Y 좌표
+             var X_point = 127.0647555; // X 좌표
+             var zoomLevel = 17; // 첫 로딩시 보일 지도의 확대 레벨
+
+             var myLatlng = new google.maps.LatLng(Y_point, X_point);
+             var mapOptions = {
+             zoom: zoomLevel,
+             center: myLatlng,
+             mapTypeId: google.maps.MapTypeId.ROADMAP
+             }
+
+             map = new google.maps.Map(document.getElementById('map'), mapOptions);
+            }
             function geoFind() {
                 //Geolocation API에 액세스할 수 있는지를 확인
-                alert("System start finding your location... Please wait for completion");
                 if (navigator.geolocation) {
                     //위치 정보를 얻기
                         navigator.geolocation.getCurrentPosition(function (pos) {
@@ -99,8 +140,9 @@
                 } else {
                     alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.")
                 }
-            }
+                var geocoder = new google.maps.Geocoder;
 
+            }
             function write_upload() {
                 var content_input_area = document.getElementById("content_input_area").value;
                 var file_path = document.getElementById("file_upload_area").value;
@@ -185,74 +227,105 @@
                     $('#longitude').html(faddr_lng);   // 경도
                     lat_r = faddr_lat;
                     log_r = faddr_lng;
+                    var marker_selected = { lat: parseFloat(lat_r), lng: parseFloat(log_r) };
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 19,
+                        center: marker_selected
+                    });
+                    var marker_set = new google.maps.Marker({
+                        position: marker_selected,
+                        map: map,
+                        title: "회원님의 위치입니다."
+                    });
                     return;
                 });
-                
+            }
 
+            function reverseGeocode(geocoder) {
+                if(lat_r == ""){
+                    return false;
+                }else{
+                     geocoder.geocode({lat_r, log_r}, function(result, state){
+                        if(status === 'OK'){
+                            alert("회원님의 현재 위치는 [" + results[1].formatted_address + "] 로 확인됩니다.");
+                        }
+                    });
+                    return true;             
+                }
             }
         </script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpEil7kuKIY3O4KzsWQkJ7fYFPkbyWLIc&callback=initMap"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwrfz2MVZoTgp-8XvRRrdSyba3_gV_4VU"></script>
     </head>
 
-    <body>
+    <body onload="initialize();">
         <% top_menu = "HOME" %>
-        
         <!-- #include virtual="/_include/top_menu.asp" -->
         <!-- #include virtual="/_include/top_menulist.asp" -->
-        <div id="under_the_nav">
-            <div id="write_box">
-                <div class="content_box row">
-                    <div class="content_zone col-sm-2 col-lg-2">
-                        CONTENT
-                    </div>
-                    <div class="content_input col-sm-10 col-lg-10">
-                        <textarea id="content_input_area"></textarea>
-                    </div>
-                </div>
-                <div class="file_upload_box row">
-                    <div class="file_zone col-sm-2 col-lg-2">
-                        FILE UPLOAD
-                    </div>
-                    <div class="file_upload col-sm-10 col-lg-10">
-                        <input type="file" id="file_upload_area"/>
-                    </div>
-                </div>
-                <div class="location_box row">
-                    <div class="change_address_box row">
-                        <div class="location_zone col-sm-2 col-lg-2">
-                            LOCATION
-                        </div>
-                        <div class="address_input_box col-sm-8 col-lg-8">
-                            <input id="address" style="width:95%;" type="text" value="본인이 원하는 위치를 작성해주세요." />
-                        </div>
-                        <div class="address_change_button1 col-sm-1 col-lg-1">
-                            <button type="button" onclick="geoCode();">주소 변환</button>
-                        </div>
-                        <div class="address_change_button2 col-sm-1 col-lg-1">
-                            <button type="button" onclick="geoFind();">위치 자동 찾기</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="lat_input col-sm-5 col-lg-5">
-                            <ul>
-                                <li>위도 :<span id="latitude"></span></li>
-                            </ul>
-                        </div>
-                        <div class="log_input col-sm-5 col-lg-5">
-                            <ul>
-                                <li>경도 :<span id="longitude"></span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <hr />
-                <div class="button_box row">
-                    <input type="submit" value="확인" onclick="write_upload()"/>
-                    <input type="button"value="취소" onclick="BacktoDefault()" />
-                </div>
+        <div class="info_box_1 row">
+            <div class="content_info row">
+                글을 작성해주세요
+             </div>        
+            <div class="content_input row">
+                <textarea id="content_input_area"></textarea>
             </div>
         </div>
-        <div id="result_msg">
+        <div class="info_box_2 row">
+            <div class="file_info row">
+                사진을 업로드 해주세요
+            </div>
+            <div class="file_upload row">
+                <input type="file" id="file_upload_area"/>
+            </div>
+        </div>
+        <div class="info_box_2 row">
+            <div class="location_info row">
+                <div class="location_info_1 row">
+                    본인의 위치를 찾아주세요<br>
+                </div>
+                <div class="location_info_2 row">
+                    [방법1] 간략한 주소를 입력 후 (주소변환) CLICK!<br>
+                    [방법2] (위치 자동 찾기) CLICK! 으로 본인위치 확인<br>
+                </div>
+            </div>
+            <div class="address_input_box row">
+                <input id="address" style="width:95%;" type="text" placeholder="회원님 위치를 작성해주세요." />
+            </div>
+            <div class="address_button_box row">
+                <div class="address_change_button col-xs-6">
+                    <button type="button" class="btn btn-lg btn-block" style="background-color:rgba(248, 89, 100, 0.7); box-shadow: 3px 3px #888888;" onclick="geoCode();">주소 변환</button>
+                </div>
+                <div class="address_search_button col-xs-6">
+                    <button type="button" class="btn btn-lg btn-block" style="background-color:rgba(248, 89, 100, 0.7); box-shadow: 3px 3px #888888;" onclick="geoFind();">위치 자동 찾기</button>
+                </div>
+            </div>
+            <div class="my_location_info row">
+                선택된 회원님의 위치입니다.
+            </div>
+            <div class="lat_input row">
+                <ul>
+                    <li>위도 :<span id="latitude"></span></li>
+                </ul>
+            </div>
+            <div class="log_input row">
+                <ul>
+                    <li>경도 :<span id="longitude"></span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="info_box_2 row">
+            <div id="map">
+            </div>
+        </div>
+        <hr style="border:3px solid rgba(128, 128, 128, 0.5);">
+        <div class="info_box_2 row">
+            <div class="button_box row">
+                <div class="button_yes col-xs-6">
+                <button type="button" class="btn btn-success btn-lg btn-block" style="box-shadow: 3px 3px #888888;" onclick="write_upload()">확인</button>
+                </div>
+                <div class="button_no col-xs-6">
+                <button type="button" class="btn btn-danger btn-lg btn-block" style="box-shadow: 3px 3px #888888;" onclick="BacktoDefault()">취소</button>
+                </div>   
+            </div>
         </div>
     </body>
 </html>

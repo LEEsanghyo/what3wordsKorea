@@ -1,6 +1,5 @@
 ﻿<!-- #include virtual="/_include/connect.inc" -->
 <%
-	response.charset = "UTF-8"
 
     profile_desc = request("profile_desc")
     member_interest = request("member_interest")

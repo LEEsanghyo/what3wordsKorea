@@ -3,38 +3,107 @@
 <html>
 	<head>
 		<title>What3Words</title>
+		<link rel="stylesheet" href="../_font/font_folder.css" type="text/css">
 		<style type="text/css">
 			@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 			*{ font-family: 'Jeju Gothic'; color:white; }
-			button{
-				width: 25%;
-				height: 35px;
-				margin-right: 5%;
-				margin-top: 5%;
-				font-size: 110%;
-				border:solid;
-				background: url("/images/b.png");
-			}
+	        body{
+				height:100%;
+				width:100%;
+				background: url("korea.png") no-repeat center center fixed;
+				-webkit-background-size: cover;
+				-moz-background-size: cover;
+				-o-background-size: cover;
+				background-size: cover;  	
+	        }
+	        html{
+	        	height:100%;
+	        	width:100%;
+	        }
+	        div{
+	        	text-align: center;
+	        }
+	        .btn{
+	        	margin-top:10px;
+	        	color:black;
+	        }
+	        button{
+
+	        }
 		</style>
+        <link rel="stylesheet" href="/_css/bootstrap.min.css">
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 	</head>
 	<body>
-		<p align="center" style="text-align:center; font-size: 2em;margin-top: 20px; color:#6666CC">지역을 선택하세요.</p>
-		<p align="center"><button onclick="location.href='chat.asp?roomid=\'seoul\''">서울</button>
-		<button onclick="location.href='chat.asp?roomid=\'kki\''">경기</button>
-		<button onclick="location.href='chat.asp?roomid=\'kwon\''">강원</button></p>
-		<p align="center"><button onclick="location.href='chat.asp?roomid=\'icheon\''">인천</button>
-		<button onclick="location.href='chat.asp?roomid=\'kwanju\''">광주</button>
-		<button onclick="location.href='chat.asp?roomid=\'busan\''">부산</button></p>
-		<p align="center"><button onclick="location.href='chat.asp?roomid=\'daegu\''">대구</button>
-		<button onclick="location.href='chat.asp?roomid=\'daejeon\''">대전</button>
-		<button onclick="location.href='chat.asp?roomid=\'ulsan\''">울산</button></p>
-		<p align="center"><button onclick="location.href='chat.asp?roomid=\'sejong\''">세종특별시</button>
-		<button onclick="location.href='chat.asp?roomid=\'chungbuk\''">충북</button>
-		<button onclick="location.href='chat.asp?roomid=\'chungnam\''">충남</button></p>
-		<p align="center"><button onclick="location.href='chat.asp?roomid=\'jeonbuk\''">전북</button>
-		<button onclick="location.href='chat.asp?roomid=\'jeonnam\''">전남</button>
-		<button onclick="location.href='chat.asp?roomid=\'kbuk\''">경북</button></p>
-		<p align="center"><button onclick="location.href='chat.asp?roomid=\'knam\''">경남</button>
-		<button onclick="location.href='chat.asp?roomid=\'jeju\''">제주</button></p>
+		<p align="center" style="text-align:center; font-size: 2em;margin-top: 30px; margin-bottom:30px; color:#ffffff;background: rgba(0, 0, 0, 0.8);">지역을 선택하세요.</p>
+		<div class="row">
+			<div class="col-xs-4">
+			<button class="btn btn-danger btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'seoul\''">서울</button>
+			</div>
+			<div class="col-xs-4">
+			<button class="btn btn-danger btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'kki\''">경기</button>
+			</div>
+			<div class="col-xs-4">
+			<button class="btn btn-danger btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'kwon\''">강원</button>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4">
+			<button class="btn btn-warning btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'icheon\''">인천</button>
+			</div>
+			<div class="col-xs-4">
+			<button class="btn btn-warning btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'kwanju\''">광주</button>
+			</div>
+			<div class="col-xs-4">
+			<button class="btn btn-warning btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'busan\''">부산</button>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4">
+			<button class="btn btn-info btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'daegu\''">대구</button>
+			</div>
+			<div class="col-xs-4">
+			<button class="btn btn-info btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'daejeon\''">대전</button>
+			</div>
+			<div class="col-xs-4">
+			<button class="btn btn-info btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'ulsan\''">울산</button>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4">
+			<button class="btn btn-primary btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'sejong\''">세종특별시</button>
+			</div>
+			<div class="col-xs-4">
+			<button class="btn btn-primary btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'chungbuk\''">충북</button>
+			</div>
+			<div class="col-xs-4">
+			<button class="btn btn-primary btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'chungnam\''">충남</button>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4">
+			<button class="btn btn-success btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'jeonbuk\''">전북</button>
+			</div>
+			<div class="col-xs-4">
+			<button class="btn btn-success btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'jeonnam\''">전남</button>
+			</div>
+			<div class="col-xs-4">
+			<button class="btn btn-success btn-lg btn-block" onclick="location.href='chat.asp?roomid=\'kbuk\''">경북</button>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-6">
+			<button class="btn btn-basic btn-lg btn-block" style="background-color:pink; color:#232323;" onclick="location.href='chat.asp?roomid=\'knam\''">경남</button>
+			</div>
+			<div class="col-xs-6">
+			<button class="btn btn-basic btn-lg btn-block" style="background-color:pink;" onclick="location.href='chat.asp?roomid=\'jeju\''">제주</button>
+			</div>
+		</div>
 	</body>
 </html>

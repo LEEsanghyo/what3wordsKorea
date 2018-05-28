@@ -1,0 +1,136 @@
+  
+#buttons_box{
+    margin-top:70px;
+    padding:1%;
+    height:10px;
+    text-align:center;
+}
+#under_the_nav{
+    padding-left:5%;
+    padding-right:5%;
+    padding-top:1%;
+    height:600px;
+}
+#map{
+	margin-top:20px;
+    border:10px ridge #25529c;
+    height:600px;
+}
+#insta_box{
+    height:600px;
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
+#board_box{
+    height:90%;
+    border-top:5px solid rgba(128,128,128,0.7);
+    border-bottom:5px solid rgba(128,128,128,0.7);
+}
+#date_box{
+    margin:5px;
+    height:5%;
+    text-align:left;
+    font-size:20pt;
+    font-style:italic;
+}
+#personal_box{
+    margin-top:5px;
+    padding:5px;
+    height:100%;
+}
+#from_box1{
+    margin:5px;
+    height:5%;
+    text-align: left;
+}
+#from_box2{
+    margin:5px;
+    height:5%;
+    text-align:left;
+}
+#tag_box{
+    margin:5px;
+    padding:5px;
+    height:5%;
+    font-style:italic;
+    color:#25529c;
+}
+#image_box{
+    margin:5px;
+    padding:5px;
+    height:50%;
+    object-fit:contain;
+}
+#content_box{
+    margin:5px;
+    height:25%;
+    padding:5px;
+    border:5px solid rgba(128,128,128,0.5); 
+}
+#link_box{
+    text-align:center;
+    margin:5px;
+    height:3%;
+    cursor:pointer;
+}
+#go_to_box{
+    text-align:center;
+    margin:5px;
+    height:3%;
+    cursor:pointer;
+}
+#user_img{
+    width:100%;
+    height:100%;   
+    object-fit:contain;
+}
+#from_img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor:pointer;
+}
+.popup_content_viewer{
+    font-size:20px;
+    text-align:center;
+    color:#00ff00;
+}
+@media screen and (min-width:200px){
+    #map{
+        border:10px ridge #25529c;
+        height:400px;
+    }
+    body::-webkit-scrollbar{
+        display:none;
+    }
+    #insta_box {
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        margin-top:20px;
+    }
+    #insta_box::-webkit-scrollbar{
+        display:none;
+    }
+    #board_box{
+        height:90%;
+        border-top:5px solid rgba(128,128,128,0.7);
+        border-bottom:5px solid rgba(128,128,128,0.7);
+    }
+    .modal::-webkit-scrollbar{
+        display:none;
+    }
+    .container{
+        width:100%;
+        max-width: none !important;
+    }
+}
+.modal{
+    background:rgb(0,0,0);
+    background:rgba(0,0,0,0.4);
+    z-index:1;
+    margin-top:70px;
+}
+.modal-dialog{
+    background:rgb(255,255,255);
+}

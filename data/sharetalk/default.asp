@@ -1,27 +1,9 @@
 <!-- #include virtual="/_include/connect.inc" -->
-<!-- #include virtual="/_include/words.asp" -->
-<%
-    MENU = "HOME"
-
-	'카테고리 리스트 불러오기
-    strSQL = "p_tsm_category_list_read "
-
-    Set rsCategory = Server.CreateObject("ADODB.RecordSet")
-    rsCategory.Open strSQL, DbConn, 1, 1
-
-    if rsCategory.EOF or rsCategory.BOF then
-	   NoDataCategory = True
-    Else
-	   NoDataCategory = False
-    end if
-	
-	set rsCategory = nothing
-%>
 <!Doctype html>
 <html lang="ko">
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
 		<title>What3Words Home</title>
 		<link rel="stylesheet" href="/_css/style.css" type="text/css">
 		<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
@@ -34,58 +16,62 @@
 				margin:auto;
 				width:200px;
 				height:20px;
-				border: none;
-				border-bottom:skyblue solid 0.2px;
+			    border: 3px solid rgba(248, 88, 91, 0.7);
+			    border-radius: 2px;
 				background-color: none;
+				font-style: italic;
 			}
 			.lbutton{
-				margin: 0px 15px 0px 15px;
-				color: #6666CC;
 				font-family:'Jeju Gothic', sans-serif;
-				font-size:20px;
+				font-size:15px;
+			    background-color: rgba(248, 88, 91, 0.9);
+			    border: none;
+			    color:#fff;
+			    padding:7px;
+			    margin-right:5px;
+			    text-align: center;
+			    display: inline-block;
+			    cursor: pointer;
+			    border-radius: 10px;
+			}
+			html{
+				background:none;
+				height:100%;
+				width: 100%;
+			}
+			body{
+				height:100%;
+				width:100%;
+				background: url("what3words_logo_real.png") no-repeat center center fixed;
+				-webkit-background-size: cover;
+				-moz-background-size: cover;
+				-o-background-size: cover;
+				background-size: 100% 100%;	
+			}
+			div{
+				position: relative;
+				top: 40%;
 			}
 		</style>
 	</head>
 
 	<body>
-		<% MENU = "HOME" %>
-		
-		<!-- #include virtual="/_include/top_menu.asp" -->
-		<!-- #include virtual="/_include/top_menulist.asp" -->
-		<div class="content" style="margin-top:70px;">
-		<!-- 네비게이션 바 -->
-		<div style="margin-top:90px;width:100%;height:40px;">
-			<nav2>
-				<ul class="category">
-					<% if NoDataCategory = False then ' 데이터가 있으면 데이터 출력
-					Do While Not rsCategory.EOF %>
-					<li class="category"><a href="default.asp?cat_no=<%=rsCategory("cat_no") %>"><%=rsCategory("cat_name") %></a></li>
-					<%
-					rsCategory.MoveNext
-					Loop
-					end if
-					set rsCategory = nothing
-					%>
-				</ul>
-			</nav2>
-		</div>
-
 		<!-- 로그인 안되어있을 시 로그인 창 띄우기 -->
 		<% if Session("member_no") then
 			response.redirect "/map/navigator.asp"
 		else %>
-		<div style="margin:auto;width:30%">
-			<h1 style="color:#148CFF">What3Words</h1>
+		<div>
 			<p><input class="login" type="email" placeholder="이메일" id="member_email" onkeypress="if(event.keyCode==13){LoginConfirm(null);}"></p>
 			<p><input class="login" type="password" placeholder="비밀번호" id="member_pwd" onkeypress="if(event.keyCode==13){LoginConfirm(null);}"></p>
-			<p><a class="lbutton" onclick="LoginConfirm(null);">로그인</a><a class="lbutton" href="/account/member_register.asp">회원가입</a></p>
-		</div>
+			<p><a class="lbutton" onclick="LoginConfirm(null);" style="margin-left:20px" style="">로그인</a><a class="lbutton" href="/account/member_register.asp">회원가입</a></p>
+		
 
-		<!-- 네이버 / 카카오 / 구글 로그인 -->
-		<p><a align="center" id="naverIdLogin"></a>
-		<image align="center" id="kakao-login-btn" src="/images/kl.png" style="margin:-40px 20px 0px 20px;cursor:pointer;width:50px;height:50px" onclick="kLogin()">
-		<image align="center" id="firebaseui-auth-contanier" src="/images/glogin.png" style="margin-top:-40px;cursor:pointer;width:50px;height:50px;" onclick="GoogleLogin()">
-		</p>
+			<!-- 네이버 / 카카오 / 구글 로그인 -->
+			<p><a align="center" id="naverIdLogin" style="margin-left:15px"></a>
+			<image align="center" id="kakao-login-btn" src="/images/kl.png" style="margin:-40px 20px 0px 20px;cursor:pointer;width:50px;height:50px" onclick="kLogin()">
+			<image align="center" id="firebaseui-auth-contanier" src="/images/glogin.png" style="margin-top:-40px;cursor:pointer;width:50px;height:50px;" onclick="GoogleLogin()">
+			</p>
+		</div>
 		<script type="text/javascript" src="/_script/login.js?ver=1"></script>
 		<% end if %>
 		</script>

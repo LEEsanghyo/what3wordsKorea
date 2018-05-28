@@ -11,12 +11,12 @@
     <meta charset="UTF-8">
     <meta name="author" content="LIM-YOUN-SOO" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Whar3Words</title>
+    <title>What3Words</title>
 
     <link rel="stylesheet" href="/_css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../_css/navigator.css?ver=1" />
-    
+    <link rel="stylesheet" href="/_css/navigator.css" />
+    <link rel="stylesheet" href="/_font/font_folder.css" />
     <style>
         .btnTime {
             background-color: #9DB81A;
@@ -151,7 +151,6 @@
             animation: spin 2s linear infinite;
         }
 
-
         @-webkit-keyframes spin {
             0% {
                 -webkit-transform: rotate(0deg);
@@ -199,6 +198,37 @@
             border-radius: 50%;
             width: 50px;
             height: 50px;
+        }
+        #route_button {
+          -webkit-transition: all 50ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+          -moz-transition: all 50ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+          -ms-transition: all 50ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+          -o-transition: all 50ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+          transition: all 50ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+          max-width: 130px;
+          text-decoration: none;
+          border-radius: 4px;
+          padding: 5px 5px;
+          color: rgba(30, 22, 54, 0.6);
+          box-shadow: rgba(250, 100, 100, 0.7) 0 0px 0px 2px inset;
+          font-size:8pt;
+          font-family: Typo, sans-serif;
+        }
+
+        #route_button:hover {
+            color: rgba(255, 255, 255, 0.85);
+            box-shadow: rgba(250, 100, 100, 0.7) 0 0px 0px 40px inset;
+        }
+        #next_route_button{
+            font-family: Hoon, sans-serif;
+            background-color:rgba(80, 80, 80, 0.7);
+
+        }
+        #route_info{
+            font-family:Typo, sans-serif;
+        }
+        #category{
+            font-family:THEDdobak, sans-serif;
         }
     </style>
 
@@ -254,6 +284,21 @@
                 </td>
             </tr> -->
         </table>
+        <div id="route_info" style="width:100%; margin-left:10px;">
+            <table>
+                <tr>
+                    <td style="width:25%; font-size:20pt; background-color:rgba(250, 100, 100, 0.7); text-align: center;">
+                        TIP
+                    </td>
+                    <td style="width:100%; text-align: left;">
+                        &nbsp 1. 지도를 움직여 마커 생성<br>
+                        &nbsp 2. 마커를 클릭하여 경로 추가<br>
+                        &nbsp 3. '->' 표시를 눌러 네비게이션 사용
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <hr>
         <table width=100%>
             <tr>
                 <td>
@@ -375,11 +420,7 @@
     <div class="loader" style="display:none;" id="loader"> 
         </div>
 
-
     
-
-
-
     <script type="text/javascript">
         var othercoords;
         var map;  // 지도 변수 
@@ -565,7 +606,7 @@
 
                 str[strcnt] = document.createElement('input');
                 str[strcnt].type = "button";
-
+                str[strcnt].id = "route_button";
                 str[strcnt].value = inode.name;
 
                 route.appendChild(str[strcnt]);
@@ -578,6 +619,7 @@
                     // obj.onclick = showRoute(node, node.next);
                     obj[objcnt].style = "padding:0 5px;margin:0 5px;";
                     obj[objcnt].value = "->";
+                    obj[objcnt].id ="next_route_button";
 
                     (function (str, strcnt, obj, inode) {
                         str[strcnt].addEventListener("click", function () {
@@ -748,10 +790,6 @@
                                 var t = $("<a href='javascript:void(0)' onclick='closePopUp();'><span class='btnTime'>NO</span></a>");
                                 $("#customAlert").append(t);
 
-
-
-
-
                                 //mouseMarker.setMap(null);
                                 //mouseInfowindow.close();
                             });
@@ -790,7 +828,7 @@
                 success: function (data) {
                     center3words = data;
 
-                    var content = '<div style="padding:5px;">' + center3words + '</div>';
+                    var content = '<div style="padding:5px; font-family:Typo, sans-serif; text-align:center;">' + center3words + '</div>';
 
                     centerMarker = new daum.maps.Marker({
                         map: map,
@@ -1230,11 +1268,6 @@
             searchRoute(finalStationNode, finalNode);
 
             //   setTimeout(function () { searchRoute(finalStationNode, finalNode); }, 300); 
-
-
-
-
-
 
             polyline[polylineCount++] = new daum.maps.Polyline({
                 map: map,

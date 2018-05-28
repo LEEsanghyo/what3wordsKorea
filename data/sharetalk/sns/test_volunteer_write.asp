@@ -1,5 +1,4 @@
 ﻿<!-- #include virtual="/_include/connect.inc" -->
-<!-- #include virtual="/_include/words.asp" -->
 <%
     input_user = Request.Cookies("member_name")
     input_userid = Session("member_no")
@@ -149,7 +148,7 @@
 		        }
 		        else {
                     var content = content_input_area.replace(/\n/g, '<br/>');
-                    var user = <%=input_user%>;
+                    var user = '<%=input_user%>';
                     var userid = <%=input_userid%>;
 		            var strurl = "test_send_write_daily.asp?file_upload_area_real=" + file_upload_area_real + "&title_input=" + title_input + "&content_input_area=" + content + "&latitude=" + latitude + "&longitude=" + longitude +"&code=" + volunteer_code + "&input_user=" + user + 7"&input_userid=" + userid;
 
