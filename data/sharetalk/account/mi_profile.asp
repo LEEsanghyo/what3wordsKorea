@@ -27,14 +27,6 @@
     <meta name="keywords" content="글공유">
     <title>What3Words</title>
     <link rel="stylesheet" href="/_css/style.css" type="text/css">
-    <style type="text/css">
-      #profile { 
-        width: 120px; height: 120px;
-        object-fit: cover;
-        object-position: top;
-        border-radius: 50%;
-      }
-    </style>
   </head>
 
   <body>
@@ -43,16 +35,16 @@
     <!-- #include virtual="/_include/top_menulist.asp" -->
     <div class="content" style="margin-top:70px;">
       <div style="margin:5px;border: solid 0px #DDDDDD; position: relative;">
-        <input type="hidden" id="back_url">
         <img id="back" src="<%=back_url %>" style="width:100%;height:150px" onclick="document.getElementById('id01').style.display='block'"/>
       </div>
+
       <div align="center" style="position: relative; top: -65px;">
-        <input type="hidden" id="profile_url">
         <img id="profile" src="<%=prof_url %>" onclick="document.getElementById('id01').style.display='block'"/>
         <p>
           <input id="member_name" type="text" align="center" style="text-align: center; background-color: #FFFFFF; border: none;" value="<%=member_name%>" >
         </p>
       </div>
+
       <div style="width:100%;display:flex;justify-content:center;margin: 10px; position: relative; top: -50px">  
         <table style="width:100%;" border="0" cellpadding="0" cellspacing="0">
           <tr>
@@ -74,33 +66,34 @@
           </tr>
         </table>
       </div>
-    </div>
-    </div>
+    </div >
+
     <div id="id01" class="w3-modal">
       <div class="w3-modal-content">
         <div class="w3-container">
-            <form id="upload" method="POST" enctype="multipart/form-data">
-              <input type="file" name="imgupload" id="file" style="display:none" accept=".jpg,.png,.bmp,.jpeg,.gif" onchange="upload()">
-              <p onclick="eventOccur(document.getElementById('file'), 'click')">이미지 선택</p>
-            </form>
-            <p onclick="deleteImg();document.getElementById('id01').style.display='none'">이미지 삭제</p>
-            <p onclick="document.getElementById('id01').style.display='none'">취소</p>
-          </div>
+          <form id="uploadback" method="POST" enctype="multipart/form-data">
+            <input type="file" name="backupload" id="b" style="display:none" accept=".jpg,.png,.bmp,.jpeg,.gif" onchange="upload(0)">
+            <p onclick="eventOccur(document.getElementById('b'), 'click')">배경 이미지 선택</p>
+          </form>
+          <form id="uploadprof" method="POST" enctype="multipart/form-data">
+            <input type="file" name="profupload" id="p" style="display:none" accept=".jpg,.png,.bmp,.jpeg,.gif" onchange="upload(1)">
+            <p onclick="eventOccur(document.getElementById('p'), 'click')">프로필 이미지 선택</p>
+          </form>
+          <p onclick="deleteImg();document.getElementById('id01').style.display='none'">프로필 이미지 삭제</p>
+          <p onclick="document.getElementById('id01').style.display='none'">취소</p>
         </div>
       </div>
     </div>
-    <script type="text/javascript" src="/_script/account.js?ver=1"></script>
+
+    <script type="text/javascript" src="/_script/account.js"></script>
     <script type="text/javascript">
-      var purl = '<%=prof_url%>';
       var interest = [<%=member_interest%>];
       document.getElementById('member_interest').value = interest;
-      document.getElementById('profile_url').value = purl;
       setInterestText(interest);
 
       function eventOccur(evEle, evType){
-        if (evEle.fireEvent) {
-          evEle.fireEvent('on' + evType);
-        } else {
+        if (evEle.fireEvent) evEle.fireEvent('on' + evType);
+        else {
           //MouseEvents가 포인트 그냥 Events는 안됨~ ??
           var mouseEvent = document.createEvent('MouseEvents');
           /* API문서 initEvent(type,bubbles,cancelable) */
@@ -116,26 +109,4 @@
     </script>
   </body>
 </html>
-
-<!-- login action start -->
-<div id="popupBoxLogin">
-  <div class="popupBoxWrapper">
-    <div class="popupBoxContent">
-      <table width="100%" border="0">
-        <tr style="height:40px;">
-          <td width="10%;" align="center"></td>
-          <td width="40%;" align="center">
-            <input type="text" style="width:100%;" id="member_pwd" placeholder="비밀번호" />
-          </td>
-          <td style="width:1px;background:#CCCCCC;"></td>
-          <td width="50%;" align="center">
-            <input type="button" value="로그인" onclick="LoginConfirm();"  />
-            <input type="button" value="취소" onclick="toggle_visibility('popupBoxLogin');"  />
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
-</div>
-<!-- login action end -->
 <!-- #include virtual="/_include/connect_close.inc" -->

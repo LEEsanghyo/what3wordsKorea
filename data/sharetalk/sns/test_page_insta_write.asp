@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="/_css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/_script/account.js"></script>
         <style>  
             .info_box_1{
                 margin-top:80px;
@@ -148,9 +149,7 @@
             }
             function write_upload() {
                 var content_input_area = document.getElementById("content_input_area").value;
-                var file_path = document.getElementById("file_upload_area").value;
-                var file_upload_area = file_path.split("\\");
-                var file_upload_area_real = "images/" + file_upload_area[2];
+                var file_upload_area_real;
                 var latitude = lat_r;
                 var longitude = log_r;
 
@@ -176,32 +175,27 @@
                     return false;
                 }
                 else {
-                    var content = content_input_area.replace(/\n/g, '<br/>');
-                    var from_place = "what3words";
-                    var address = "from_what3words";
-                    var insta_link = "from_what3words";
-                    alert(from_place);
-                    alert(content);
-                    alert(file_upload_area_real);
-                    alert(latitude);
-                    alert(longitude);
-                    var strurl = "test_send_write.asp?from_place=" + from_place + "&file_upload_area_real=" + file_upload_area_real + "&content_input_area=" + content + "&latitude=" + latitude + "&longitude=" + longitude + "&address=" + address + "&insta_link=" + insta_link;
+                    upload(2);
+                    setTimeout(function(){
+                        file_upload_area_real = document.getElementById('sns_url').value;
+                        var content = content_input_area.replace(/\n/g, '<br/>');
+                        var from_place = "what3words";
+                        var address = "from_what3words";
+                        var insta_link = "from_what3words";
+                        var strurl = "test_send_write.asp?from_place=" + from_place + "&file_upload_area_real=" + file_upload_area_real + "&content_input_area=" + content + "&latitude=" + latitude + "&longitude=" + longitude + "&address=" + address + "&insta_link=" + insta_link;
 
-                    xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = SendContent;
-                    xhr.open("Get", strurl);
-                    alert(strurl);
-                    xhr.send(null);
-                    location.href = "test_page_insta.asp";
-                    return true;
-                    
-                }
-            }
-
-            function SendContent() {
-                if (xhr.readyState == 4) {
-                    var data = xhr.responseText;
-                    document.getElementById("result_msg").innerHTML = data;
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(){
+                            if (this.readyState == 4 && this.status == 200){
+                                document.getElementById("result_msg").innerHTML = this.responseText;
+                                xhr = null;
+                            }
+                        };
+                        xhr.open("Get", strurl);
+                        xhr.send(null);
+                        location.href = "test_page_insta.asp";
+                        return true;
+                    },2000);
                 }
             }
             function BacktoDefault() {
@@ -219,12 +213,9 @@
                         var faddr_lat = results[0].geometry.location.lat();
                         var faddr_lng = results[0].geometry.location.lng();
                     } else {
-                        alert("here!!");
                         var faddr_lat = "";
                         var faddr_lng = "";
                     }
-
-                    alert("주소 : " + faddr + "\n\n위도: " + faddr_lat + "\n\n경도: " + faddr_lng);
 
                     $('#latitude').html(faddr_lat);       // 위도
                     $('#longitude').html(faddr_lng);   // 경도
@@ -277,7 +268,10 @@
                 사진을 업로드 해주세요
             </div>
             <div class="file_upload row">
-                <input type="file" id="file_upload_area"/>
+                <input type="hidden" id="sns_url">
+                <form id="uploadsns" method="POST" enctype="multipart/form-data">
+                    <input id="sns" name="snsupload" type="file" accept=".jpg,.png,.bmp,.jpeg,.gif">
+                </form>
             </div>
         </div>
         <div class="info_box_2 row">

@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="/_css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/_script/account.js"></script>
         <style>
             .info_box_1{
                 margin-top:80px;
@@ -158,9 +159,7 @@
             function write_upload() {
                 var title_input = document.getElementById("input_title").value;
 		        var content_input_area = document.getElementById("content_input_area").value;
-		        var file_path = document.getElementById("file_upload_area").value;
-		        var file_upload_area = file_path.split("\\");
-		        var file_upload_area_real = "images/" + file_upload_area[2];
+		        var file_upload_area_real;
 		        var latitude = lat_r;
 		        var longitude = log_r;
                 var volunteer_code = 3;
@@ -191,18 +190,22 @@
 		            return false;
 		        }
 		        else {
-                    var content = content_input_area.replace(/\n/g, '<br/>');
-                    var user = '<%=input_user%>';
-                    var userid = <%=input_userid%>;
-		            var strurl = "test_send_write_daily.asp?file_upload_area_real=" + file_upload_area_real + "&title_input=" + title_input + "&content_input_area=" + content + "&latitude=" + latitude + "&longitude=" + longitude +"&code=" + volunteer_code + "&input_user=" + user + "&input_userid=" + userid;
+                    upload(2);
+                    setTimeout(function(){
+                        file_upload_area_real = document.getElementById('sns_url');
+                        var content = content_input_area.replace(/\n/g, '<br/>');
+                        var user = '<%=input_user%>';
+                        var userid = <%=input_userid%>;
+                        var strurl = "test_send_write_daily.asp?file_upload_area_real=" + file_upload_area_real + "&title_input=" + title_input + "&content_input_area=" + content + "&latitude=" + latitude + "&longitude=" + longitude +"&code=" + volunteer_code + "&input_user=" + user + "&input_userid=" + userid;
 
-		            xhr = new XMLHttpRequest();
-		            xhr.onreadystatechange = SendContent;
-		            xhr.open("Get", strurl);
-		            alert(strurl);
-		            xhr.send(null);
-		            location.href = "test_page_insta.asp";
-		            return true;  
+                        xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = SendContent;
+                        xhr.open("Get", strurl);
+                        alert(strurl);
+                        xhr.send(null);
+                        location.href = "test_page_insta.asp";
+                        return true;
+                    },2000);
 		        }
 		    }
 		    function SendContent() {
@@ -269,7 +272,10 @@
                 사진을 업로드 해주세요
             </div>
             <div class="file_upload row">
-                <input type="file" id="file_upload_area"/>
+                <input type="hidden" name="sns_url">
+                <form id="uploadsns" method="POST" enctype="multipart/form-data">
+                    <input id="sns" name="snsupload" type="file" accept=".jpg,.png,.bmp,.jpeg,.gif">    
+                </form>
             </div>
         </div>
         <div class="info_box_2 row">

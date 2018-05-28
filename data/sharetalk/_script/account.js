@@ -71,19 +71,41 @@ function ChangeProfile() {
 }
 
 // 파일 업로드하기
-function upload(){
+function upload(id){
+    var data, src;
+    var surl;   // 파일 POST 주소
+
+    // 배경 사진 업로드
+    if (id == 0){
+        data = new FormData(document.getElementById('uploadback'));
+        src = document.getElementById('back');
+        surl = 'http://tour.abcyo.kr:1337/uploadback';
+    }
+
+    // 프로필 사진 업로드
+    else if (id == 1){
+        data = new FormData(document.getElementById('uploadprof'));
+        src = document.getElementById('profile');
+        surl = 'http://tour.abcyo.kr:1337/uploadprof';
+    }
+
+    // SNS 사진 업로드
+    else if (id == 2){ 
+        data = new FormData(document.getElementById('uploadsns'));
+        src = null;
+        surl = 'http://tour.abcyo.kr:1337/uploadsns';
+    }
     var xhr = new XMLHttpRequest();
-    var data = new FormData(document.getElementById('upload'));
-    data.append('img_url', purl);
+    if (src != null) data.append('img_url', src.src);
     xhr.onload = function(){
       if (this.status == 200 || this.status == 201){
-        document.getElementById('profile_url').value = this.responseText;
-        document.getElementById('profile').src = this.responseText;
+        if(src != null) src.src = this.responseText;
+        else    document.getElementById('sns_url').value = this.responseText;
       }
       else  alert("오류가 발생했습니다.");
       xhr = null;
     };
-    xhr.open('POST', 'http://tour.abcyo.kr:1337/uploadprof');
+    xhr.open('POST', surl);
     xhr.send(data);
 }
 
