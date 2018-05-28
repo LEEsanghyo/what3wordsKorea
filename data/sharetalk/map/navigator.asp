@@ -702,7 +702,7 @@
 
         function serach() {
             $.ajax({
-                url: 'http://192.168.43.121:8000/test',
+                url: 'http://192.168.0.239:8000/test',
                 data: { "member_no": <%=Session("member_no")%>},
                 type : 'post',
                 success: function (response) {
