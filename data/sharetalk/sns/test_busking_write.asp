@@ -1,43 +1,47 @@
 ﻿<!-- #include virtual="/_include/connect.inc" -->
+<!-- #include virtual="/_include/login_check.inc" -->
 <%
     input_user = Request.Cookies("member_name")
     input_userid = Session("member_no")
 %>
 <html lang="ko">
 	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>What3Words Home</title>
-		<link rel="stylesheet" href="/_css/style.css" type="text/css">		
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>What3Words Home</title>
+        <link rel="stylesheet" href="/_css/style.css" type="text/css"> 
+        <link rel="stylesheet" href="../_font/font_folder.css" type="text/css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="/_css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
         <style>
-              .info_box_1{
+            .info_box_1{
                 margin-top:80px;
                 text-align: center;
-
+                font-family: jua, sans-serif;
+                font-size:12pt;
             }
             .info_box_2{
                 margin-top:10px;
                 text-align: center;
-                font-family: chaerang, sans-serif;
+                font-family: jua, sans-serif;
+                font-size:12pt;
             }
             .title_info{
                 background-color:rgba(248, 89, 100, 0.7);
-                font-family: Typo, sans-serif;
+                font-family: jua, sans-serif;
             }
             .title_input{
                 text-align:center;
                 margin:20px;
-                font-family: THESusu, sans-serif;              
+                font-family: THESusu, sans-serif;    
+                border:5px solid rgba(128,128,128,0.7);
+                border-radius: 5px;    
             }
             .content_info{
                 background-color:rgba(248, 89, 100, 0.7);
-                font-family: Typo, sans-serif;
+                font-family: jua, sans-serif;
             }
             .content_input{
                 text-align:center;
@@ -52,7 +56,7 @@
             }
             .file_info{
                 background-color:rgba(248, 89, 100, 0.7);
-                font-family: Typo, sans-serif;
+                font-family: jua, sans-serif;
             }
             .file_upload{
                 text-align:center;
@@ -71,16 +75,14 @@
             }
             .location_info_1{
                 background-color:rgba(248, 89, 100, 0.7);    
-                font-family: Typo, sans-serif;
-
+                font-family: jua, sans-serif;
             }
             .location_info_2{
                 text-align:left;
                 margin-left:35px;
                 margin-right:35px;
                 background-color:rgba(240, 237, 199, 0.7);   
-                font-family: Typo, sans-serif;
-
+                font-family: jua, sans-serif;
             }
             .address_input_box{
                 margin:20px;
@@ -118,12 +120,6 @@
                 height:50%;
             }
         </style>
-        <link rel="stylesheet" href="/_css/style.css" type="text/css"> 
-        <link rel="stylesheet" href="../_font/font_folder.css" type="text/css">
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="/_css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<script type="text/javascript">
 		    var lat_r ="";
             var log_r = "";
@@ -131,13 +127,13 @@
             function initialize() {
              var Y_point = 37.6388235; // Y 좌표
              var X_point = 127.0647555; // X 좌표
-             var zoomLevel = 17; // 첫 로딩시 보일 지도의 확대 레벨
+             var zoomLevel = 19; // 첫 로딩시 보일 지도의 확대 레벨
 
              var myLatlng = new google.maps.LatLng(Y_point, X_point);
              var mapOptions = {
-             zoom: zoomLevel,
-             center: myLatlng,
-             mapTypeId: google.maps.MapTypeId.ROADMAP
+                 zoom: zoomLevel,
+                 center: myLatlng,
+                 mapTypeId: google.maps.MapTypeId.ROADMAP
              }
 
              map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -207,7 +203,6 @@
                     alert(busking_code);
 		            var strurl = "test_send_write_daily.asp?file_upload_area_real=" + file_upload_area_real + "&title_input=" + title_input + "&content_input_area=" + content + "&latitude=" + latitude + "&longitude=" + longitude + "&code=" + busking_code + "&input_user=" + user + "&input_userid=" + userid;
 
-                    alert("hey2");
 		            xhr = new XMLHttpRequest();
 		            xhr.onreadystatechange = SendContent;
 		            xhr.open("Get", strurl);
@@ -268,7 +263,7 @@
             <div class="title_info row">
                 글의 제목을 작성해주세요
             </div>
-            <div class="content_input row">
+            <div class="title_input row">
                 <input type="text" style="width:100%;" id="input_title" />
             </div>
         </div>

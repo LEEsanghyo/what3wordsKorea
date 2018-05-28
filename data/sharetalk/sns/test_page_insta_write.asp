@@ -19,15 +19,18 @@
             .info_box_1{
                 margin-top:80px;
                 text-align: center;
+                font-family: jua, sans-serif;
+                font-size:12pt;
             }
             .info_box_2{
                 margin-top:10px;
                 text-align: center;
-                font-family: misaeng, sans-serif;
+                font-family: jua, sans-serif;
+                font-size:12pt;
             }
             .content_info{
                 background-color:rgba(248, 89, 100, 0.7);
-                font-family: Typo, sans-serif;
+                font-family: jua, sans-serif;
             }
             .content_input{
                 text-align:center;
@@ -42,7 +45,7 @@
             }
             .file_info{
                 background-color:rgba(248, 89, 100, 0.7);
-                font-family: Typo, sans-serif;
+                font-family: jua, sans-serif;
             }
             .file_upload{
                 text-align:center;
@@ -61,7 +64,7 @@
             }
             .location_info_1{
                 background-color:rgba(248, 89, 100, 0.7);    
-                font-family: Typo, sans-serif;
+                font-family: jua, sans-serif;
 
             }
             .location_info_2{
@@ -69,7 +72,7 @@
                 margin-left:35px;
                 margin-right:35px;
                 background-color:rgba(240, 237, 199, 0.7);   
-                font-family: Typo, sans-serif;
+                font-family: jua, sans-serif;
 
             }
             .address_input_box{
@@ -115,13 +118,13 @@
             function initialize() {
              var Y_point = 37.6388235; // Y 좌표
              var X_point = 127.0647555; // X 좌표
-             var zoomLevel = 17; // 첫 로딩시 보일 지도의 확대 레벨
+             var zoomLevel = 19; // 첫 로딩시 보일 지도의 확대 레벨
 
              var myLatlng = new google.maps.LatLng(Y_point, X_point);
              var mapOptions = {
-             zoom: zoomLevel,
-             center: myLatlng,
-             mapTypeId: google.maps.MapTypeId.ROADMAP
+                 zoom: zoomLevel,
+                 center: myLatlng,
+                 mapTypeId: google.maps.MapTypeId.ROADMAP
              }
 
              map = new google.maps.Map(document.getElementById('map'), mapOptions);
